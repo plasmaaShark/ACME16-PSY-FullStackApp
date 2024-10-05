@@ -1,10 +1,3 @@
-Update your `README.md` using the template below. We are specifically interested in the installation instructions (e.g., all the gems, how to load real or seed data, etc.). This sample README was developed for a Rails project, so you can swap the "Gems" section of the "Installation" instructions to include add-ons that are relevant to you.
-
-If any of the sections in this template grows to more than one screen, consider placing it in its own file and linking to it from this file. Those files could live in a subdirectory called `docs`.
-
-**Make sure to check out the repo anew and test your installation instructions.**
-
-Provide a README file with the following information:
 
 # Project Name
 
@@ -12,21 +5,24 @@ Provide a README file with the following information:
 
 ### One-sentence description of the project
 
-The goal of this project is to improve a personality assessment system and mobile app by adding feedback features, refining data-based recommendations, and creating seamless integration between the two platforms.
+The project focuses on the enhancement and integration of two PICA applications: a Qualtrics-based web survey for personalized personality assessment feedback and a mobile self-monitoring app where participants log emotional events.
 
 ### Additional information about the project
-
-This project builds upon two previously developed applications: a phone app for daily emotional entries and a Qualtrics survey for personality evaluations. The aim is to improve the app's functionality and user experience, resolve issues with the survey's automatic generation of personalized feedback, and integrate the survey data with the app to offer users more tailored recommendations and interventions based on their data.
+This project extends the work of a previous capstone team and aims to improve both the Qualtrics-based survey report and the mobile app for tracking emotional experiences. Key improvements include enabling the generation and emailing of PDF personality reports, incorporating advanced data visualizations, and refining the app’s feedback functionality with more sophisticated clustering algorithms. These applications will support mental health treatment by offering personalized feedback and logging emotional responses to daily events, contributing to Belinda Lin’s dissertation funding application.
 
 ## Installation
 
 ### Prerequisites
+Git
+Python (version 3.x)
+pip (Python package installer)
 
-TODO: List what a user needs to have installed before running the installation instructions below (e.g., git, which versions of Ruby/Rails)
 
 ### Add-ons
-
-TODO: List which add-ons are included in the project, and the purpose each add-on serves in your app.
+Flask
+python anywhere
+MongoDB
+Email Libraries
 
 ### Installation Steps
 
@@ -36,17 +32,16 @@ Instructions need to be such that a user can just copy/paste the commands to get
 
 ## Functionality
 
-TODO: Write usage instructions. Structuring it as a walkthrough can help structure this section,
-and showcase your features.
+The project includes two main components:
+Qualtrics web-based survey: Users complete the survey and then generate a personalized PDF report summarizing their personality assessment. The report is automatically emailed to the user and their clinician. The report can be viewed directly on the web app or downloaded as a PDF.
+Mobile self-monitoring app:
+Users log daily emotional events, including both positive and negative experiences.
+The app will soon include AI-driven clustering algorithms to suggest “functionally equivalent” situations based on user input.
 
 
 ## Known Problems
-
-PDF Generation Issues: Automatic generation of the personalized pdf report is not functioning consistently.
-
-Steps: Complete the Qualtrics Web-Based survey, wait for email, check if email has pdf attached
-
-Clustering Program: The current approach for recommending "functionally equivalent" situations is overly simplistic and lacks accuracy.
+Some users reported issues with automatic emailing of the PDF reports. 
+Currently, the web survey and mobile app are not fully integrated, and data has to be entered manually. 
 
 ## Contributing
 
@@ -60,8 +55,7 @@ TODO: Leave the steps below if you want others to contribute to your project.
 
 ## Additional Documentation
 
-TODO: Provide links to additional documentation that may exist in the repo, e.g.,
-  * Sprint reports
+  * Sprint reports: https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/tree/main/Sprint%20Documents/Sprint1
   * User links
 
 ## License
