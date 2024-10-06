@@ -1,4 +1,4 @@
-# Sprint x Report (09/09/24 - 10/05/24)
+# Sprint 1 Report (09/09/24 - 10/05/24)
 
 ## What's New (User Facing)
  * Meeting Minutes
