@@ -43,11 +43,11 @@ def create_report():
         'Authorization': f'Token {token}',
         'Content-Type': 'application/json'
     }
-    response = requests.post(CONSOLE_START_URL, headers=headers)
+    """response = requests.post(CONSOLE_START_URL, headers=headers)
     if response.status_code == 200:
         print("Console started successfully.")
     else:
-        print(f"Error starting console   : {response.status_code} - {response.text}")
+        print(f"Error starting console   : {response.status_code} - {response.text}")"""
 
     time.sleep(10)
     print('----------------------------------------')
@@ -63,7 +63,7 @@ def create_report():
     print("current survey: ", currentSurvey)
     print('----------------------------------------')
     print('Data Retrieved')
-    data = Data_Pruner.get_data('Capstone Working Survey.csv')
+    data = Data_Pruner.get_data('Capstone Working Survey.csv', -1)
 
 
     # Code for accessing column value by name: value = currentSurvey.loc[:, 'IPAddress'].values[0]
@@ -124,7 +124,7 @@ def create_report():
     print('----------------------------------------')
 
     # send_mail('walter.scott@wsu.edu')
-    send_mail('belindacses@gmail.com')
+    send_mail('aquamarinefox.365@gmail.com')
 
 def title_page(my_path, pdf, info):
     pdf.add_page()
@@ -267,7 +267,7 @@ def send_mail(receiver_address):
     session.starttls() #enable security
     session.login(sender_address, sender_pass) #login with mail_id and password
     text = message.as_string()
-    session.sendmail(sender_address, receiver_address, text)
+    session.sendmail(sender_address, "aquamarinefox.365@gmail.com", text)
     session.quit()
     print('Mail Sent')
 
