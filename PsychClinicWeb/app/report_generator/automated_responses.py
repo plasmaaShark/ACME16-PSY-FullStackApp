@@ -7,7 +7,7 @@ import os
 
 # uses the survey id to save our survey results automatically
 def get_survey(save_survey, survey_id):
-    api_token = "4DGKlfv4CPqlSfXQGODa1Yv4lr5V3wZdW19vie7A"
+    api_token = "f5g7StxqprMyQoaQI12XFkqLcIuyEqg4IFRdzlNY"
     file_format = "csv"
     data_center = "wsu.iad1"
     

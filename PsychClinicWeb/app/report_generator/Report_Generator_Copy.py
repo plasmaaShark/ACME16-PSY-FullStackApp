@@ -8,10 +8,10 @@ from fpdf import FPDF
 import matplotlib.pyplot as plt
 
 
-from . import Graph_Generator
-from . import PDF_Generator
-from . import Data_Pruner
-from . import automated_responses
+import Graph_Generator
+import PDF_Generator
+import Data_Pruner
+import automated_responses
 import time
 import requests
 # import Results_Sorted
@@ -71,7 +71,7 @@ def create_report():
     #number+1 to get total
     for i in range (1, 2):
         #Belinda: removed line below to fix all issues
-        #automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
+        automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
         pdf = FPDF()
         # setting my path as everything leading up to current directory
         my_path = os.path.abspath("")
@@ -83,7 +83,7 @@ def create_report():
         #print("current survey: ", currentSurvey)
         print('----------------------------------------')
         print('Data Retrieved')
-        data = Data_Pruner.get_data(csv_file_path)
+        data = Data_Pruner.get_data(csv_file_path, idxS)
         #print(data['Personal'])
 
         # Code for accessing column value by name: value = currentSurvey.loc[:, 'IPAddress'].values[0]
@@ -297,4 +297,4 @@ def send_mail(receiver_address):
     session.quit()
     print('Mail Sent')
 
-# main = create_report()
+main = create_report()

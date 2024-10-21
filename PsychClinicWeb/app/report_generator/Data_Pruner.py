@@ -1,16 +1,19 @@
+
 import numpy as np
 import pandas as pd
 graphs = {}
 
-def get_data(current):
+def get_data(current, i):
     df = pd.read_csv(current)
-    recent = df.tail(1)
+    # get the most recent survey
+    recent = df.iloc[[i]]
+    #recent = df.tail(1)
     values = ['GoalThink', 'GoalSatis', 'GoalEfficacy', 'GoalIntrinsic', 'GoalApproach', 'GoalGrowth', 'GoalConflict', # Goal graphs
               'StandardThink', 'StandardSatis', 'StandardEfficacy', 'Standardintrinsic', 'StandardApproach', 'StandardGrowth', 'StandardConflict',# Moral Standard Graphs
               'RssmRelateSatis', 'RssmControlSatis', 'RssmEsteemFrus', 'RssmAutoFrus' , 'RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4'# RSSM graphs
               ]
     add_goals(recent, values[:7])
-    add_morals(recent, values[7:])
+    # add_morals(recent, values[7:])
     add_rssm(recent, values[14:])
     add_temperament(recent)
     add_descriptions(recent)
@@ -30,6 +33,7 @@ def add_goals(data, values):
     column_indices = [38, 49, 60, 71]
     for column_index in column_indices:
         column_name = f'Q{column_index}'
+
         if checker == 1:
         #temp[values[i]].append(data.iloc[0][f'{values[i]}{x+1}'])
             temp['GoalThink'].append(data.iloc[0][column_name])
@@ -100,12 +104,12 @@ def add_goals(data, values):
 
     # handle if any values are nan
     temp['GoalThink'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
-    temp['GoalSatis'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
-    temp['GoalEfficacy'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
-    temp['GoalIntrinsic'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
-    temp['GoalApproach'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
-    temp['GoalGrowth'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
-    temp['GoalConflict'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalThink']]
+    temp['GoalSatis'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalSatis']]
+    temp['GoalEfficacy'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalEfficacy']]
+    temp['GoalIntrinsic'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalIntrinsic']]
+    temp['GoalApproach'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalApproach']]
+    temp['GoalGrowth'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalGrowth']]
+    temp['GoalConflict'] = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp['GoalConflict']]
 
 
     # # Convert values to integers for calculation
@@ -145,14 +149,16 @@ def add_goals(data, values):
     temp['GoalConflict'].insert(0, average)
 
     graphs['Goals'] = temp
-    print("goals graph: ", graphs['Goals'])
+    #print("goals graph: ", graphs['Goals'])
 
+# Note: Moral standards have been deleted
 def add_morals(data, values):
     temp = {}
     temp = {'StandardThink': [], 'StandardSatis': [], 'StandardEfficacy': [], 'Standardintrinsic': [], 'StandardApproach': [], 'StandardGrowth': [], 'StandardConflict': []}
     checker = 0
 
     column_indices = [481, 829, 836, 843]
+    print(f"data.columns: {data.columns}")
     for column_index in column_indices:
         column_name = f'Q{column_index}'
         if checker == 1:
@@ -269,7 +275,7 @@ def add_morals(data, values):
     temp['StandardConflict'].insert(0, average)
 
     graphs['Morals'] = temp
-    print("morals: ", graphs['Morals'])
+    #print("morals: ", graphs['Morals'])
 
 def add_comparison(data):
 
@@ -283,7 +289,7 @@ def add_comparison(data):
     for index in column_index:
         column_name = f'Q{index}'
         temp_values.append(data.iloc[0][column_name])
-        print("temp val", temp_values)
+       # print("temp val", temp_values)
 
     # check if nan
     temp_values = [0 if isinstance(val, float) and np.isnan(val) else val for val in temp_values]
@@ -298,7 +304,7 @@ def add_comparison(data):
     sorted_label_values = dict(sorted(label_values.items(), key=lambda item: int(item[1])))
     graphs['Comparison'] = sorted_label_values
 
-    print("comparison: ", graphs['Comparison'])
+    #print("comparison: ", graphs['Comparison'])
 
 def add_personal_data(data):
     temp = {}
@@ -315,31 +321,46 @@ def add_rssm(data, values):
     temp = {'RssmRelateSatis': [], 'RssmControlSatis': [], 'RssmEsteemFrus': [], 'RssmAutoFrus': []}
 
     # relatedness satisfaction
-    indices = ['RSSM Relatedness Satisfaction-weightedAvg', 'Person 1 Relatedness Satisfaction-weightedAvg', 'Person 2 Relatedness Satisfaction-weightedAvg', 'Person 3 Relatedness Satisfaction-weightedAvg', 'Person 4 Relatedness Satisfaction-weightedAvg']
+    indices = ['RssmRelateSatis1', 'RssmRelateSatis2', 'RssmRelateSatis3', 'RssmRelateSatis4']
+    #indicies = ['RSSM Relatedness Satisfaction-weightedAvg', 'Person 3 Relatedness Satisfaction-weightedAvg']
+    rsSum = 0
     for index in indices:
         temp['RssmRelateSatis'].append(data.iloc[0][index])
+        rsSum += float(data.iloc[0][index])
+    temp['RssmRelateSatis'].insert(0, (rsSum/4))
+    print(temp['RssmRelateSatis'])
 
     # control satis
-    indices = ['RSSM Control Satisfaction-weightedAvg', 'Person 1 Control Satisfaction-weightedAvg', 'Person 2 Control Satisfaction-weightedAvg', 'Person 3 Control Satisfaction-weightedAvg', 'Person 4 Control Satisfaction-weightedAvg']
+    indices = ['RssmControlSatis1', 'RssmControlSatis2', 'RssmControlSatis3', 'RssmControlSatis4']
+    csSum = 0
     for index in indices:
         temp['RssmControlSatis'].append(data.iloc[0][index])
+        csSum += float(data.iloc[0][index])
+    temp['RssmControlSatis'].insert(0, (csSum/4))
 
     # esteem frus
-    indices = ['RSSM Self-Esteem Frustration-weightedAvg', 'Person 1 Self-Esteem Frustration-weightedAvg', 'Person 2 Self-Esteem Frustration-weightedAvg', 'Person 3 Self-Esteem Frustration-weightedAvg', 'Person 4 Self-Esteem Frustration-weightedAvg']
+    indices = ['RssmEsteemFrus1', 'RssmEsteemFrus2', 'RssmEsteemFrus3', 'RssmEsteemFrus4']
+    efSum = 0
     for index in indices:
         temp['RssmEsteemFrus'].append(data.iloc[0][index])
+        efSum += float(data.iloc[0][index])
+    temp['RssmEsteemFrus'].insert(0, (efSum/4))
 
     #auto frus
-    indices = ['RSSM Autonomy Frustration-weightedAvg', 'Person 1 Autonomy Frustration-weightedAvg', 'Person 2 Autonomy Frustration-weightedAvg', 'Person 3 Autonomy Frustration-weightedAvg', 'Person 4 Autonomy Frustration-weightedAvg']
+    indices = ['RssmAutoFrus1', 'RssmAutoFrus2', 'RssmAutoFrus3', 'RssmAutoFrus4']
+    afSum = 0
     for index in indices:
         temp['RssmAutoFrus'].append(data.iloc[0][index])
+        afSum += float(data.iloc[0][index])
+    temp['RssmAutoFrus'].insert(0, (afSum/4))
 
     graphs['RSSM'] = temp
-    print("RSSM graph", graphs['RSSM'])
+    #print("RSSM graph", graphs['RSSM'])
     temp = {}
     temp['Overall'] = 'Overall'
 
     column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
+    #column_index = ['11_4', '11_5', '11_6', '11_9']
     name = ['RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4']
     for index in column_index:
         column_name = f'Q{index}'
@@ -347,50 +368,64 @@ def add_rssm(data, values):
         temp[names] = data.iloc[0][column_name]
 
     graphs['RSSMNames'] = temp
-    print("RSSMnames", graphs['RSSMNames'])
+    #print("RSSMnames", graphs['RSSMNames'])
 
-
+# Note: We have BIS and BAS-Total
 def add_temperament(data):
-    labels = ['FFFS', 'BIS', 'BAS-Total', 'BAS-RI', 'BAS-GDP', 'BAS-RR', 'BAS-I']
+    labels = ['FFFS', 'BIS', 'BAS-Total', 'BAS-RI', 'BAS-GDP', 'BAS-RR', 'BAS-I', 'BAS-D', 'BAS-RR', 'BAS-FS']
     temp = {}
-    temp['FFFS'] = data.iloc[0]['FFFS-weightedAvg']
-    temp['BIS'] = data.iloc[0]['BIS-weightedAvg']
-    temp['BAS-Total'] = data.iloc[0]['BAS-weightedAvg']
-    temp['BAS-RI'] = data.iloc[0]['BAS-RI-weightedAvg']
-    temp['BAS-GDP'] = data.iloc[0]['BAS-GDP-weightedAvg']
-    temp['BAS-RR'] = data.iloc[0]['BAS-RR-weightedAvg']
-    temp['BAS-I'] = data.iloc[0]['BAS-I-weightedAvg']
+    # temp['FFFS'] = data.iloc[0]['FFFS-weightedAvg']
+    temp['BIS'] = data.iloc[0]['BIS']
+    temp['BAS'] = data.iloc[0]['BAS-Total']
+    # temp['BAS-RI'] = data.iloc[0]['BAS-RI-weightedAvg']
+    # temp['BAS-GDP'] = data.iloc[0]['BAS-GDP-weightedAvg']
+    # temp['BAS-RR'] = data.iloc[0]['BAS-RR-weightedAvg']
+    # temp['BAS-I'] = data.iloc[0]['BAS-I-weightedAvg']
+    temp['BAS-D'] = data.iloc[0]['BAS-Drive']
+    temp['BAS-RR'] = data.iloc[0]['BAS-Reward']
+    temp['BAS-FS'] = data.iloc[0]['BAS-Fun']
 
     graphs['Temperament'] = temp
 
+# Note: GoalDescription should be there, StandardDescription shouldn't be
 def add_descriptions(data):
     for i in range(4):
         if i == 0:
            # graphs['GoalDescription'] = [data.iloc[0][f'GoalDescrip{i+1}']]
             graphs['GoalDescription'] = [data.iloc[0]['Q33'], data.iloc[0]['Q34'], data.iloc[0]['Q35'], data.iloc[0]['Q36']]
-            print("goal descrip", graphs['GoalDescription'])
+           # print("goal descrip", graphs['GoalDescription'])
             #graphs['StandardDescription'] = [data.iloc[0][f'StandardDescrip{i+1}']]
-            graphs['StandardDescription'] = [data.iloc[0]['Q486_4_TEXT'], data.iloc[0]['Q486_5_TEXT'], data.iloc[0]['Q486_6_TEXT'], data.iloc[0]['Q486_7_TEXT']]
-            print("standard descrip: ", graphs['StandardDescription'])
+            # graphs['StandardDescription'] = [data.iloc[0]['Q486_4_TEXT'], data.iloc[0]['Q486_5_TEXT'], data.iloc[0]['Q486_6_TEXT'], data.iloc[0]['Q486_7_TEXT']]
+           # print("standard descrip: ", graphs['StandardDescription'])
 
         else:
             graphs['GoalDescription'].append(data.iloc[0][f'GoalDescrip{i+1}'])
-            graphs['StandardDescription'].append(data.iloc[0][f'StandardDescrip{i+1}'])
+            # graphs['StandardDescription'].append(data.iloc[0][f'StandardDescrip{i+1}'])
 
 
 def add_radar(data):
 
     temp = {}
+    # Note: All of the below line RSSM don't exist?
     temp = {'RadarRSSMDominantIPS': [], 'RadarRSSMDominDistantIPS': [], 'RadarRSSMDistantIPS': [], 'RadarRSSMYieldDistantIPS': [], 'RadarRSSMYieldIPS': [], 'RadarRSSMYieldFriendIPS': [], 'RadarRSSMFriendIPS': [], 'RadarRSSMDominFriendIPS': [], 'RadarRSSMName': [], 'RSSM_YVector': [], 'RSSM_XVector': []}
 
-    domineeringLabel = ['CSIPP1 Domineering-weightedAvg','CSIPP2 Domineering-weightedAvg', 'CSIPP3 Domineering-weightedAvg', 'CSIPP4 Domineering-weightedAvg']
-    socInhibitLabel = ['CSIPP1 Socially Inhibited-weightedAvg', 'CSIPP2 Socially Inhibited-weightedAvg', 'CSIPP3 Socially Inhibited-weightedAvg', 'CSIPP4 Socially Inhibited-weightedAvg']
-    intrusiveLabel = ['CSIPP1 Intrusive-weightedAvg', 'CSIPP2 Intrusive-weightedAvg', 'CSIPP3 Intrusive-weightedAvg', 'CSIPP4 Intrusive-weightedAvg']
-    SelfSacLabel = ['CSIPP1 Self-Sacrificing-weightedAvg', 'CSIPP2 Self-Sacrificing-weightedAvg', 'CSIPP3 Self-Sacrificing-weightedAvg', 'CSIPP4 Self-Sacrificing-weightedAvg']
-    exploitableLabel = ['CSIPP1 Exploitable-weightedAvg', 'CSIPP2 Exploitable-weightedAvg', 'CSIPP3 Exploitable-weightedAvg', 'CSIPP4 Exploitable-weightedAvg']
-    nonassertLabel = ['CSIPP1 Nonassertive-weightedAvg',  'CSIPP2 Nonassertive-weightedAvg',  'CSIPP3 Nonassertive-weightedAvg',  'CSIPP4 Nonassertive-weightedAvg']
-    distantLabel = ['CSIPP1 Distant-weightedAvg', 'CSIPP2 Distant-weightedAvg', 'CSIPP3 Distant-weightedAvg', 'CSIPP4 Distant-weightedAvg']
-    selfCentLabel = ['CSIPP1 Self-Centered-weightedAvg', 'CSIPP2 Self-Centered-weightedAvg', 'CSIPP3 Self-Centered-weightedAvg', 'CSIPP4 Self-Centered-weightedAvg']
+    domineeringLabel = ['CSDomineering1', 'CSDomineering2', 'CSDomineering3', 'CSDomineering4']
+    #['CSIPP1 Domineering-weightedAvg','CSIPP2 Domineering-weightedAvg', 'CSIPP3 Domineering-weightedAvg', 'CSIPP4 Domineering-weightedAvg']
+    socInhibitLabel = ['CSSocialInhibit1', 'CSSocialInhibit2', 'CSSocialInhibit3', 'CSSocialInhibit4']
+    #['CSIPP1 Socially Inhibited-weightedAvg', 'CSIPP2 Socially Inhibited-weightedAvg', 'CSIPP3 Socially Inhibited-weightedAvg', 'CSIPP4 Socially Inhibited-weightedAvg']
+    intrusiveLabel = ['CSIntrusive1', 'CSIntrusive2', 'CSIntrusive3', 'CSIntrusive4']
+    #['CSIPP1 Intrusive-weightedAvg', 'CSIPP2 Intrusive-weightedAvg', 'CSIPP3 Intrusive-weightedAvg', 'CSIPP4 Intrusive-weightedAvg']
+    SelfSacLabel = ['CSSelfSacrificing1', 'CSSelfSacrificing2', 'CSSelfSacrificing3', 'CSSelfSacrificing4']
+    #['CSIPP1 Self-Sacrificing-weightedAvg', 'CSIPP2 Self-Sacrificing-weightedAvg', 'CSIPP3 Self-Sacrificing-weightedAvg', 'CSIPP4 Self-Sacrificing-weightedAvg']
+    exploitableLabel = ['CSExploitable1','CSExploitable2','CSExploitable3','CSExploitable4' ]
+    #['CSIPP1 Exploitable-weightedAvg', 'CSIPP2 Exploitable-weightedAvg', 'CSIPP3 Exploitable-weightedAvg', 'CSIPP4 Exploitable-weightedAvg']
+    nonassertLabel = ['CSNonassertive1', 'CSNonassertive2', 'CSNonassertive3', 'CSNonassertive4']
+    #['CSIPP1 Nonassertive-weightedAvg',  'CSIPP2 Nonassertive-weightedAvg',  'CSIPP3 Nonassertive-weightedAvg',  'CSIPP4 Nonassertive-weightedAvg']
+    # distantLabel = ['CSIPP1 Distant-weightedAvg', 'CSIPP2 Distant-weightedAvg', 'CSIPP3 Distant-weightedAvg', 'CSIPP4 Distant-weightedAvg'] # Old variable names
+    distantLabel = ['CSDistantCold1', 'CSDistantCold2', 'CSDistantCold3', 'CSDistantCold4']
+    #['CSIPP1 Distant-Cold-weightedAvg', 'CSIPP2 Distant-Cold-weightedAvg', 'CSIPP3 Distant-Cold-weightedAvg', 'CSIPP4 Distant-Cold-weightedAvg']
+    selfCentLabel = ['CSSelfCentered1', 'CSSelfCentered2', 'CSSelfCentered3', 'CSSelfCentered4']
+    #['CSIPP1 Self-Centered-weightedAvg', 'CSIPP2 Self-Centered-weightedAvg', 'CSIPP3 Self-Centered-weightedAvg', 'CSIPP4 Self-Centered-weightedAvg']
 
     # domineering - dominant
     for index in domineeringLabel:
@@ -427,8 +462,8 @@ def add_radar(data):
     graphs['RadarRSSM'] = temp
     temp = {}
 
-
     column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
+    #column_index = ['11_4', '11_5', '11_6', '11_9']
     name = ['RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4']
     for index in column_index:
         column_name = f'Q{index}'
@@ -439,4 +474,3 @@ def add_radar(data):
 
     graphs['RSSM_YVector'] = [1]
     graphs['RSSM_XVector'] = [0.5]
-
