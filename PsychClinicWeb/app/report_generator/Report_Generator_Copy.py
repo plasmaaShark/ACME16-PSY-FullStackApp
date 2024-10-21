@@ -5,8 +5,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'app/report_generator'))
 from datetime import time
 
 from fpdf import FPDF
-import matplotlib.pyplot as plt
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 from . import Graph_Generator
 from . import PDF_Generator
@@ -24,7 +26,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
-csv_file_path = os.path.join(current_directory, 'Capstone Working Survey.csv')
+#csv_file_path = os.path.join(current_directory, 'Capstone Working Survey.csv')
 
 def ensure_directory_exists(path):
     if not os.path.exists(path):
@@ -52,7 +54,7 @@ host = 'www.pythonanywhere.com'
 # API endpoint for starting the console
 # CONSOLE_START_URL = f'https://{host}/api/v0/user/{username}/consoles/33319540/start/'
 
-def create_report():
+def create_report(csv_file_path):
 
     # headers = {
     #     'Authorization': f'Token {token}',
@@ -145,7 +147,7 @@ def create_report():
         print('----------------------------------------')
 
         # send_mail('walter.scott@wsu.edu')
-        send_mail('chujiaming888@gmail.com')
+        send_mail('mananganchristian863@gmail.com')
         plt.close('all')
 
 

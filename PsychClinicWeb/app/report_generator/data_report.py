@@ -1,6 +1,8 @@
 # Works Cited for Radar Plot: https://www.python-graph-gallery.com/radar-chart/
 
 from fpdf import FPDF
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np

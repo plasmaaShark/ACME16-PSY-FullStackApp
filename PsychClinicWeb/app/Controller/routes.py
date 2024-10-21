@@ -1,5 +1,7 @@
 from __future__ import print_function
 import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'app/report_generator'))
 
 from bson import ObjectId
 from flask import Blueprint
@@ -16,10 +18,10 @@ from datetime import datetime
 from sqlalchemy.sql import func
 from flask import Flask
 from sqlalchemy import desc
-import os
 from flask import session
 from app.report_generator.Report_Generator_Copy import create_report
-
+from app.report_generator.automated_responses import get_survey
+import traceback
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'default_fallback_key')
@@ -376,10 +378,70 @@ def show_results():
 @login_required
 def generate_report():
     try:
-        create_report()
+        survey_id = 'SV_3wvBtxhaQcsl06G'
+        save_survey_path = "C:/Users/Pol/Documents/Schoolv2/ACME16-PSY-FullStackApp/PsychClinicWeb/app/report_generator"
+
+        # Call the get_survey function and log the output
+        csv_file_path = get_survey(save_survey=save_survey_path, survey_id=survey_id)
+        print(f"CSV file path generated: {csv_file_path}")
+
+        # Check if the file exists before proceeding
+        if not csv_file_path or not os.path.exists(csv_file_path):
+            raise FileNotFoundError(f"CSV file not found at {csv_file_path}")
+                
+        # Proceed with report generation
+        create_report(csv_file_path)
         return "Report generated and email sent!", 200
+
+    except FileNotFoundError as fnf_error:
+        # Catch file-related errors
+        print(f"File not found error: {fnf_error}")
+        return f"Error generating report: {str(fnf_error)}", 500
+
     except Exception as e:
+        # Catch all other exceptions
+        traceback.print_exc()
         return f"Error generating report: {str(e)}", 500
+    
+@bp_routes.route('/qualtrics_webhook', methods=['POST'])
+def qualtrics_webhook():
+    try:
+        # Log incoming request data
+        print("Incoming request data: ", request.get_data())
+        print("Request headers: ", request.headers)
+
+        # Check for the token in the request headers
+        token = request.headers.get('Authorization')
+
+        if token != 'Token mysecrettoken123':
+            return jsonify({"status": "Unauthorized"}), 401
+
+        # Process the webhook data
+        data = request.get_json()
+        survey_id = data.get('SurveyID')
+        response_id = data.get('ResponseID')
+
+        # Log the survey ID and response ID
+        print(f"SurveyID: {survey_id}, ResponseID: {response_id}")
+
+        if not survey_id or not response_id:
+            return jsonify({"status": "Bad Request", "error": "Missing SurveyID or ResponseID"}), 400
+
+        # Define the path where you want to save the survey CSV file
+        save_survey_path = "C:/Users/Pol/Documents/Schoolv2/ACME16-PSY-FullStackApp/PsychClinicWeb/app/report_generator"
+        # Call the get_survey() function from automated_responses.py
+        csv_survey_path = get_survey(save_survey=save_survey_path, survey_id=survey_id)
+
+        # Proceed with report generation using the downloaded CSV
+        create_report(csv_survey_path)
+
+        return jsonify({"status": "Webhook processed successfully"}), 200
+
+    except Exception as e:
+        # Print the full traceback for debugging
+        print(f"Error occurred: {str(e)}")
+        traceback.print_exc()
+        return jsonify({"status": "Error processing webhook", "error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

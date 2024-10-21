@@ -7,7 +7,7 @@ import os
 
 # uses the survey id to save our survey results automatically
 def get_survey(save_survey, survey_id):
-    api_token = "4DGKlfv4CPqlSfXQGODa1Yv4lr5V3wZdW19vie7A"
+    api_token = "f5g7StxqprMyQoaQI12XFkqLcIuyEqg4IFRdzlNY"
     file_format = "csv"
     data_center = "wsu.iad1"
     
@@ -24,7 +24,7 @@ def get_survey(save_survey, survey_id):
     download_request_response = requests.request("POST", download_request_url, data=download_request_payload, headers=headers)
 
     #print 语句来查看响应
-    #print(download_request_response.json())
+    print(download_request_response.json())
 
     progress_id = download_request_response.json()["result"]["id"]
     # print(download_request_response.text)
@@ -40,7 +40,18 @@ def get_survey(save_survey, survey_id):
 
     # Step 4: Unzipping the file
     zipfile.ZipFile(io.BytesIO(request_download.content)).extractall(save_survey)
+    extracted_files = os.listdir(save_survey)
+    print(f"Extracted files: {extracted_files}")
     print('Downloaded qualtrics survey')
+
+    csv_files = [f for f in os.listdir(save_survey) if f.endswith('.csv')]
+    if csv_files:
+        csv_file_path = os.path.join(save_survey, 'Capstone Working Survey.csv')
+        print(f"CSV file path generated: {csv_file_path}")
+        return csv_file_path
+    else:
+        print("No CSV file found after extraction.")
+        return None
 
 #path = ""
 #get_survey(save_survey = path, survey_id = 'SV_3wvBtxhaQcsl06G')
