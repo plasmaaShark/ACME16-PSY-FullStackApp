@@ -72,6 +72,7 @@ def create_report():
     # Add title page
     print('----------------------------------------')
     print('Added Title Page')
+    print(data['Personal'])
     title_page(my_path, pdf, data['Personal'])
 
     goalTitles = ["Goal Thinking", "Goal Satisfaction", "Goal Self-Efficacy", "Goal Intrinsic Motivation", "Goal Approach Orientation", "Goal Growth Mindset", "Goal Level of Conflict"]
@@ -120,11 +121,11 @@ def create_report():
 
     print('----------------------------------------')
     user_email = data['Personal']['Email']
-    send_mail(user_email)
+    #send_mail(user_email)
     print('----------------------------------------')
 
     # send_mail('walter.scott@wsu.edu')
-    send_mail('aquamarinefox.365@gmail.com')
+    #send_mail('aquamarinefox.365@gmail.com')
 
 def title_page(my_path, pdf, info):
     pdf.add_page()
@@ -244,7 +245,7 @@ def temperament_graph(my_path, pdf, data, title):
     PDF_Generator.temperament_scaling(pdf)
 
 def send_mail(receiver_address):
-    sender_address = 'aquamarinefox.365@gmail.com'
+    sender_address = 'teambluebirds2023@gmail.com'
     sender_pass = 'zgfuoltymavvcskq'
     #Setup the MIME
     message = MIMEMultipart()
@@ -267,7 +268,7 @@ def send_mail(receiver_address):
     session.starttls() #enable security
     session.login(sender_address, sender_pass) #login with mail_id and password
     text = message.as_string()
-    session.sendmail(sender_address, "aquamarinefox.365@gmail.com", text)
+    session.sendmail(sender_address, receiver_address, text)
     session.quit()
     print('Mail Sent')
 

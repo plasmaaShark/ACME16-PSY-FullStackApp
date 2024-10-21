@@ -357,8 +357,8 @@ def add_rssm(data, values):
     temp = {}
     temp['Overall'] = 'Overall'
 
-    #column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
-    column_index = ['11_4', '11_5', '11_6', '11_9']
+    column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
+    #column_index = ['11_4', '11_5', '11_6', '11_9']
     name = ['RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4']
     for index in column_index:
         column_name = f'Q{index}'
@@ -460,8 +460,8 @@ def add_radar(data):
     graphs['RadarRSSM'] = temp
     temp = {}
 
-
-    column_index = ['11_4', '11_5', '11_6', '11_9']
+    column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
+    #column_index = ['11_4', '11_5', '11_6', '11_9']
     name = ['RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4']
     for index in column_index:
         column_name = f'Q{index}'
