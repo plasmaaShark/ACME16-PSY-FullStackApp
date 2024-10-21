@@ -35,11 +35,15 @@ def temperament_scaling(pdf):
 # Comparison figure
 def comparison_figure(pdf, path, ranks, goals):
     pdf.add_page()
-
     # Dynamically construct paths for images
-    comparison_image_path = os.path.join(path, 'app', 'report_generator', 'static', 'images', 'Comparison.png')
-    arrow_image_path = os.path.join(path, 'app', 'report_generator', 'static', 'images', 'Arrow.png')
-    single_arrow_image_path = os.path.join(path, 'app', 'report_generator', 'static', 'images', 'Single_Arrow.png')
+    # Remove app and report_generator from path. Does not work with how our files are set up
+    #comparison_image_path = os.path.join(path, 'app', 'report_generator', 'static', 'images', 'Comparison.png')
+    comparison_image_path = os.path.join(path, 'static', 'images', 'Comparison.png')
+    #arrow_image_path = os.path.join(path, 'app', 'report_generator', 'static', 'images', 'Arrow.png')
+    arrow_image_path = os.path.join(path, 'static', 'images', 'Arrow.png')
+    #single_arrow_image_path = os.path.join(path, 'app', 'report_generator', 'static', 'images', 'Single_Arrow.png')
+    single_arrow_image_path = os.path.join(path, 'static', 'images', 'Single_Arrow.png')
+
 
     # Add images to PDF
     pdf.image(comparison_image_path, x=0, y=0, w=WIDTH + 5, h=170)
