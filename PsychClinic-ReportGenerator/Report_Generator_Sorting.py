@@ -257,6 +257,7 @@ def generate_goal_feedback(scores, labels, current_title, is_overall=False):
     # If it is the Overall score, generate explanatory feedback
     if is_overall:
         score = float(scores[0])  # Assume the first one is the Overall score
+        score = round(score, 2) # round to two places
         if score >= 6.0:
             feedback += f"Overall score is {score} (very high):\n{template['high']}\n"
         elif score >= 5.0:
@@ -419,6 +420,7 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
     # If it is the Overall score, generate explanatory feedback
     if is_overall:
         score = float(scores[0])  # Assume the first one is the Overall score
+        score = round(score, 2) # round the score to two decimal places
         if score >= 4.5:
             feedback += f"Overall score is {score} (very high):\n{template['high']}\n"
         elif score >= 4.0:
@@ -583,6 +585,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # If it is the Overall score, generate explanatory feedback
     if is_overall:
         score = float(scores[0])  # Assume the first one is the Overall score
+        score = round(score, 2) # round the decimal to two places
         problem_level_text = "not a problem"
         for threshold, text in template['problem_levels']:
             if score <= threshold:
@@ -593,7 +596,8 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # List Individual scores without explanation
     for i, score in enumerate(scores[1:], start=1):
         label = labels[i]
-        feedback += f"{label} score is {float(score)}\n"
+        score = round(float(score), 2) # round to two decimal places
+        feedback += f"{label} score is {score}\n"
 
     return feedback
 
