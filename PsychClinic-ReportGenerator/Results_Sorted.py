@@ -17,18 +17,51 @@ def get_sort(data):
     selfRegulation = [data['Goals']['GoalThink'], data['Goals']['GoalSatis'], data['Goals']['GoalEfficacy'], data['Goals']['GoalIntrinsic'], data['Goals']['GoalApproach'], data['Goals']['GoalGrowth'], data['Goals']['GoalConflict']]
     srFactors = ["Goal Thinking", "Goal Satisfaction", "Goal Self-Efficacy", "Goal Intrinsic Motivation", "Goal Approach Orientation", "Goal Growth Mindset", "Goal Level of Conflict"]
     beliefsRSSM = [data['RSSM']['RssmRelateSatis'], data['RSSM']['RssmControlSatis'], data['RSSM']['RssmEsteemFrus'], data['RSSM']['RssmAutoFrus']]
+    #print("Expected value (1.5625) directly from beliefsRSSM:", beliefsRSSM[2][0])
     rssmFactors = ["Relatedness Satisfaction", "Control Satisfaction", "Self-Esteem Frustration", "Autonomy Frustration"]
     beliefsCSIP = [data['RadarRSSM']['RadarRSSMDominantIPS'], data['RadarRSSM']['RadarRSSMDominDistantIPS'], data['RadarRSSM']['RadarRSSMDistantIPS'], data['RadarRSSM']['RadarRSSMYieldDistantIPS'], data['RadarRSSM']['RadarRSSMYieldIPS'], data['RadarRSSM']['RadarRSSMYieldFriendIPS'], data['RadarRSSM']['RadarRSSMFriendIPS'], data['RadarRSSM']['RadarRSSMDominFriendIPS']]
     csipFactors = ["Domineering", "Self-Centered", "Distant/Cold", "Socially Inhibited", "Nonassertive", "Exploitable", "Self-Sacrificing", "Intrusive"]
 
-    temperament = list(map(lambda x:float(x), temperament))
-    temperament = list(map(lambda x:2 if math.isnan(x) else x, temperament))
-    selfRegulation = list(map(lambda x:list(map(lambda y:float(y), x)), selfRegulation))
-    selfRegulation = list(map(lambda x:list(map(lambda y:3 if math.isnan(y) else y, x)), selfRegulation))
-    beliefsRSSM = list(map(lambda x:list(map(lambda y:float(y), x)), beliefsRSSM))
-    beliefsRSSM = list(map(lambda x:list(map(lambda y:3 if math.isnan(y) else y, x)), beliefsRSSM))
-    beliefsCSIP = list(map(lambda x:list(map(lambda y:float(y), x)), beliefsCSIP))
-    beliefsCSIP = list(map(lambda x:list(map(lambda y:3 if math.isnan(y) else y, x)), beliefsCSIP))
+    # Convert elements in temperament to float and replace NaN with 2
+    temperament = list(map(lambda x: float(x), temperament))
+    temperament = list(map(lambda x: 2 if math.isnan(x) else x, temperament))
+
+    # Convert elements in selfRegulation to float and replace NaN with 3
+    selfRegulation = list(map(lambda x: list(map(lambda y: float(y), x)), selfRegulation))
+    selfRegulation = list(map(lambda x: list(map(lambda y: 3 if isinstance(y, float) and math.isnan(y) else y, x)), selfRegulation))
+
+    # Debug statements for beliefsRSSM conversions
+    #print("BEFORE conversion, beliefsRSSM:", beliefsRSSM)
+
+    # Convert elements in beliefsRSSM to float
+    beliefsRSSM = list(map(lambda x: list(map(lambda y: float(y), x)), beliefsRSSM))
+    #print("After float conversion, beliefsRSSM:", beliefsRSSM)
+
+    # Replace NaN values in beliefsRSSM with 3
+    beliefsRSSM = list(map(lambda x: list(map(lambda y: 3 if isinstance(y, float) and math.isnan(y) else y, x)), beliefsRSSM))
+    #print("After NaN replacement, beliefsRSSM:", beliefsRSSM)
+
+    # Convert elements in beliefsCSIP to float
+    beliefsCSIP = list(map(lambda x: list(map(lambda y: float(y), x)), beliefsCSIP))
+    #print("After float conversion, beliefsCSIP:", beliefsCSIP)
+
+    # Replace NaN values in beliefsCSIP with 3
+    beliefsCSIP = list(map(lambda x: list(map(lambda y: 3 if isinstance(y, float) and math.isnan(y) else y, x)), beliefsCSIP))
+    #print("After NaN replacement, beliefsCSIP:", beliefsCSIP)
+
+    # temperament = list(map(lambda x:float(x), temperament))
+    # temperament = list(map(lambda x:2 if math.isnan(x) else x, temperament))
+    # selfRegulation = list(map(lambda x:list(map(lambda y:float(y), x)), selfRegulation))
+    # selfRegulation = list(map(lambda x:list(map(lambda y:3 if math.isnan(y) else y, x)), selfRegulation))
+    # print("BEFORE conversion, beliefsRSSM:", beliefsRSSM)
+    # beliefsRSSM = list(map(lambda x:list(map(lambda y:float(y), x)), beliefsRSSM))
+    # print("After conversion, beliefsRSSM:", beliefsRSSM)
+    # beliefsRSSM = list(map(lambda x:list(map(lambda y:3 if math.isnan(y) else y, x)), beliefsRSSM))
+    # print("After conversion, beliefsRSSM:", beliefsRSSM)
+    # beliefsCSIP = list(map(lambda x:list(map(lambda y:float(y), x)), beliefsCSIP))
+    # print("After conversion, beliefsRSSM:", beliefsRSSM)
+    # beliefsCSIP = list(map(lambda x:list(map(lambda y:3 if math.isnan(y) else y, x)), beliefsCSIP))
+    # print("After conversion, beliefsRSSM:", beliefsRSSM)
 
     #Temperament
     tVals = []
@@ -227,21 +260,52 @@ def get_sort(data):
                 else:
                     currB += text
 
-            currScoresRSSM = []
+            # Print to verify `x` and the structure of `beliefsRSSM`
+            #print(f"x = {x}")
+            #print("Current beliefsRSSM:", beliefsRSSM)
+
+            currScoresRSSM = [
+                beliefsRSSM[0][0],  # Relatedness Satisfaction
+                beliefsRSSM[1][0],  # Control Satisfaction
+                beliefsRSSM[2][0],  # Self-Esteem Frustration
+                beliefsRSSM[3][0]   # Autonomy Frustration
+            ]
+            #print("Relatedness Satisfaction:", beliefsRSSM[0][x])
+            #print("Control Satisfaction:", beliefsRSSM[1][x])
+            #print("Self-Esteem Frustration:", beliefsRSSM[2][x])  # Should print 1.5625 at x = 0
+            #print("Autonomy Frustration:", beliefsRSSM[3][x])
+
             currScoresCSIP = []
-            for y in beliefsRSSM:
-                currScoresRSSM.append(y[x])
             for y in beliefsCSIP:
                 currScoresCSIP.append(y[x])
+            # print("currScoresRSSM values after assignment:", currScoresRSSM)
             bSignificantRSSM = [z for z in currScoresRSSM if (z > 4 or z < 2)]
             bSignificantCSIP = [z for z in currScoresCSIP if (z > 2 or z < 1)]
             if len(bSignificantRSSM) > 0 or len(bSignificantCSIP) > 0:
                 currB += "Significant Factor(s) of \nInterest: \n"
             for i, s in enumerate(currScoresRSSM):
-                if s > 4:
-                    currB += "- " + rssmFactors[i] + " (Very High)" + "\n"
-                elif s < 2:
-                    currB += "- " + rssmFactors[i] + " (Very Low)" + "\n"
+                #print(f"Score from beliefsRSSM for {rssmFactors[i]} is: {s}")
+
+                if rssmFactors[i] == "Self-Esteem Frustration":
+                    if 1.0 <= s <= 1.49:
+                        currB += "- " + rssmFactors[i] + " (Very Low)" + "\n"
+                    elif 1.5 <= s <= 1.99:
+                        currB += "- " + rssmFactors[i] + " (Low)" + "\n"
+                    elif 2.0 <= s <= 2.49:
+                        currB += "- " + rssmFactors[i] + " (Low Average)" + "\n"
+                    elif 2.5 <= s <= 3.5:
+                        currB += "- " + rssmFactors[i] + " (Average)" + "\n"
+                    elif 3.51 <= s <= 3.99:
+                        currB += "- " + rssmFactors[i] + " (High Average)" + "\n"
+                    elif 4.0 <= s <= 4.49:
+                        currB += "- " + rssmFactors[i] + " (High)" + "\n"
+                    elif 4.5 <= s <= 5.0:
+                        currB += "- " + rssmFactors[i] + " (Very High)" + "\n"
+                else:
+                    if s > 4:
+                        currB += "- " + rssmFactors[i] + " (Very High)" + "\n"
+                    elif s < 2:
+                        currB += "- " + rssmFactors[i] + " (Very Low)" + "\n"
             for i, s in enumerate(currScoresCSIP):
                 if s > 2:
                     currB += "- " + csipFactors[i] + " (Very High)" + "\n"
@@ -259,4 +323,3 @@ def get_sort(data):
         all.append("#"+ str(i) + " " + bTexts[idx])
 
     return all
-
