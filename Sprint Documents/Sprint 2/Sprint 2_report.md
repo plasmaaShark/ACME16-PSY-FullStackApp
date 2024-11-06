@@ -26,14 +26,25 @@ Christian Manangan
 
 
 ## Code Files for Review
-
+Please review the following code files, which were actively developed/worked on during this sprint, for quality:
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Graph_Generator.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/PDF_Generator.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Report_Generator_Copy.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Report_Generator_Sorting.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Results_Sorted.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/automated_responses.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/data_report.py
+  * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/requirements.txt
 
 ## Retrospective Summary
-### What Went Well:
-
+Here's what went well:
+  * Consistent meetings with client
+  * Collaboration of project documents
+  * Implemented two main features
+ 
+Here's what we'd like to improve:
+   * Meeting feature deadlines made by the client
   
-### Areas for Improvement:
-
-  
-### Planned Changes for Next Sprint:
-
+Here are changes we plan to implement in the next sprint:
+   * Get the radar graph working in the PDF
+   * More improvements for the pdf after client's testing team gives feedback
