@@ -8,7 +8,7 @@
 ## Work Summary (Developer Facing)
 During this sprint, our first feature the client wanted to implement was making sure that the PICA results PDF was automatically sent to the user once they finished their assesment. Previously, the user would have to go into PythonAnywhere to get their results. We had to first work out the 401 issue that happened when the code tried to make an API call to PythonAnywhere that was not supported anymore. That call was what allowed the code to run after the user finished their assesment. We instead replaced that system with a Flask framework which is more supported and should last longer than the deprecated PythonAnywhere API. We also had to edit the Qualtrics API token that allows the code to get the Qualtrics survey data. We figured out that an old token was being used and we replaced it with the correct one. Once we got those solved, the PDFs were able to send to the correct user easily. After that, we then went to work on editing the layout of the results PDF based upon the client's needs. The main part was adding in more text explaining the different graphs and charts and what the different temperments meant. This allowed for the results to be more understandable to the user.
 ## Unfinished Work
-
+NONE
 
 ## Completed Issues/User Stories
 Below are the issues completed during this sprint:
@@ -23,7 +23,9 @@ Christian Manangan
 
 
 ## Incomplete Issues/User Stories
-
+Here are links to issues we worked on but did not complete in this sprint:
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/31 
+Progress: We encountered unexpected complexities and discovered that the libraries required for radar chart generation had compatibility issues, requiring additional time for debugging and testing.
 
 ## Code Files for Review
 Please review the following code files, which were actively developed/worked on during this sprint, for quality:
