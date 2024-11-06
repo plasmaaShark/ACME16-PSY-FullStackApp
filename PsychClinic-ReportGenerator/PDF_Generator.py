@@ -5,7 +5,7 @@ HEIGHT = 297
 
 
 def print_textboxes(pdf, value, descriptions, size):
-    pdf.set_font("Arial", "", 10)
+    pdf.set_font("Arial", "B", 10)
     pdf.ln(11)
     
     # Merge all text content
@@ -14,7 +14,10 @@ def print_textboxes(pdf, value, descriptions, size):
         combined_text += "{} {}:\n{}\n\n".format(value, x+1, descriptions[x])
     
     # Use a single multi_cell call to generate a large box containing all the content
-    pdf.multi_cell(w=75, h=5, txt=combined_text, border=1, align="L")
+    pdf.set_fill_color(211, 221, 235) # color in the box
+    pdf.multi_cell(w=75, h=5, txt=combined_text, border=1, align="L", fill=1)
+
+    pdf.set_font("Arial", "", 10) # reset font to not bold
 
 def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
     # Print a feedback text box with a border in the PDF

@@ -205,6 +205,7 @@ def get_sort(data):
     bTexts = []
     bOrder = []
 
+    rs = data["RejectionSensitivity"]
     for x in range(0, len(namesRSSM)):
         #Beliefs
         bVals = []
@@ -214,26 +215,31 @@ def get_sort(data):
         #Motivational Interviewing (Levensky et al., 2009*; Miller & Rollnick, 2002)
         mi = (6 - beliefsRSSM[1][x])*.45 + beliefsRSSM[3][x]*.55
         mi += (3 - beliefsCSIP[1][x])*.4 + beliefsCSIP[4][x]*.3 + beliefsCSIP[5][x]*.3
+        mi += (rs/15)
         bVals.append(mi)
         bTypes.append("Motivational Interviewing")
         #Value Clarification (Twohig  & Crosby, 2009*)
         vc = (6 - beliefsRSSM[1][x])*.2 + (6 - beliefsRSSM[2][x])*.4 + beliefsRSSM[3][x]*.4
         vc += (3 - beliefsCSIP[0][x])*.31 + beliefsCSIP[4][x]*.23 + beliefsCSIP[5][x]*.23 + beliefsCSIP[6][x]*.23
+        vc += (rs/15)*.9
         bVals.append(vc)
         bTypes.append("Value Clarification")
         #Guided Mastery Therapy (Bandura, 1997; Scott & Cervone, 2009*; Williams, 1992)
         gmt = (6 - beliefsRSSM[0][x])*.4 + (6 - beliefsRSSM[2][x])*.6
         gmt += beliefsCSIP[3][x]*.55 + beliefsCSIP[7][x]*.45
+        gmt += (rs/15)*.8
         bVals.append(gmt)
         bTypes.append("Guided Mastery Therapy")
         #Self-monitoring (Humphreys et al., 2009*)
         sm = (6 - beliefsRSSM[1][x])*.4 + beliefsRSSM[3][x]*.6
         sm += beliefsCSIP[4][x]*.5 + beliefsCSIP[5][x]*.5
+        sm += (rs/15)
         bVals.append(sm)
         bTypes.append("Self-monitoring")
         #Self-management therapy (Rehm, 1990; Rehm & Adams, 2009*)
         smt = (6 - beliefsRSSM[1][x])*.5 + (6 - beliefsRSSM[2][x])*.5
         smt += beliefsCSIP[2][x]*.34 + beliefsCSIP[3][x]*.33 + beliefsCSIP[6][x]*.33
+        smt += (rs/15)*.9
         bVals.append(smt)
         bTypes.append("Self-management therapy")
 
@@ -311,6 +317,14 @@ def get_sort(data):
                     currB += "- " + csipFactors[i] + " (Very High)" + "\n"
                 elif s < 1:
                     currB += "- " + csipFactors[i] + " (Very Low)" + "\n"
+            if rs <= 1.39:
+                currB += "- Rejection Sensitivity (Very Low)" + "\n"
+            elif rs <= 5:
+                currB += "- Rejection Sensitivity (Low)" + "\n"
+            elif rs <= 15.85:
+                currB += "- Rejection Sensitivity (High)" + "\n"
+            elif rs > 15.85:
+                currB += "- Rejection Sensitivity (Very High)" + "\n"
 
         if x != 0:
             bTexts.append(currB)

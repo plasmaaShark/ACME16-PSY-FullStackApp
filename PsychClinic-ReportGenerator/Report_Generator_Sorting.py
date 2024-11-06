@@ -170,7 +170,7 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        #send_mail('chujiaming888@gmail.com')
+        send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
         send_mail('mananganchristian863@gmail.com')
         plt.close('all')
@@ -196,7 +196,7 @@ def rs_page(pdf, rs):
     elif rs <= 10.415:
         total += " (Average)"
     elif rs <= 12.22:
-        total += " (Mderately High)"
+        total += " (Moderately High)"
     elif rs <= 15.85:
         total += " (High)"
     else:
@@ -278,6 +278,7 @@ def generate_goal_feedback(scores, labels, current_title, is_overall=False):
     # If it is the Overall score, generate explanatory feedback
     if is_overall:
         score = float(scores[0])  # Assume the first one is the Overall score
+        score = round(score, 2) # round to two places
         if score >= 6.0:
             feedback += f"Overall score is {score} (very high):\n{template['high']}\n"
         elif score >= 5.0:
@@ -490,6 +491,7 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
     # If it is the Overall score, generate explanatory feedback
     if is_overall:
         score = float(scores[0])  # Assume the first one is the Overall score
+        score = round(score, 2) # round the score to two decimal places
         if score >= 4.5:
             feedback += f"Overall score is {score} (very high):\n{template['high']}\n"
         elif score >= 4.0:
@@ -564,14 +566,14 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
 
     # Iterate over each item in the data dictionary
     for key, value in data.items():
-        current_title = title_map.get(key, "RSSM Scale")  # Default title if not found in map
-
+        current_title = title_map.get(key, "RSSM Scale")  # The default title is "RSSM Scale"
+        
         if len(value) == 4:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
+            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
         else:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
-
-        # Generate and add explanatory feedback
+            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
+        
+        #Add explanatory feedback
         feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
         PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
 
@@ -680,6 +682,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # If it is the Overall score, generate explanatory feedback
     if is_overall:
         score = float(scores[0])  # Assume the first one is the Overall score
+        score = round(score, 2) # round the decimal to two places
         problem_level_text = "not a problem"
         for threshold, text in template['problem_levels']:
             if score <= threshold:
@@ -690,7 +693,8 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # List Individual scores without explanation
     for i, score in enumerate(scores[1:], start=1):
         label = labels[i]
-        feedback += f"{label} score is {float(score)}\n"
+        score = round(float(score), 2) # round to two decimal places
+        feedback += f"{label} score is {score}\n"
 
     return feedback
 
@@ -731,9 +735,9 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
         current_title = titles.pop(0)  # Get the current title
         
         if len(value) == 4:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
+            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
         else:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
+            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
         
         # Generate and print feedback for the first two graphs with adjusted positioning
         if counter < 2:
