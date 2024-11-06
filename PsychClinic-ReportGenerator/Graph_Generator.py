@@ -34,6 +34,7 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
 
     # Creating dataframe in pandas
     plotdata = pd.DataFrame(score, index=names)
+    plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
 
     # Plotting the bar chart
     plot = plotdata.plot(kind="barh")
@@ -56,6 +57,7 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
 
     # Creating dataframe in pandas
     plotdata = pd.DataFrame(score, index=names)
+    plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
 
     # Plotting the bar chart
     plot = plotdata.plot(kind="barh")

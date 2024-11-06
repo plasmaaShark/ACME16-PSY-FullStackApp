@@ -466,10 +466,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
     for key, value in data.items():
         current_title = title_map.get(key, "RSSM Scale")  # The default title is "RSSM Scale"
         
-        if len(value) == 4:
-            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
-        else:
-            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
+        labels = names
         
         #Add explanatory feedback
         feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
@@ -620,10 +617,7 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
     for key, value in dataCopy.items():
         current_title = titles.pop(0)  # Get the current title
         
-        if len(value) == 4:
-            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
-        else:
-            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
+        labels = names
         
         # Generate and print feedback
         feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
