@@ -198,7 +198,7 @@ def rs_page(pdf, rs):
     elif rs <= 10.415:
         total += " (Average)"
     elif rs <= 12.22:
-        total += " (Mderately High)"
+        total += " (Moderately High)"
     elif rs <= 15.85:
         total += " (High)"
     else:
