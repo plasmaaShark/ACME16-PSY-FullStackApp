@@ -9,9 +9,7 @@ HEIGHT = 297
 def create_bargraph(pdf, path, location, data, labels, key, title):
     score = [float(numbers) for numbers in data]
     # creating dataframe in pandas
-    plotdata = pd.DataFrame(
-    {"Score": score},
-    index=labels)
+    plotdata = pd.DataFrame({"Score": score}, index=labels)
 
     # plotting the bar char a bar chart
     plot = plotdata.plot(kind="barh")
