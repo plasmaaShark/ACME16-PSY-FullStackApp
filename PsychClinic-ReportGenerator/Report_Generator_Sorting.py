@@ -185,6 +185,7 @@ def title_page(my_path, pdf, info):
 
 def rs_page(pdf, rs):
     pdf.add_page()
+    pdf.set_font('Arial', 'B', 15)
     total = "Your Self-Concept: Rejection Sensitivity Score was: " + str(round(rs, 2))
 
     if rs <= 1.39:
@@ -202,32 +203,7 @@ def rs_page(pdf, rs):
     else:
         total += " (Very High)"
 
-    pdf.set_font("Arial", "B", 11)
-    pdf.multi_cell(0, 5, "Self-Concept: Rejection Sensitivity", border=0, align="C")
-
-    intro_text =("Rejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
-    pdf.set_font("Arial", "", 10)
-    pdf.multi_cell(0,5, intro_text, border=0, align="L")
-    pdf.ln(1)
-
-    rejection_sen_text1 = ("People with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
-    pdf.multi_cell(0, 5, rejection_sen_text1, border=0, align="L")
-    pdf.ln(1)
-
-    rejection_sen_text2 = ("High rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
-    pdf.multi_cell(0, 5, rejection_sen_text2, border=0, align="L")
-    pdf.ln(1)
-
-    rejection_sen_text3 = ("People with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
-    pdf.multi_cell(0, 5, rejection_sen_text3, border=0, align="L")
-    pdf.ln(1)
-
-    rejection_sen_text4 = ("Low rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
-    pdf.multi_cell(0, 5, rejection_sen_text4, border=0, align="L")
-
-    pdf.ln(3)
-    pdf.set_font('Arial', 'B', 14)
-    pdf.multi_cell(0, 5, total, border=0, align="L")
+    pdf.text(x=20, y=20, txt=total)
 
 def generate_goal_feedback(scores, labels, current_title, is_overall=False):
     # Define explanation feedback for different titles
@@ -514,85 +490,97 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
 
 # Create and add rssm bar graphs
 def rssm_bar_graphs(my_path, pdf, data, names, titles):
-    initial_y_position = 30  # Sets the initial Y position of the box
+    initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
     pdf.add_page()
     PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
     pdf.ln(6)
 
     # Introductory text for this section
     pdf.set_font("Arial", "", 10)
-    intro_text = (
-        "The second personality structure we assessed was your self-concept, or self-schema-these are beliefs you "
-        "possess about who you are, your qualities, needs, and experiences. Our self-schemas influence how we perceive "
-        "ourselves, interpret the actions of others, and feel and behave, and are a major part of your personality."
-    )
+    intro_text = ("The second personality structure we assessed was your self-concept, or self-schema-these are beliefs you possess about who you are, your qualities, "
+                  "needs, and experiences. Our self-schemas influence how we perceive ourselves, interpret the actions of others, and feel and behave, and are a major part "
+                  "of your personality.")
+    
     pdf.multi_cell(0, 5, intro_text, border=0, align="L")
     pdf.ln(1)
-
-    rssm_text_contin = (
-        "Rather than a single self-schema, research has shown that we have multiple self-schemas. These different \"selves\" "
-        "emerge from, and are tied to, our interactions with significant others. That is, many people experience the self differently "
-        "when with different others (e.g., self-with-mom, self-with-friend)."
-    )
+    rssm_text_contin = ("Rather than a single self-schema, research has shown that we have multiple self-schemas. These different \"selves\" emerge from, and are tied to, our interactions with significant others. That is, may people experience the self differently when with different others (e.g., self-with-mom, self-with-friend).")
     pdf.multi_cell(0, 5, rssm_text_contin, border=0, align="L")
-    pdf.ln(1)
-
-    rssm_text_contin2 = (
-        "To assess your self-schemas, you completed the Relational Self-Schema Questionnaire (RSSM; Scott et al., 2021), which "
-        "had you rate how you experience the self and act when with the four people you interact with and/or think about the most. "
-        "Some research suggests that our self-experience is organized around the satisfaction of basic psychological needs, such as "
-        "the need to feel connected to others, to feel competent/in control, and to have a sense of self-esteem. The RSSM assesses "
-        "the experience of these needs when the self is with different significant others."
-    )
-    pdf.multi_cell(0, 5, rssm_text_contin2, border=0, align="L")
-    pdf.ln(5)
-
-    # Create a dictionary mapping keys to titles
-    title_map = {
-        "RssmRelateSatis": "Relatedness Satisfaction",
-        "RssmControlSatis": "Control Satisfaction",
-        "RssmEsteemFrus": "Self-Esteem Frustration",
-        "RssmAutoFrus": "Autonomy Frustration"
-    }
     
-    # Get the initial Y position after the introductory text
-    y_position = pdf.get_y() + 5
-    feedback_box_width = 75  # Width of the feedback box
-    graph_x_position = 100  # X position for the graph to be placed to the right of the feedback box
-    graph_y_offset = -12     # Additional Y offset for the graph image to improve label alignment
-    counter = 0  # Counter to keep track of graphs on each page
+    pdf.ln(1)
+    rssm_text_contin2 = ("To assess your self-schemas, you completed the Relational Self-Schema Questionnaire (RSSM; Scott et al., 2021), which had you rate how you experience the self and act when with the four people you interact with and/or think about the most. Some research suggests that our self-experience is organized around the satisfaction of basic psychological needs, such as the need to feel connected to others, to feel competent/in control, and to have a sense of self-esteem. The RSSM assesses the experience of these needs when the self is with different significant others.")
+    pdf.multi_cell(0, 5, rssm_text_contin2, border=0, align="L")
 
-    # Iterate over each item in the data dictionary
+    pdf.add_page()
+
+    counter = 0
+
+    y_position = pdf.get_y() + 5  # Boxes on each page start at the same Y position
+
+    #Create a dictionary mapping keys to titles
+    title_map = {
+    "RssmRelateSatis": "Relatedness Satisfaction",
+    "RssmControlSatis": "Control Satisfaction",
+    "RssmEsteemFrus": "Self-Esteem Frustration",
+    "RssmAutoFrus": "Autonomy Frustration"
+}
+
     for key, value in data.items():
-        current_title = title_map.get(key, "RSSM Scale")  # Default title if not found in map
-
+        current_title = title_map.get(key, "RSSM Scale")  # The default title is "RSSM Scale"
+        
         if len(value) == 4:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
+            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
         else:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
-
-        # Generate and add explanatory feedback
+            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
+        
+        #Add explanatory feedback
         feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
-        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
+        
+        # Print feedback box and set position dynamically
+        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
+        y_position = pdf.get_y() + 15  # Update the Y position to make room for the next box
 
-        # Set Y position for the graph to align with the feedback box
-        graph_y_position = y_position + graph_y_offset  # Adjust Y position for better label alignment
 
-        # Create and print the graph
-        Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, titles.pop(0))
-        pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
+        # Create and print a chart
+        if counter != 0:
+            Graph_Generator.create_rssm_bargraph(pdf, my_path, (counter * 96), value, names, key, titles.pop(0))
+            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
+            counter += 1
+        else:
+            Graph_Generator.create_rssm_bargraph(pdf, my_path, 8, value, names, key, titles.pop(0))
+            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
+            counter += 1
 
-        # Update y_position for the next feedback box and graph pair
-        y_position = graph_y_position + 105
-        counter += 1
-
-        # If two graphs have been added to the page, start a new page
+        
         if counter == 2:
-            counter = 0
-            if key != list(data.keys())[-1]:  # Check if it is the last element in data
+            counter = 0  
+            if key != list(data.keys())[-1]:  # Check if it is the last element
                 pdf.add_page()
                 PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
-                y_position = initial_y_position  # Reset Y position for consistency on new pages
+                y_position = initial_y_position  # Reset Y position to keep the new page consistent
+        
+    pdf.ln(40)
+    pdf.set_font("Arial", "B", 11)
+    pdf.multi_cell(0, 5, "SELF-CONCEPT: REJECTION SENSITIVITY", border=0, align="L")
+
+    intro_text =("Rejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
+    pdf.set_font("Arial", "", 10)
+    pdf.multi_cell(0,5, intro_text, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text1 = ("People with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
+    pdf.multi_cell(0, 5, rejection_sen_text1, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text2 = ("High rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
+    pdf.multi_cell(0, 5, rejection_sen_text2, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text3 = ("People with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
+    pdf.multi_cell(0, 5, rejection_sen_text3, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text4 = ("Low rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
+    pdf.multi_cell(0, 5, rejection_sen_text4, border=0, align="L")
 
 def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
@@ -711,106 +699,48 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
     pdf.add_page()
     PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
     pdf.ln(4)
-    add_problematic_styles_intro(pdf)  # Add the introductory text here
-
-    initial_y_position = pdf.get_y() + 10  # Sets the initial Y position after the intro text
-    feedback_box_width = 75  # Width of the feedback box
-    graph_x_position = 100  # X position for the graph to be placed next to the feedback box
-    graph_y_offset = -10     # Additional Y offset for the graph image to improve label alignment
-
-    counter = 0  # Counter to keep track of graphs on each page
-
+    add_problematic_styles_intro(pdf)
+    pdf.add_page()
+    counter = 0
+    initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
+    y_position = initial_y_position  # Boxes on each page start at the same Y position
     # Delete irrelevant data
     dataCopy = data.copy()
     dataCopy.pop('RadarRSSMName', None)
     dataCopy.pop('RSSM_YVector', None)
     dataCopy.pop('RSSM_XVector', None)
-
+    
     # Iterate over each item in the data dictionary
     for key, value in dataCopy.items():
         current_title = titles.pop(0)  # Get the current title
         
         if len(value) == 4:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
+            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
         else:
-            labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
+            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
         
-        # Generate and print feedback for the first two graphs with adjusted positioning
-        if counter < 2:
-            feedback_y_position = initial_y_position + (counter * 90)  # Adjust y-position for each graph
-            feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
+        # Generate and print feedback
+        feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
+        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
+        y_position = pdf.get_y() + 15  # Update the Y position to make space for the next box
 
-            # Position the graph next to the feedback box
-            graph_y_position = feedback_y_position + graph_y_offset
-            Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
+        # Create and print a chart
+        if counter != 0:
+            Graph_Generator.create_csip_bargraph(pdf, my_path, (counter * 96), value, names, key, current_title)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
+            counter += 1
+        else:
+            Graph_Generator.create_csip_bargraph(pdf, my_path, 8, value, names, key, current_title)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
             counter += 1
 
-        # After the first two graphs, return to the original layout for subsequent pages
-        else:
-            # Reset the counter when adding a new page
-            if counter == 2:
-                counter = 0
+        # If the count reaches 2, add a new page and reset the counter
+        if counter == 2:
+            counter = 0  
+            if key != list(dataCopy.keys())[-1]:  # Check if it is the last element
                 pdf.add_page()
                 PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-                initial_y_position = pdf.get_y() + 10  # Reset initial Y position for the new page
-
-            # Standard position for feedback and graph for remaining items
-            feedback_y_position = initial_y_position + (counter * 90)
-            feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
-            
-            graph_y_position = feedback_y_position + graph_y_offset
-            Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
-            counter += 1
-
-    # pdf.add_page()
-    # PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-    # pdf.ln(4)
-    # add_problematic_styles_intro(pdf)
-
-    # counter = 0
-    # initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
-    # y_position = initial_y_position  # Boxes on each page start at the same Y position
-    # # Delete irrelevant data
-    # dataCopy = data.copy()
-    # dataCopy.pop('RadarRSSMName', None)
-    # dataCopy.pop('RSSM_YVector', None)
-    # dataCopy.pop('RSSM_XVector', None)
-    
-    # # Iterate over each item in the data dictionary
-    # for key, value in dataCopy.items():
-    #     current_title = titles.pop(0)  # Get the current title
-        
-    #     if len(value) == 4:
-    #         labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
-    #     else:
-    #         labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
-        
-    #     # Generate and print feedback
-    #     feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-    #     PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
-    #     y_position = pdf.get_y() + 15  # Update the Y position to make space for the next box
-
-    #     # Create and print a chart
-    #     if counter != 0:
-    #         Graph_Generator.create_csip_bargraph(pdf, my_path, (counter * 96), value, names, key, current_title)
-    #         pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
-    #         counter += 1
-    #     else:
-    #         Graph_Generator.create_csip_bargraph(pdf, my_path, 8, value, names, key, current_title)
-    #         pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
-    #         counter += 1
-
-    #     # If the count reaches 2, add a new page and reset the counter
-    #     if counter == 2:
-    #         counter = 0  
-    #         if key != list(dataCopy.keys())[-1]:  # Check if it is the last element
-    #             pdf.add_page()
-    #             PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-    #             y_position = initial_y_position  # Reset Y position to keep the new page consistent
+                y_position = initial_y_position  # Reset Y position to keep the new page consistent
 
 # Function to generate temperament feedback
 def generate_temperament_feedback(scores, labels):
@@ -931,7 +861,7 @@ def temperament_graph(my_path, pdf, data, title):
 
     # Set the font for the bold title
     pdf.set_font("Arial", "B", 11)
-    pdf.multi_cell(0, 5, "Temperament: Behavioral Inhibition and Approach Systems", border=0, align="L")
+    pdf.multi_cell(0, 5, "TEMPERAMENT: BEHAVIORAL INHIBITION AND APPROACH SYSTEMS", border=0, align="L")
 
     # Define the introductory text with specific words in bold
     intro_text = ("Temperament refers to inherited biological systems that influence how you react "

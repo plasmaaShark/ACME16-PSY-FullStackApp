@@ -74,6 +74,7 @@ def add_name(pdf, name):
     dr = "Date of Report: %s" % (d)
     pdf.cell(0, 10, dr, 0, 0, 'C')
 
+
 def section_headers(pdf, text):
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(0, 0, text, 0, 0, 'C')
@@ -98,8 +99,8 @@ def comparison_figure(pdf, path, ranks, goals):
 
     # Add PERSONAL VALUES title in bold
     pdf.set_font("Arial", "B", 11)
-    pdf.set_xy(10, 25) # changed to 25 from 35
-    pdf.cell(0, 5, "Personal Values", ln=True, align="C")
+    pdf.set_xy(10, 35)
+    pdf.cell(0, 5, "PERSONAL VALUES", ln=True, align="L")
 
     ps_text = ("The last personality component we assessed was your values. Your values refer to your beliefs about what you believe is important to living a good life. To measure your values, you ranked them in order of their importance to you in living a good life.")
     pdf.set_font("Arial", "", 10)
@@ -110,18 +111,19 @@ def comparison_figure(pdf, path, ranks, goals):
     pdf.multi_cell(0, 5, ps_text2, border=0, align="L")
     pdf.ln(1)
 
-    pdf.image(path + "/images/Comparison.png", x=0, y= + 40, w=WIDTH+5, h=180) #(HEIGHT/2)+30
-    pdf.image(path + "/images/Comparison.png", x=0, y=(HEIGHT/2) + 15, w=WIDTH+5, h=170) #(HEIGHT/2)+30
-    pdf.image(path + "/images/Arrow.png", x=(WIDTH/2)-40, y=(HEIGHT/2)+14, w=80, h=50)
-    pdf.image(path + "/images/Single_Arrow.png", x=0, y=(HEIGHT/2)+32, w=75, h=110)
+    pdf.add_page()
+    pdf.image(path + "/images/Comparison.png", x=0, y=0, w=WIDTH+5, h=180) #(HEIGHT/2)+30
+    pdf.image(path + "/images/Comparison.png", x=0, y=(HEIGHT/2), w=WIDTH+5, h=170) #(HEIGHT/2)+30
+    pdf.image(path + "/images/Arrow.png", x=(WIDTH/2)-47, y=(HEIGHT/2)-42, w=100, h=100)
+    pdf.image(path + "/images/Single_Arrow.png", x=0, y=(HEIGHT/2)+18, w=75, h=110)
 
-    pdf.text(x=75, y=75, txt="Your 4 Most Important Goals:")
-    pdf.text(x=76, y=(HEIGHT/2)+54, txt="Your Ranking of Values:")
+    pdf.text(x=70, y=30, txt="Your 4 Most Important Goals:")
+    pdf.text(x=76, y=(HEIGHT/2)+43, txt="Your Ranking of Values:")
     pdf.set_font('Arial', '', 14)
-    pdf.text(x=36, y=(HEIGHT/2)+43+13, txt="Most")
-    pdf.text(x=31, y=(HEIGHT/2)+47+13, txt="Important")
-    pdf.text(x=36, y=(HEIGHT/2)+121+13, txt="Least")
-    pdf.text(x=31, y=(HEIGHT/2)+125+13, txt="Important")
+    pdf.text(x=36, y=(HEIGHT/2)+43, txt="Most")
+    pdf.text(x=31, y=(HEIGHT/2)+47, txt="Important")
+    pdf.text(x=36, y=(HEIGHT/2)+121, txt="Least")
+    pdf.text(x=31, y=(HEIGHT/2)+125, txt="Important")
 
 
     # Format Rankings
@@ -131,10 +133,10 @@ def comparison_figure(pdf, path, ranks, goals):
 
     # Adding text to the boxes
     pdf.set_font('Arial', '', 10)
-    pdf.set_xy(x=30, y=87)
+    pdf.set_xy(x=30, y=45)
     pdf.multi_cell(w=150, h=5, txt="Goal 1: {}\nGoal 2: {}\nGoal 3: {}\nGoal 4: {}".format(goals[0], goals[1], goals[2], goals[3]), border=0)
     pdf.set_font('Arial', '', 11)
-    pdf.set_xy(x=70, y=203)
+    pdf.set_xy(x=70, y=200)
     pdf.multi_cell(w=100, h=8, txt="{}".format(output[0:-1]), border=0)
 
 def add_sort(pdf, order):
