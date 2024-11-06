@@ -334,24 +334,13 @@ def add_rssm(data, values):
     temp = {'RssmRelateSatis': [], 'RssmControlSatis': [], 'RssmEsteemFrus': [], 'RssmAutoFrus': []}
 
     # relatedness satisfaction
-    indices = ['Q12_', 'Q416_', 'Q22_', 'Q27_']
-    questions = ['3', '5', '8', '22']
+    indices = ['RssmRelateSatis1', 'RssmRelateSatis2', 'RssmRelateSatis3', 'RssmRelateSatis4']
+    #indicies = ['RSSM Relatedness Satisfaction-weightedAvg', 'Person 3 Relatedness Satisfaction-weightedAvg']
     rsSum = 0
     for index in indices:
-        rsAvg = 0
-        count = 0
-        for q in questions:
-            idx = index + q
-            curr = float(data.iloc[0][idx])
-            if not np.isnan(curr):
-                rsAvg += curr
-                count += 1
-        if count == 0:
-            count = 1
-        rsAvg = rsAvg/count
-        rsSum += rsAvg
-        temp['RssmRelateSatis'].append(rsAvg)
-    temp['RssmRelateSatis'].insert(0, rsSum/4)
+        temp['RssmRelateSatis'].append(data.iloc[0][index])
+        rsSum += float(data.iloc[0][index])
+    temp['RssmRelateSatis'].insert(0, (rsSum/4))
     '''
     indicies = ['RSSM Relatedness Satisfaction-weightedAvg', 'Person 3 Relatedness Satisfaction-weightedAvg']
     for index in indices:
@@ -361,23 +350,11 @@ def add_rssm(data, values):
     '''
 
     # control satis
-    indices = ['Q12_', 'Q416_', 'Q22_', 'Q27_']
-    questions = ['6', '7', '10', '11', '14', '16', '20', '21']
+    indices = ['RssmControlSatis1', 'RssmControlSatis2', 'RssmControlSatis3', 'RssmControlSatis4']
     csSum = 0
     for index in indices:
-        csAvg = 0
-        count = 0
-        for q in questions:
-            idx = index + q
-            curr = float(data.iloc[0][idx])
-            if not np.isnan(curr):
-                csAvg += curr
-                count += 1
-        if count == 0:
-            count = 1
-        csAvg = csAvg/count
-        csSum += csAvg
-        temp['RssmControlSatis'].append(csAvg)
+        temp['RssmControlSatis'].append(data.iloc[0][index])
+        csSum += float(data.iloc[0][index])
     temp['RssmControlSatis'].insert(0, (csSum/4))
     '''
     indices = ['RssmControlSatis1', 'RssmControlSatis2', 'RssmControlSatis3', 'RssmControlSatis4']
@@ -389,23 +366,11 @@ def add_rssm(data, values):
 
 
     # esteem frus
-    indices = ['Q12_', 'Q416_', 'Q22_', 'Q27_']
-    questions = ['2', '4', '9', '13', '15', '17', '23', '24']
+    indices = ['RssmEsteemFrus1', 'RssmEsteemFrus2', 'RssmEsteemFrus3', 'RssmEsteemFrus4']
     efSum = 0
     for index in indices:
-        efAvg = 0
-        count = 0
-        for q in questions:
-            idx = index + q
-            curr = float(data.iloc[0][idx])
-            if not np.isnan(curr):
-                efAvg += curr
-                count += 1
-        if count == 0:
-            count = 1
-        efAvg = efAvg/count
-        efSum += efAvg
-        temp['RssmEsteemFrus'].append(efAvg)
+        temp['RssmEsteemFrus'].append(data.iloc[0][index])
+        efSum += float(data.iloc[0][index])
     temp['RssmEsteemFrus'].insert(0, (efSum/4))
     '''
     indices = ['RssmEsteemFrus1', 'RssmEsteemFrus2', 'RssmEsteemFrus3', 'RssmEsteemFrus4']
@@ -417,40 +382,20 @@ def add_rssm(data, values):
     '''
 
     #auto frus
-    indices = ['Q12_', 'Q416_', 'Q22_', 'Q27_']
-    questions = ['1', '12', '18', '19']
-    afSum = 0
-    for index in indices:
-        afAvg = 0
-        count = 0
-        for q in questions:
-            idx = index + q
-            curr = float(data.iloc[0][idx])
-            if not np.isnan(curr):
-                afAvg += curr
-                count += 1
-        if count == 0:
-            count = 1
-        afAvg = afAvg/count
-        afSum += afAvg
-        temp['RssmAutoFrus'].append(afAvg)
-    temp['RssmAutoFrus'].insert(0, (afSum/4))
-    '''
     indices = ['RssmAutoFrus1', 'RssmAutoFrus2', 'RssmAutoFrus3', 'RssmAutoFrus4']
     afSum = 0
     for index in indices:
         temp['RssmAutoFrus'].append(data.iloc[0][index])
         afSum += float(data.iloc[0][index])
     temp['RssmAutoFrus'].insert(0, (afSum/4))
-    '''
 
     graphs['RSSM'] = temp
     #print("RSSM graph", graphs['RSSM'])
     temp = {}
     temp['Overall'] = 'Overall'
 
-    #column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
-    column_index = ['11_4', '11_5', '11_6', '11_9']
+    column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
+    #column_index = ['11_4', '11_5', '11_6', '11_9']
     name = ['RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4']
     for index in column_index:
         column_name = f'Q{index}'
@@ -619,7 +564,8 @@ def add_radar(data):
     temp = {}
 
 
-    column_index = ['11_4', '11_5', '11_6', '11_9']
+    column_index = ['11_4_TEXT', '11_5_TEXT', '11_6_TEXT', '11_9_TEXT']
+    #column_index = ['11_4', '11_5', '11_6', '11_9']
     name = ['RSSMName1', 'RSSMName2', 'RSSMName3', 'RSSMName4']
     for index in column_index:
         column_name = f'Q{index}'

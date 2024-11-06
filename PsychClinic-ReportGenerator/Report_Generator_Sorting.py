@@ -55,7 +55,7 @@ def create_report():
 
     #number+1 to get total      currently at:tc
     for i in range (13, 14):
-        #automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
+        automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
         pdf = FPDF()
         # setting my path as everything leading up to current directory
         my_path = os.path.abspath("")
@@ -67,7 +67,7 @@ def create_report():
         #print("current survey: ", currentSurvey)
         print('----------------------------------------')
         print('Data Retrieved')
-        data = Data_Pruner.get_data('Capstone Working Survey1.csv', idxS)
+        data = Data_Pruner.get_data('Capstone Working Survey.csv', idxS)
         #print(data['Personal'])
 
         # Code for accessing column value by name: value = currentSurvey.loc[:, 'IPAddress'].values[0]
