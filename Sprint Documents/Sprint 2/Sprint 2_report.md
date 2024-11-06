@@ -26,7 +26,7 @@ Christian Manangan
 
 
 ## Code Files for Review
-Please review the following code files, which were actively developed during this sprint, for quality:
+Please review the following code files, which were actively developed/worked on during this sprint, for quality:
   * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Graph_Generator.py
   * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/PDF_Generator.py
   * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Report_Generator_Copy.py
