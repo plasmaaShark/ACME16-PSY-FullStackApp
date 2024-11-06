@@ -9,9 +9,7 @@ HEIGHT = 297
 def create_bargraph(pdf, path, location, data, labels, key, title):
     score = [float(numbers) for numbers in data]
     # creating dataframe in pandas
-    plotdata = pd.DataFrame(
-    {"Score": score},
-    index=labels)
+    plotdata = pd.DataFrame({"Score": score}, index=labels)
 
     # plotting the bar char a bar chart
     plot = plotdata.plot(kind="barh")
@@ -74,19 +72,23 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     # Rendering the bar plot in the PDF
     pdf.image(path + "/images/csipbarplot{}.png".format(key), 90, height, 120)
 
-def temperament_bargraph(path, pdf, data, names, title):
-    positions = range(len(data))
+def temperament_bargraph(path, pdf, data, names, title, y_position):
+    # Reorder data and names to place 'BAS' as the second item
+    reordered_data = [data[0], data[4], data[1], data[2], data[3]]
+    reordered_names = [names[0], names[4], names[1], names[2], names[3]]
+
+    # Plotting the reordered bar chart
+    positions = range(len(reordered_data))
     plt.clf()
-    y = [float(number) for number in data]
+    y = [float(number) for number in reordered_data]
     plt.figure(figsize=(10, 6))
 
     plt.ylim(0, 4)
-    plt.bar(names, y)
+    plt.bar(reordered_names, y)
     plt.title(title)
     plt.savefig(path + "/images/temperament.png")
 
-    pdf.image(path + "/images/temperament.png", 10, 20, WIDTH)
-
+    pdf.image(path + "/images/temperament.png", x=10, y=y_position, w=WIDTH-20)
 
 def create_radar(pdf, path, data, names):
     xVector = 0.5

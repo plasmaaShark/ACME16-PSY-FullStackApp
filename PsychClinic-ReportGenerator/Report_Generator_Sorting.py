@@ -170,10 +170,10 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        send_mail('aquamarinefox.365@gmail.com')
+        send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
+        send_mail('mananganchristian863@gmail.com')
         plt.close('all')
-
 
 def title_page(my_path, pdf, info):
     pdf.add_page()
@@ -183,11 +183,9 @@ def title_page(my_path, pdf, info):
     PDF_Generator.add_name(pdf, 'For: {}'.format(info['First']))
     # pdf.image(my_path + "/images/cover_page.png", 0, 50, WIDTH)
 
-
 def rs_page(pdf, rs):
     pdf.add_page()
-    pdf.set_font('Arial', 'B', 20)
-    total = "Self-Concept: Rejection Sensitivity: " + str(round(rs, 2))
+    total = "Your Self-Concept: Rejection Sensitivity Score was: " + str(round(rs, 2))
 
     if rs <= 1.39:
         total += " (Very Low)"
@@ -204,9 +202,32 @@ def rs_page(pdf, rs):
     else:
         total += " (Very High)"
 
-    pdf.text(x=20, y=20, txt=total)
+    pdf.set_font("Arial", "B", 11)
+    pdf.multi_cell(0, 5, "Self-Concept: Rejection Sensitivity", border=0, align="C")
 
+    intro_text =("Rejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
+    pdf.set_font("Arial", "", 10)
+    pdf.multi_cell(0,5, intro_text, border=0, align="L")
+    pdf.ln(1)
 
+    rejection_sen_text1 = ("People with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
+    pdf.multi_cell(0, 5, rejection_sen_text1, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text2 = ("High rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
+    pdf.multi_cell(0, 5, rejection_sen_text2, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text3 = ("People with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
+    pdf.multi_cell(0, 5, rejection_sen_text3, border=0, align="L")
+    pdf.ln(1)
+
+    rejection_sen_text4 = ("Low rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
+    pdf.multi_cell(0, 5, rejection_sen_text4, border=0, align="L")
+
+    pdf.ln(3)
+    pdf.set_font('Arial', 'B', 14)
+    pdf.multi_cell(0, 5, total, border=0, align="L")
 
 def generate_goal_feedback(scores, labels, current_title, is_overall=False):
     # Define explanation feedback for different titles
@@ -276,11 +297,63 @@ def generate_goal_feedback(scores, labels, current_title, is_overall=False):
 
     return feedback
 
+def add_personal_goals_intro(pdf):
+    # Add a new page for the introductory text
+    pdf.set_font("Arial", "", 10)
+
+    # First paragraph
+    intro_text1 = (
+        "Personal goals refer to your mental representations of desired future states. Wanting to become a doctor, "
+        "finding a partner, becoming an author-these all represent future or possible selves, things that we are striving "
+        "to make happen for ourselves. Goals can also be undesired future states, such as avoiding being poor, dropping out "
+        "of college, or being divorced. Goals also imply personal standards, which are acceptable, good behaviors in the present. "
+        "For instance, the goal of becoming a doctor implies that getting good grades now is an important personal standard. Other "
+        "personal standards include our morals, beliefs we have about what is inherently good and bad behavior. Being honest, disciplined, "
+        "and polite to others-each of these are examples of moral standards that may guide our behavior."
+    )
+    pdf.multi_cell(0, 5, intro_text1, border=0, align="L")
+    pdf.ln(1)
+
+    # Second paragraph
+    intro_text2 = (
+        "Personal goals and standards strongly influence our personality functioning, including the situations you seek out, how you "
+        "interpret what happens to you, how motivated you are, and how you feel and act. We compare our current behavior to our goals and "
+        "standards, feeling bad if we come up short and feeling good if we have performed successfully. To assess your personal goals and "
+        "standards, you completed a modified version of the Personal Concerns Inventory (M-PCI; Klinger & Cox, 2011). Although the PCI is "
+        "considered a \"goal\" measure, when people complete the PCI, they tend to list both goals (e.g., graduate college) and standards "
+        "(e.g., maintain my good GPA)."
+    )
+    pdf.multi_cell(0, 5, intro_text2, border=0, align="L")
+    pdf.ln(1)
+
+    # Third paragraph
+    intro_text3 = (
+        "Research has shown that it is not just what goals and standards you have but how you think about them that matters. For instance, "
+        "two people can have the same goal of getting a college degree. But one person is very satisfied with their progress, confident in "
+        "being able to get a degree, and thinks about it as something positive to approach (e.g., \"get a college degree\"). Another person "
+        "with the same goal may think about it very differently: they are not satisfied with their progress, doubt their ability to get a degree, "
+        "and think about it as something negative to avoid (e.g., \"don't get kicked out of college\"). A large body of research shows that how "
+        "you think about your goals matters, and influences your psychological well-being as well as the likelihood of goal/standard success."
+    )
+    pdf.multi_cell(0, 5, intro_text3, border=0, align="L")
+    pdf.ln(1)
+
+    # Fourth paragraph
+    intro_text4 = (
+        "For your goal-standard scores, we provide interpretations for both overall scores and for individual scores. For any scale, if there "
+        "is not much difference in your scores across the four goals-standards you listed, you should just use your overall score. However, if for "
+        "any goal-standard score, you see differences, use the individual scores to interpret your feedback."
+    )
+    pdf.multi_cell(0, 5, intro_text4, border=0, align="L")
+    pdf.ln(1)
 
 # function to complete the goals section of bar graphs and text boxes
 def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
     pdf.add_page()
     PDF_Generator.section_headers(pdf, 'Personal Goals and Standards')
+    pdf.ln(4)
+    add_personal_goals_intro(pdf)
+    pdf.add_page()
     PDF_Generator.print_textboxes(pdf, "Goal", descriptions, 4)
 
     counter = 0
@@ -344,7 +417,6 @@ def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
             PDF_Generator.print_textboxes(pdf, "Goal", descriptions, 4)
             counter = 0
 
-
 # Create and add the text boxes and graphs for the standard graphs
 def standard_bar_graphs(my_path, pdf, data, descriptions, titles):
     pdf.add_page()
@@ -383,7 +455,6 @@ def standard_bar_graphs(my_path, pdf, data, descriptions, titles):
     # if counter != 0 then we add new text boxes
     if counter != 0:
         PDF_Generator.print_textboxes(pdf, "Moral Standard", descriptions, 4)
-
 
 def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
     #Defining an explanatory feedback template
@@ -443,58 +514,87 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
 
     return feedback
 
-
-
 # Create and add rssm bar graphs
 def rssm_bar_graphs(my_path, pdf, data, names, titles):
-    initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
+    initial_y_position = 30  # Sets the initial Y position of the box
     pdf.add_page()
-    PDF_Generator.section_headers(pdf, 'Relational Schema Psychological Need Scale')
-    
-    counter = 0
+    PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
+    pdf.ln(6)
 
-    y_position = initial_y_position  # Boxes on each page start at the same Y position
+    # Introductory text for this section
+    pdf.set_font("Arial", "", 10)
+    intro_text = (
+        "The second personality structure we assessed was your self-concept, or self-schema-these are beliefs you "
+        "possess about who you are, your qualities, needs, and experiences. Our self-schemas influence how we perceive "
+        "ourselves, interpret the actions of others, and feel and behave, and are a major part of your personality."
+    )
+    pdf.multi_cell(0, 5, intro_text, border=0, align="L")
+    pdf.ln(1)
 
-    #Create a dictionary mapping keys to titles
+    rssm_text_contin = (
+        "Rather than a single self-schema, research has shown that we have multiple self-schemas. These different \"selves\" "
+        "emerge from, and are tied to, our interactions with significant others. That is, many people experience the self differently "
+        "when with different others (e.g., self-with-mom, self-with-friend)."
+    )
+    pdf.multi_cell(0, 5, rssm_text_contin, border=0, align="L")
+    pdf.ln(1)
+
+    rssm_text_contin2 = (
+        "To assess your self-schemas, you completed the Relational Self-Schema Questionnaire (RSSM; Scott et al., 2021), which "
+        "had you rate how you experience the self and act when with the four people you interact with and/or think about the most. "
+        "Some research suggests that our self-experience is organized around the satisfaction of basic psychological needs, such as "
+        "the need to feel connected to others, to feel competent/in control, and to have a sense of self-esteem. The RSSM assesses "
+        "the experience of these needs when the self is with different significant others."
+    )
+    pdf.multi_cell(0, 5, rssm_text_contin2, border=0, align="L")
+    pdf.ln(5)
+
+    # Create a dictionary mapping keys to titles
     title_map = {
-    "RssmRelateSatis": "Relatedness Satisfaction",
-    "RssmControlSatis": "Control Satisfaction",
-    "RssmEsteemFrus": "Self-Esteem Frustration",
-    "RssmAutoFrus": "Autonomy Frustration"
-}
+        "RssmRelateSatis": "Relatedness Satisfaction",
+        "RssmControlSatis": "Control Satisfaction",
+        "RssmEsteemFrus": "Self-Esteem Frustration",
+        "RssmAutoFrus": "Autonomy Frustration"
+    }
+    
+    # Get the initial Y position after the introductory text
+    y_position = pdf.get_y() + 5
+    feedback_box_width = 75  # Width of the feedback box
+    graph_x_position = 100  # X position for the graph to be placed to the right of the feedback box
+    graph_y_offset = -12     # Additional Y offset for the graph image to improve label alignment
+    counter = 0  # Counter to keep track of graphs on each page
 
+    # Iterate over each item in the data dictionary
     for key, value in data.items():
         current_title = title_map.get(key, "RSSM Scale")  # The default title is "RSSM Scale"
         
-        labels = names
+        if len(value) == 4:
+            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
+        else:
+            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
         
         #Add explanatory feedback
         feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
-        
-        # Print feedback box and set position dynamically
-        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
-        y_position = pdf.get_y() + 15  # Update the Y position to make room for the next box
+        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
 
+        # Set Y position for the graph to align with the feedback box
+        graph_y_position = y_position + graph_y_offset  # Adjust Y position for better label alignment
 
-        # Create and print a chart
-        if counter != 0:
-            Graph_Generator.create_rssm_bargraph(pdf, my_path, (counter * 96), value, names, key, titles.pop(0))
-            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
-            counter += 1
-        else:
-            Graph_Generator.create_rssm_bargraph(pdf, my_path, 8, value, names, key, titles.pop(0))
-            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
-            counter += 1
+        # Create and print the graph
+        Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, titles.pop(0))
+        pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
 
-        
+        # Update y_position for the next feedback box and graph pair
+        y_position = graph_y_position + 105
+        counter += 1
+
+        # If two graphs have been added to the page, start a new page
         if counter == 2:
-            counter = 0  
-            if key != list(data.keys())[-1]:  # Check if it is the last element
+            counter = 0
+            if key != list(data.keys())[-1]:  # Check if it is the last element in data
                 pdf.add_page()
-                PDF_Generator.section_headers(pdf, 'Relational Schema Psychological Need Scale')
-                y_position = initial_y_position  # Reset Y position to keep the new page consistent
-
-
+                PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
+                y_position = initial_y_position  # Reset Y position for consistency on new pages
 
 def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
@@ -598,77 +698,161 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
 
     return feedback
 
+def add_problematic_styles_intro(pdf):
+    pdf.set_font("Arial", "", 10)
+    intro_text = (
+        "For each of the four persons you identified in the Relational Self-Schema Measure, you also "
+        "completed a shortened version of the Circumplex Scales of Interpersonal Problems (Boudreaux et al., 2018). "
+        "As we did for your scores on the Relational Self-Schema Measure, we provide interpretations for both your "
+        "overall scores and for each of your separate self-with-other scores. If there is not much difference in your "
+        "scores across the four people you listed, you should just use your overall score. However, if for any scale, "
+        "you see differences in your scores across the four people, use the individual scores to interpret your feedback."
+    )
+    pdf.multi_cell(0, 5, intro_text, border=0, align="L")
 
 # Create and add rssm bar graphs
 def csip_bar_graphs(my_path, pdf, data, names, titles):
     pdf.add_page()
     PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-    
-    counter = 0
-    initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
-    y_position = initial_y_position  # Boxes on each page start at the same Y position
+    pdf.ln(4)
+    add_problematic_styles_intro(pdf)  # Add the introductory text here
+
+    initial_y_position = pdf.get_y() + 10  # Sets the initial Y position after the intro text
+    feedback_box_width = 75  # Width of the feedback box
+    graph_x_position = 100  # X position for the graph to be placed next to the feedback box
+    graph_y_offset = -10     # Additional Y offset for the graph image to improve label alignment
+
+    counter = 0  # Counter to keep track of graphs on each page
+
     # Delete irrelevant data
     dataCopy = data.copy()
     dataCopy.pop('RadarRSSMName', None)
     dataCopy.pop('RSSM_YVector', None)
     dataCopy.pop('RSSM_XVector', None)
-    
+
     # Iterate over each item in the data dictionary
     for key, value in dataCopy.items():
         current_title = titles.pop(0)  # Get the current title
         
-        labels = names
-        
-        # Generate and print feedback
-        feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
-        y_position = pdf.get_y() + 15  # Update the Y position to make space for the next box
-
-        # Create and print a chart
-        if counter != 0:
-            Graph_Generator.create_csip_bargraph(pdf, my_path, (counter * 96), value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
-            counter += 1
+        if len(value) == 4:
+            labels = ["Overall", "Self-with-1", "Self-with-2", "Self-with-3"]
         else:
-            Graph_Generator.create_csip_bargraph(pdf, my_path, 8, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
+            labels = ["Overall"] + [f"Self-with-{i}" for i in range(1, len(value))]
+        
+        # Generate and print feedback for the first two graphs with adjusted positioning
+        if counter < 2:
+            feedback_y_position = initial_y_position + (counter * 90)  # Adjust y-position for each graph
+            feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
+            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
+
+            # Position the graph next to the feedback box
+            graph_y_position = feedback_y_position + graph_y_offset
+            Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
             counter += 1
 
-        # If the count reaches 2, add a new page and reset the counter
-        if counter == 2:
-            counter = 0  
-            if key != list(dataCopy.keys())[-1]:  # Check if it is the last element
+        # After the first two graphs, return to the original layout for subsequent pages
+        else:
+            # Reset the counter when adding a new page
+            if counter == 2:
+                counter = 0
                 pdf.add_page()
                 PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-                y_position = initial_y_position  # Reset Y position to keep the new page consistent
+                initial_y_position = pdf.get_y() + 10  # Reset initial Y position for the new page
+
+            # Standard position for feedback and graph for remaining items
+            feedback_y_position = initial_y_position + (counter * 90)
+            feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
+            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=feedback_box_width, main_font_size=10, detail_font_size=8)
+            
+            graph_y_position = feedback_y_position + graph_y_offset
+            Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
+            counter += 1
+
+    # pdf.add_page()
+    # PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
+    # pdf.ln(4)
+    # add_problematic_styles_intro(pdf)
+
+    # counter = 0
+    # initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
+    # y_position = initial_y_position  # Boxes on each page start at the same Y position
+    # # Delete irrelevant data
+    # dataCopy = data.copy()
+    # dataCopy.pop('RadarRSSMName', None)
+    # dataCopy.pop('RSSM_YVector', None)
+    # dataCopy.pop('RSSM_XVector', None)
+    
+    # # Iterate over each item in the data dictionary
+    # for key, value in dataCopy.items():
+    #     current_title = titles.pop(0)  # Get the current title
+        
+    #     if len(value) == 4:
+    #         labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
+    #     else:
+    #         labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
+        
+    #     # Generate and print feedback
+    #     feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
+    #     PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
+    #     y_position = pdf.get_y() + 15  # Update the Y position to make space for the next box
+
+    #     # Create and print a chart
+    #     if counter != 0:
+    #         Graph_Generator.create_csip_bargraph(pdf, my_path, (counter * 96), value, names, key, current_title)
+    #         pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
+    #         counter += 1
+    #     else:
+    #         Graph_Generator.create_csip_bargraph(pdf, my_path, 8, value, names, key, current_title)
+    #         pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
+    #         counter += 1
+
+    #     # If the count reaches 2, add a new page and reset the counter
+    #     if counter == 2:
+    #         counter = 0  
+    #         if key != list(dataCopy.keys())[-1]:  # Check if it is the last element
+    #             pdf.add_page()
+    #             PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
+    #             y_position = initial_y_position  # Reset Y position to keep the new page consistent
 
 # Function to generate temperament feedback
 def generate_temperament_feedback(scores, labels):
     feedback_templates = {
         "BIS": {
             "very_high": "Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.",
+            "high": "Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into “shy” children. Not all infants with high behavioral inhibition stay “shy” as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.",
             "average": "Your score suggests that when exposed to situations that are novel, unfamiliar, or threatening, you are generally no more and no less sensitive to these types of situations as is the typical person. If you also scored approximately in the average range on behavioral activation system temperament, this would suggest that you possess an even-keeled, emotionally stable temperament.",
-            "low": "Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness."
+            "low": "Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.",
+            "very_low": "Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into “shy” children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness."
         },
         "BAS": {
             "very_high": "Your score in the (very high, high) range. This suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.",
+            "high": "Your score in the (very high, high) range. This suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.",
             "average": "Your score in the average range. This suggests that you are fairly typical in your sensitivity to situations where there are rewards, things that are attractive, things you want. In these situations, your reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala is no more, and no less, reactive than the average person. Similarly, you are likely to experience the amount of excitement and enthusiasm to approach and get these things that you want as the typical person. On the plus side, you are likely to be someone who is even-keeled, emotionally stable, and unlikely to be too impulsive.",
-            "low": "Your score in the (very low, low) range. This suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want."
+            "low": "Your score in the (very low, low) range. This suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.",
+            "very_low": "Your score in the (very low, low) range. This suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want."
         },
         "BAS-D": {
             "very_high": "Your score in the (very high, high) range. This suggests that you tend to be very motivated to pursue the goals you have, and are quick to act on and move towards your goals, as well as being persistent in achieving them.",
+            "high": "Your score in the (very high, high) range. This suggests that you tend to be very motivated to pursue the goals you have, and are quick to act on and move towards your goals, as well as being persistent in achieving them.",
             "average": "Your score in the average range. This suggests that you are fairly typical in your tendency to be motivated to pursue goals you have, neither quick or slow to act on and move towards your goals, or persistent or non-persistent in achieving them.",
-            "low": "Your score in the (very low, low) range. This suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them."
+            "low": "Your score in the (very low, low) range. This suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them.",
+            "very_low": "Your score in the (very low, low) range. This suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them."
         },
         "BAS-FS": {
             "very_high": "Your score in the (very high, high) range. This suggests that you tend to crave excitement, and are very motivated and quick to pursue new rewards or things you think might be fun or exciting on the spur of the moment.",
+            "high": "Your score in the (very high, high) range. This suggests that you tend to crave excitement, and are very motivated and quick to pursue new rewards or things you think might be fun or exciting on the spur of the moment.",            
             "average": "Your score in the average range. This suggests that you are fairly typical in your tendency to be motivated to pursue excitement, fun, new rewards on the spur of the moment.",
-            "low": "Your score in the (very low, low) range. This suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment."
+            "low": "Your score in the (very low, low) range. This suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment.",
+            "very_low": "Your score in the (very low, low) range. This suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment."
         },
         "BAS-R": {
             "very_high": "Your score in the (very high, high) range. This suggests that you experience a high degree of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
+            "high": "Your score in the (very high, high) range. This suggests that you experience a high degree of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
             "average": "Your score in the average range. This suggests that you experience a typical amount of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
-            "low": "Your score in the (very low, low) range. This suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur."
+            "low": "Your score in the (very low, low) range. This suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
+            "very_low": "Your score in the (very low, low) range. This suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur."
         }
     }
 
@@ -683,43 +867,116 @@ def generate_temperament_feedback(scores, labels):
         if score >= 3.5:
             level = "very_high"
         elif score >= 2.75:
-            level = "very_high" 
+            level = "high" 
         elif score >= 2.25:
             level = "average"
         elif score >= 1.5:
             level = "low"
         else:
-            level = "low"
+            level = "very_low"
         
         feedback += f"{label}: {round(score, 2)} ({level.replace('_', ' ')})\n{template[level]}\n\n"
 
     return feedback
 
+def print_bis_section(pdf):
+    # Bold text for the title part
+    pdf.set_font("Arial", "B", 10)
+    pdf.multi_cell(0, 5, "Behavioral Inhibition System (BIS)", border=0, align="L")
+    
+    # Revert to regular text and continue in the same textbox
+    pdf.set_font("Arial", "", 10)
+    bis_text = ("The first temperament type is the behavioral inhibition system. It involves a set of brain structures that lead people to hesitate or withdraw "
+                "when they encounter situations that seem unfamiliar, challenging, or threatening. In these situations, people who score high in behavioral inhibition more "
+                "easily experience anxiety and impulses to hesitate or withdraw. You can think of this as a psychic brake pedal, a stop system, that moves us away from things "
+                "that might be dangerous. We all have behavioral inhibition systems. But people inherit behavioral inhibition systems with different sensitivities. "
+                "Your score can be used to indicate the sensitivity level of your behavioral inhibition system.")
+    
+    # Continue printing the rest of the text
+    pdf.multi_cell(0, 5, bis_text, border=0, align="L")
+
+def print_bas_section(pdf):
+    # Bold text for the title part
+    pdf.set_font("Arial", "B", 10)
+    pdf.multi_cell(0, 5, "Behavioral Approach System (BAS)", border=0, align="L")
+    
+    # Revert to regular text and continue in the same textbox
+    pdf.set_font("Arial", "", 10)
+    bas_text = ("The second temperament type is the behavioral approach system. The behavioral approach system involves a set of brain structures that causes people to "
+                "experience excitement, enthusiasm, and be more motivated to approach situations where there are rewards/incentives-that is, things you want, such as food, sex, "
+                "or a desired goal. You can think of this as a psychic gas pedal, a go system that moves us to approach things we want. We all have behavioral approach systems. "
+                "But people inherit behavioral approach systems that differ in their sensitivity or reactivity.")
+    
+    # Continue printing the rest of the text
+    pdf.multi_cell(0, 5, bas_text, border=0, align="L")
+    pdf.ln(1)
+    bas_text_contin = ("In addition to an overall BAS score, there are three different subscales that measure different types of behavioral activation.  If you do not see much differences in your three BAS subscales, your overall BAS score is probably the best score to interpret.  However, if you score high on subscales but average or low on others, then it is better to just interpret your specific BAS subscale scores.")
+    pdf.multi_cell(0, 5, bas_text_contin, border=0, align="L")
 
 # Create and add temperament bar graph
 def temperament_graph(my_path, pdf, data, title):
     pdf.add_page()
     
-    # Create a chart
-    Graph_Generator.temperament_bargraph(my_path, pdf, data[0], data[1], title)
-    PDF_Generator.temperament_scaling(pdf)
-    
-    #Get the current Y position to ensure feedback is printed below the graph
+    # Add title: "Person in Context Assessment"
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 10, "Person in Context Assessment", ln=True, align="C")
+    pdf.ln(5)
+
+    # Add introductory text
+    introductory_text = ("The surveys you completed are part of a new approach to assessing personality "
+                         "based on recent research in personality science. We refer to it as the Person in "
+                         "Context Assessment, or PICA, for short. In this personality assessment, you completed "
+                         "questionnaires measuring different parts of what makes up your personality, including "
+                         "your temperament, self-concept, interpersonal styles, sensitivity to rejection, and your "
+                         "personal goals and standards.")
+    pdf.set_font("Arial", size=10)
+    pdf.multi_cell(0, 5, introductory_text)
+    pdf.ln(3)
+
+    # Set the font for the bold title
+    pdf.set_font("Arial", "B", 11)
+    pdf.multi_cell(0, 5, "Temperament: Behavioral Inhibition and Approach Systems", border=0, align="L")
+
+    # Define the introductory text with specific words in bold
+    intro_text = ("Temperament refers to inherited biological systems that influence how you react "
+                "emotionally and behaviorally to events. To assess temperament, you completed the "
+                "Behavioral Inhibition and Behavioral Activation System (BIS/BAS) scale, which is "
+                "the most frequently used measure to assess these two temperament systems.")
+
+    # Split the text into parts for formatting
+    pdf.set_font("Arial", "", 10)
+    pdf.multi_cell(0,5, intro_text, border=0, align="L")
+    pdf.ln(2)
+
+    print_bis_section(pdf)
+    pdf.ln(2)
+
+    print_bas_section(pdf)
+    pdf.ln(2)
+
+    # Get the current Y position after the introductory text
     current_y = pdf.get_y()
-    
-    # Set the feedback box position below the chart, leaving enough space
-    feedback_y_position = current_y + 130  # Change the spacing size
-    pdf.set_y(feedback_y_position)
-    
+    pdf.ln(5)  # Optional: add a little more space
+
+    # Pass the current Y position to the temperament_bargraph function
+    Graph_Generator.temperament_bargraph(my_path, pdf, data[0], data[1], title, y_position=current_y)
+
+    # Get the new Y position after the graph to position the scaling labels
+    new_y = current_y + 60  # Adjust based on the height of your graph
+    PDF_Generator.temperament_scaling(pdf, y_position=new_y)
+
     # Generate and print feedback
     labels = ["BIS", "BAS", "BAS-D", "BAS-FS", "BAS-R"]
-    scores = [float(score) for score in data[0]]  # Assume data[0] is a list of scores
+    scores = [float(score) for score in data[0]]
     feedback = generate_temperament_feedback(scores, labels)
-    
+
+    # Set Y position for the feedback box
+    feedback_y_position = new_y + 55  # Adjust based on the content above
+    pdf.set_y(feedback_y_position)
+
     # Print feedback to PDF
     PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, w=180, main_font_size=10, detail_font_size=8)
    
-
 def send_mail(receiver_address):
     sender_address = 'teambluebirds2023@gmail.com'
     sender_pass = 'zgfuoltymavvcskq'
