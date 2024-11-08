@@ -19,44 +19,91 @@ def print_textboxes(pdf, value, descriptions, size):
 
     pdf.set_font("Arial", "", 10) # reset font to not bold
 
-def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-    # Print a feedback text box with a border in the PDF
-    if y is not None:
-        pdf.set_y(y)  # Set the y coordinate
+# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
+#     # Print a feedback text box with a border in the PDF
+#     if y is not None:
+#         pdf.set_y(y)  # Set the y coordinate
 
-    start_x = pdf.get_x()  # Get the starting x coordinate
-    start_y = pdf.get_y()  # Get the starting y coordinate
+#     start_x = pdf.get_x()  # Get the starting x coordinate
+#     start_y = pdf.get_y()  # Get the starting y coordinate
+
+#     feedback_lines = feedback.split('\n')
+#     for line in feedback_lines:
+#         pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
+#     # Calculate the height of the text box
+#     end_y = pdf.get_y()
+#     box_height = end_y - start_y
+
+#     # Draw a border
+#     pdf.rect(x, start_y, w, box_height)
+
+# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
+#     # 打印无边框的反馈文本框
+#     if y is not None:
+#         pdf.set_y(y)  # 设置y坐标
+
+#     start_x = pdf.get_x()  # 获取起始x坐标
+#     start_y = pdf.get_y()  # 获取起始y坐标
+
+#     feedback_lines = feedback.split('\n')
+#     for line in feedback_lines:
+#         if line.startswith("Your"):  # 检查是否为详细说明文本
+#             pdf.set_font("Arial", "", detail_font_size)
+#         else:
+#             pdf.set_font("Arial", "", main_font_size)
+        
+#         # 取消边框并左对齐
+#         pdf.multi_cell(w=w, h=5, txt=line, align="L") 
+# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
+#     # 在PDF中打印无边框的反馈文本框
+#     if y is not None:
+#         pdf.set_y(y)  # 设置y坐标
+
+#     start_x = pdf.get_x()  # 获取起始x坐标
+#     start_y = pdf.get_y()  # 获取起始y坐标
+
+#     feedback_lines = feedback.split('\n')
+#     for line in feedback_lines:
+#         if line.startswith("Your"):  # 检查详细解释文本
+#             pdf.set_font("Arial", "", detail_font_size)
+#         else:
+#             pdf.set_font("Arial", "", main_font_size)
+#         pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")  # 设置border=0去除边框
+    
+#     # 移除边框（已经设置border=0，完成此步骤）
+
+def print_feedback_box(pdf, feedback, x=10, y=None, w=75, font_size=10):
+    # 在PDF中打印无边框的反馈文本框
+    if y is not None:
+        pdf.set_y(y)  # 设置y坐标
+
+    start_x = pdf.get_x()  # 获取起始x坐标
+    start_y = pdf.get_y()  # 获取起始y坐标
+
+    # 设置统一的字体和大小
+    pdf.set_font("Arial", "", font_size)
 
     feedback_lines = feedback.split('\n')
     for line in feedback_lines:
-        if line.startswith("Your"):  # Check for detailed explanatory text
-            pdf.set_font("Arial", "", detail_font_size)
-        else:
-            pdf.set_font("Arial", "", main_font_size)
-        pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")
-    
-    # Calculate the height of the text box
-    end_y = pdf.get_y()
-    box_height = end_y - start_y
+        pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")  # 设置border=0去除边框
 
-    # Draw a border
-    pdf.rect(x, start_y, w, box_height)
 
-def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, main_font_size=10, detail_font_size=8):
-    #Print horizontally aligned feedback text boxes in PDF
+
+
+def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=10):
+    # Print horizontally aligned feedback text boxes in PDF
     if y is not None:
         pdf.set_y(y)  # Set the y coordinate
 
     pdf.set_x(x)  # Set the x coordinate
+    pdf.set_font("Arial", "", font_size)  # Set font once, with the specified size
+
     feedback_lines = feedback.split('\n')
     
-    # Print feedback text, use multi_cell to achieve automatic line wrapping, no border
+    # Print feedback text using multi_cell for automatic line wrapping, no border
     for line in feedback_lines:
-        if line.strip().startswith("Your"):  # Check if it is detailed explanation text
-            pdf.set_font("Arial", "", detail_font_size)
-        else:
-            pdf.set_font("Arial", "", main_font_size)
         pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
+
 
 def add_name(pdf, name):
     pdf.set_font('Arial', 'B', 30)
