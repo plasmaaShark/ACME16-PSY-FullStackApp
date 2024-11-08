@@ -170,9 +170,10 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        send_mail('chujiaming888@gmail.com')
+        #send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
         #send_mail('mananganchristian863@gmail.com')
+        send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
 
@@ -400,7 +401,7 @@ def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
 
         # 生成反馈并在反馈框中显示
         feedback = generate_goal_feedback(value, labels, current_title, is_overall)
-        PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180)
+        PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=90, w=180)
 
         # 添加图表图像
         pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 100, 94, WIDTH / 2)
