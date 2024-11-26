@@ -99,7 +99,7 @@ def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=
     pdf.set_font("Arial", "", font_size)  # Set font once, with the specified size
 
     feedback_lines = feedback.split('\n')
-    
+    pdf.ln(6)  # Adjust this value as needed
     # Print feedback text using multi_cell for automatic line wrapping, no border
     for line in feedback_lines:
         pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
@@ -129,7 +129,7 @@ def section_headers(pdf, text):
     pdf.cell(0, 0, text, 0, 0, 'C')
     #pdf.text(x=WIDTH/2, y=14, txt=text)
 
-def temperament_scaling(pdf, y_position):
+def temperament_scaling(pdf, y_position=0):
     pdf.set_font('Arial', "", 10)
     base_y = y_position - 45  # Adjust as needed to position labels correctly
     pdf.text(x=5, y=base_y, txt="Very High")

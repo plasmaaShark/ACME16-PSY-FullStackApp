@@ -133,7 +133,7 @@ def create_report():
 
         # send_mail('walter.scott@wsu.edu')
         # send_mail('chujiaming888@gmail.com')
-        # send_mail('mananganchristian863@gmail.com')
+        send_mail('mananganchristian863@gmail.com')
         plt.close('all')
 
 

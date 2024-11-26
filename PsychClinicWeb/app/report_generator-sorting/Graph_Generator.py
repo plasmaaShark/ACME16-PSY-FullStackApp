@@ -72,7 +72,7 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     # Rendering the bar plot in the PDF
     pdf.image(path + "/images/csipbarplot{}.png".format(key), 90, height, 120)
 
-def temperament_bargraph(path, pdf, data, names, title, y_position):
+def temperament_bargraph(path, pdf, data, names, title, y_position=0):
     # Reorder data and names to place 'BAS' as the second item
     reordered_data = [data[0], data[4], data[1], data[2], data[3]]
     reordered_names = [names[0], names[4], names[1], names[2], names[3]]
