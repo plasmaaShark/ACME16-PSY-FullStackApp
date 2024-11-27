@@ -207,24 +207,24 @@ def rs_page(pdf, rs):
     pdf.set_font("Arial", "B", 11)
     pdf.multi_cell(0, 5, "Self-Concept: Rejection Sensitivity", border=0, align="C")
 
-    intro_text =("Rejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
+    intro_text =("\tRejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
     pdf.set_font("Arial", "", 10)
     pdf.multi_cell(0,5, intro_text, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text1 = ("People with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
+    rejection_sen_text1 = ("\tPeople with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
     pdf.multi_cell(0, 5, rejection_sen_text1, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text2 = ("High rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
+    rejection_sen_text2 = ("\tHigh rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
     pdf.multi_cell(0, 5, rejection_sen_text2, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text3 = ("People with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
+    rejection_sen_text3 = ("\tPeople with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
     pdf.multi_cell(0, 5, rejection_sen_text3, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text4 = ("Low rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
+    rejection_sen_text4 = ("\tLow rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
     pdf.multi_cell(0, 5, rejection_sen_text4, border=0, align="L")
 
     pdf.ln(3)
@@ -623,7 +623,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
     feedback_templates = {
         "Domineering": {
-            "description": "An interpersonal style in which one is too controlling, manipulating, bossy, argumentative, and/or is acting too superior/condescending when relating to others. Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a interpersonal style in which one is too controlling, manipulating, bossy, argumentative, and/or is acting too superior/condescending when relating to others.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -632,7 +632,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Self-Centered": {
-            "description": "An interpersonal style in which one is too insensitive to others needs, thoughts, feelings, has difficulty providing emotional support, liking others and getting along.  Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a interpersonal style in which one is too insensitive to others needs, thoughts, feelings, has difficulty providing emotional support, liking others and getting along.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -641,7 +641,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Distant/Cold": {
-            "description": "An interpersonal style in which one is uncomfortable with being close or intimate, has difficulty fully connecting and enjoying others company.  Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a problematic interpersonal style in which one is uncomfortable with being close or intimate, has difficulty fully connecting and enjoying others company.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -650,7 +650,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Socially Inhibited": {
-            "description": "A problematic interpersonal style in which one is anxious and shy around others, unable to be themselves and has difficulty fitting in. Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a problematic interpersonal style in which one is anxious and shy around others, unable to be themselves and has difficulty fitting in.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -659,7 +659,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Nonassertive": {
-            "description": "A problematic interpersonal style in which one tends to be too compromising, and is too easily taken advantage of, acting overly submissive, letting others boss them around too much.  Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a problematic interpersonal style in which one tends to be too compromising, and is too easily taken advantage of, acting overly submissive, letting others boss them around too much.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -668,7 +668,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Exploitable": {
-            "description": "A problematic interpersonal style in which one has trouble being assertive and taking the lead, tends to feel weak and insecure and easily embarrassed around others.   Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a problematic interpersonal style in which one has trouble being assertive and taking the lead, tends to feel weak and insecure and easily embarrassed around others.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -677,7 +677,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Self-Sacrificing": {
-            "description": "A problematic interpersonal style in which one is too giving, tending tends to put others needs before their own needs, being easily affected by others pain and suffering and being too trusting.  Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a problematic interpersonal style in which one is too giving, tending tends to put others needs before their own needs, being easily affected by others pain and suffering and being too trusting.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -686,7 +686,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Intrusive": {
-            "description": "A problematic interpersonal style in which one has trouble respecting others privacy, talking too much, being overly affectionate and/or needing to be the center of attention.  Your score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
+            "description": "This refers to a problematic interpersonal style in which one has trouble respecting others privacy, talking too much, being overly affectionate and/or needing to be the center of attention.\nYour score indicates that this is (not a problem for you, a minor problem for you, a moderate problem for you, a serious problem for you).",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
