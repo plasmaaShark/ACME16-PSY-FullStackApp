@@ -26,6 +26,8 @@ def create_bargraph(pdf, path, location, data, labels, key, title):
     # rendering the barplot
     pdf.image(path + "/images/barplot{}.png".format(key), 90, location, 120)
 
+    plt.close(fig)
+
 def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     score = [float(numbers) for numbers in data]
     plt.clf()
@@ -49,6 +51,8 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     # Rendering the bar plot in the PDF
     pdf.image(path + "/images/rssmbarplot{}.png".format(key), 90, height, 120)
 
+    plt.close(fig)
+
 def create_csip_bargraph(pdf, path, height, data, names, key, title):
     score = [float(numbers) for numbers in data]
     plt.clf()
@@ -71,6 +75,8 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
 
     # Rendering the bar plot in the PDF
     pdf.image(path + "/images/csipbarplot{}.png".format(key), 90, height, 120)
+
+    plt.close(fig)
 
 def temperament_bargraph(path, pdf, data, names, title, y_position):
     # Reorder data and names to place 'BAS' as the second item
@@ -225,3 +231,5 @@ def create_radar(pdf, path, data, names):
 
     # rendering the radar plot
     pdf.image(path + "/images/radar.png", 5, 30, WIDTH-10)
+
+    plt.close(fig)
