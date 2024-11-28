@@ -79,7 +79,7 @@ def create_report():
     print('----------------------------------------')
 
     #number+1 to get total      currently at:tc
-    for i in range (102, 103): # 1,2
+    for i in range (1, 2): # 1,2
         # automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
         pdf = FPDF()
         # setting my path as everything leading up to current directory
@@ -443,7 +443,7 @@ def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
 
         PDF_Generator.print_textboxes(pdf, "Goal", descriptions, 4)
 
-        Graph_Generator.create_bargraph(pdf, my_path, 8, value, labels, key, titles.pop(0))
+        Graph_Generator.create_bargraph(pdf, my_path, 8, value, labels, key, titles.pop(0), descriptions)
         pdf.ln(2)  # Adjust this value as needed
         feedback = generate_goal_feedback(value, labels, current_title, is_overall)
         PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180)
