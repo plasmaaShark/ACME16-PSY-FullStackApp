@@ -6,26 +6,44 @@ from math import pi
 WIDTH = 210
 HEIGHT = 297
 
-def create_bargraph(pdf, path, location, data, labels, key, title):
-    score = [float(numbers) for numbers in data]
-    # creating dataframe in pandas
-    plotdata = pd.DataFrame({"Score": score}, index=labels)
+def create_bargraph(pdf, path, location, data, labels, key, title, descriptions):
+    # Adjusting scores and labels for missing data
+    adjusted_scores = []
+    bar_labels = []
 
-    # plotting the bar char a bar chart
-    plot = plotdata.plot(kind="barh")
-    plot.set_title(title)
-    # plot.set_xlim(1, 7)
-    plot.set_xlim(0, 7)
+    # Skip "Overall" for alignment with descriptions
+    for score, desc, label in zip(data[1:], descriptions, labels[1:]):  # Skip first element
+        if str(desc) == 'nan':  # Check if the description is missing
+            adjusted_scores.append(None)  # No bar for missing data
+            bar_labels.append(label)  # Keep the original label
+        else:
+            adjusted_scores.append(float(score))
+            bar_labels.append(label)
+
+    # Add "Overall" back as the first element if needed
+    adjusted_scores.insert(0, data[0])
+    bar_labels.insert(0, labels[0])
+
+    # Creating the DataFrame for plotting
+    plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
+
+    # Creating the bar chart
+    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax.set_title(title)
+    ax.set_xlim(0, 7)  # Aligning with your specified x-axis limits
     plt.gcf().subplots_adjust(left=0.15)
 
-    # saving the plot as a picture in image folder
-    fig = plot.get_figure()
-    plt.legend('', frameon=False)
-    fig.savefig(path + "/images/barplot{}.png".format(key) , transparent=True)
+    # Adding red text for missing bars
+    for i, (score, label) in enumerate(zip(adjusted_scores, bar_labels)):
+        if score is None:
+            plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
 
-    # rendering the barplot
-    pdf.image(path + "/images/barplot{}.png".format(key), 90, location, 120)
+    # Saving the plot as a PNG file
+    fig = ax.get_figure()
+    fig.savefig(f"{path}/images/barplot{key}.png", transparent=True)
 
+    # Rendering the bar plot in the PDF
+    pdf.image(f"{path}/images/barplot{key}.png", 90, location, 120)
     plt.close(fig)
 
 def create_rssm_bargraph(pdf, path, height, data, names, key, title):
