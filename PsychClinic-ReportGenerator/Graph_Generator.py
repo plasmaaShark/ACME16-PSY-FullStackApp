@@ -74,7 +74,7 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     fig.savefig(path + "/images/csipbarplot{}.png".format(key), transparent=True)
 
     # Rendering the bar plot in the PDF
-    pdf.image(path + "/images/csipbarplot{}.png".format(key), 0, height, 120)
+    pdf.image(path + "/images/csipbarplot{}.png".format(key), 10, height, 100)
 
     plt.close(fig)
 

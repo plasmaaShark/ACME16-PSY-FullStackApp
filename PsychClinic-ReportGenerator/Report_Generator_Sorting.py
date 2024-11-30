@@ -207,24 +207,24 @@ def rs_page(pdf, rs):
     pdf.set_font("Arial", "B", 11)
     pdf.multi_cell(0, 5, "Self-Concept: Rejection Sensitivity", border=0, align="C")
 
-    intro_text =("\t\t\tRejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
+    intro_text =("     Rejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
     pdf.set_font("Arial", "", 10)
     pdf.multi_cell(0,5, intro_text, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text1 = ("\t\t\tPeople with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
+    rejection_sen_text1 = ("     People with high rejection sensitivity have greater concerns about social rejection than most people. They tend to worry excessively about social interactions and what others might think of them. This often leads to misinterpretation of social cues and problems interacting with others due to misinterpretation. In addition, they tend to have extreme anxiety in social situations and a tendency to avoid many social situations due to discomfort or suffer through the situations with high anxiety.")
     pdf.multi_cell(0, 5, rejection_sen_text1, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text2 = ("\t\t\tHigh rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
+    rejection_sen_text2 = ("     High rejection sensitivity may be due to a history of being rejected, or perceiving that one is being rejected. And it can also be reflective or a negative self-concept or an anxious temperament (i.e., high behavioral inhibition).  ")
     pdf.multi_cell(0, 5, rejection_sen_text2, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text3 = ("\t\t\tPeople with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
+    rejection_sen_text3 = ("     People with low rejection sensitivity are not as concerned about social rejection or about how people may think of them or react to them. They do not worry about rejection and tend to believe that others will be receptive towards them and unlikely to reject their requests. They tend to have social confidence.")
     pdf.multi_cell(0, 5, rejection_sen_text3, border=0, align="L")
     pdf.ln(1)
 
-    rejection_sen_text4 = ("\t\t\tLow rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
+    rejection_sen_text4 = ("     Low rejection sensitivity may be due to a history of being accepted by others, or perceiving that one is being accepted. And it can also be reflective of a positive self-concept or a low anxious temperament (i.e., low behavioral inhibition) and/or a high approach temperament (i.e., high behavioral activation).")
     pdf.multi_cell(0, 5, rejection_sen_text4, border=0, align="L")
 
     pdf.ln(3)
@@ -623,7 +623,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
     feedback_templates = {
         "Domineering": {
-            "description": "This refers to a interpersonal style in which one is too controlling, manipulating, bossy, argumentative, and/or is acting too superior/condescending when relating to others.\nYour score indicates that this is {}. Our interpersonal styles sometimes varies depending on who we are with. Your scores below indicaate how domineering you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a interpersonal style in which one is too controlling, manipulating, bossy, argumentative, and/or is acting too superior/condescending when relating to others.\nYour score indicates that this is {}. Our interpersonal styles sometimes varies depending on who we are with. Your scores below indicaate how domineering you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -632,7 +632,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Self-Centered": {
-            "description": "This refers to a interpersonal style in which one is too insensitive to others needs, thoughts, feelings, has difficulty providing emotional support, liking others and getting along.\nYour score indicates that this is {}. Your scores below indicaate how self-centered you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a interpersonal style in which one is too insensitive to others needs, thoughts, feelings, has difficulty providing emotional support, liking others and getting along.\nYour score indicates that this is {}. Your scores below indicaate how self-centered you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -641,7 +641,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Distant/Cold": {
-            "description": "This refers to a problematic interpersonal style in which one is uncomfortable with being close or intimate, has difficulty fully connecting and enjoying others company.\nYour score indicates that this is {}. Your scores below indicaate how distant/cold you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a problematic interpersonal style in which one is uncomfortable with being close or intimate, has difficulty fully connecting and enjoying others company.\nYour score indicates that this is {}. Your scores below indicaate how distant/cold you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -650,7 +650,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Socially Inhibited": {
-            "description": "This refers to a problematic interpersonal style in which one is anxious and shy around others, unable to be themselves and has difficulty fitting in.\nYour score indicates that this is {}. Your scores below indicaate how socially inhibited you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a problematic interpersonal style in which one is anxious and shy around others, unable to be themselves and has difficulty fitting in.\nYour score indicates that this is {}. Your scores below indicaate how socially inhibited you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -659,7 +659,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Nonassertive": {
-            "description": "This refers to a problematic interpersonal style in which one tends to be too compromising, and is too easily taken advantage of, acting overly submissive, letting others boss them around too much.\nYour score indicates that this is {}. Your scores below indicaate how nonassertive you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a problematic interpersonal style in which one tends to be too compromising, and is too easily taken advantage of, acting overly submissive, letting others boss them around too much.\nYour score indicates that this is {}. Your scores below indicaate how nonassertive you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -668,7 +668,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Exploitable": {
-            "description": "This refers to a problematic interpersonal style in which one has trouble being assertive and taking the lead, tends to feel weak and insecure and easily embarrassed around others.\nYour score indicates that this is {}. Your scores below indicaate how exploitable you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a problematic interpersonal style in which one has trouble being assertive and taking the lead, tends to feel weak and insecure and easily embarrassed around others.\nYour score indicates that this is {}. Your scores below indicaate how exploitable you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -677,7 +677,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Self-Sacrificing": {
-            "description": "This refers to a problematic interpersonal style in which one is too giving, tending tends to put others needs before their own needs, being easily affected by others pain and suffering and being too trusting.\nYour score indicates that this is {}. Your scores below indicaate how self-sacrificing you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a problematic interpersonal style in which one is too giving, tending tends to put others needs before their own needs, being easily affected by others pain and suffering and being too trusting.\nYour score indicates that this is {}. Your scores below indicaate how self-sacrificing you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -686,7 +686,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Intrusive": {
-            "description": "This refers to a problematic interpersonal style in which one has trouble respecting others privacy, talking too much, being overly affectionate and/or needing to be the center of attention.\nYour score indicates that this is {}. Your scores below indicaate how intrusive you are with each of the four persons you identified on this measure.\n\n",
+            "description": "This refers to a problematic interpersonal style in which one has trouble respecting others privacy, talking too much, being overly affectionate and/or needing to be the center of attention.\nYour score indicates that this is {}. Your scores below indicaate how intrusive you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -696,7 +696,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
         }
     }
 
-    feedback = f"{current_title}:\n"
+    feedback = f"{current_title} - "
     template = feedback_templates.get(current_title, None)
 
     if not template:
@@ -711,7 +711,10 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             if score <= threshold:
                 problem_level_text = text
                 break
-        feedback += f"Overall score is {score} ({problem_level_text}):\n{template['description'].format(problem_level_text)}\n"
+        feedback += f"Overall score is {score} ({problem_level_text}):\n     {template['description'].format(problem_level_text)}"
+
+    # add an indent before the individual scores
+    feedback += "     "
 
     # List Individual scores without explanation
     for i, score in enumerate(scores[1:], start=1):
@@ -729,7 +732,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
 def add_problematic_styles_intro(pdf):
     pdf.set_font("Arial", "", 10)
     intro_text = (
-        "For each of the four persons you identified in the Relational Self-Schema Measure, you also "
+        "     For each of the four persons you identified in the Relational Self-Schema Measure, you also "
         "completed a shortened version of the Circumplex Scales of Interpersonal Problems (Boudreaux et al., 2018). "
         "As we did for your scores on the Relational Self-Schema Measure, we provide interpretations for both your "
         "overall scores and for each of your separate self-with-other scores. If there is not much difference in your "
@@ -749,7 +752,7 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
     feedback_box_width = 75  # Width of the feedback box
     graph_x_position = 10  # X position for the graph to be placed next to the feedback box
     graph_y_offset = -10     # Additional Y offset for the graph image to improve label alignment
-    image_height = 50 # estimation of the graph heights
+    image_height = 35 # estimation of the graph heights
 
     counter = 0  # Counter to keep track of graphs on each page
 
@@ -768,9 +771,9 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
         # Generate and print feedback for the first two graphs with adjusted positioning
         if counter < 2:
             # Position the graph next to the feedback box
-            graph_y_position = initial_y_position + (counter * 160)
+            graph_y_position = initial_y_position + (counter * 115)
             Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 73, WIDTH / 2 - 30)
             
             # position the feedback under the graph
             feedback_y_position = graph_y_position + initial_y_position + image_height  # Adjust y-position for each graph
@@ -781,7 +784,7 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
 
         # After the first two graphs, return to the original layout for subsequent pages
         else:
-            image_height = 85 # set image height for new pages
+            image_height = 70 # set image height for new pages
             # Reset the counter when adding a new page
             if counter == 2:
                 counter = 0
@@ -790,9 +793,9 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
                 initial_y_position = pdf.get_y()  # Reset initial Y position for the new page
 
             # Position the graph next to the feedback box
-            graph_y_position = initial_y_position + (counter * 160)
+            graph_y_position = initial_y_position + (counter * 115)
             Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 73, WIDTH / 2 - 30)
             
             # position the feedback under the graph
             feedback_y_position = graph_y_position + initial_y_position + image_height  # Adjust y-position for each graph
