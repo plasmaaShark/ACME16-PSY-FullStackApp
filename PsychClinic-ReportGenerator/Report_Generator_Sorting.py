@@ -17,7 +17,7 @@ import automated_responses
 import time
 import requests
 import Results_Sorted
-
+from PDF_Generator import CustomPDF 
 
 # email stuff
 import smtplib
@@ -44,24 +44,14 @@ HEIGHT = 297
 # CONSOLE_START_URL = f'https://{host}/api/v0/user/{username}/consoles/33319540/start/'
 
 def create_report():
-
-    # headers = {
-    #     'Authorization': f'Token {token}',
-    #     'Content-Type': 'application/json'
-    # }
-    # response = requests.post(CONSOLE_START_URL, headers=headers)
-    # if response.status_code == 200:
-    #     print("Console started successfully.")
-    # else:
-    #     print(f"Error starting console: {response.status_code} - {response.text}")
-
     # time.sleep(10)
     print('----------------------------------------')
 
     #number+1 to get total      currently at:tc
     for i in range (1, 2): # 1, 2 makes sure that the idxS ends up being -1 to get the last row
         automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
-        pdf = FPDF()
+        # pdf = FPDF()
+        pdf = CustomPDF()
         # setting my path as everything leading up to current directory
         my_path = os.path.abspath("")
 
@@ -69,14 +59,13 @@ def create_report():
         df = Graph_Generator.pd.read_csv('Capstone Working Survey.csv')
         idxS = 0-i
         currentSurvey = df.iloc[idxS]
+        data = Data_Pruner.get_data('Capstone Working Survey.csv', idxS)
+
         #print("current survey: ", currentSurvey)
         print('----------------------------------------')
         print('Data Retrieved')
         data = Data_Pruner.get_data('Capstone Working Survey.csv', idxS)
-        #print(data['Personal'])
-
-        # Code for accessing column value by name: value = currentSurvey.loc[:, 'IPAddress'].values[0]
-        # IPAddress is the column name in the example above
+       
 
         # Add title page
         print('----------------------------------------')
@@ -124,13 +113,7 @@ def create_report():
         print('Added Comparison Figure')
         PDF_Generator.comparison_figure(pdf, my_path, data['Comparison'], data['GoalDescription'])
 
-       
-        #Self-Concept: Psychological Needs
-        #print('----------------------------------------')
-        #print('Added RSSM Graphs')
-        #rssmTitles = ["Relatedness Satisfaction", "Control Satisfaction", "Self-Esteem Frustration", "Autonomy Frustration"]
-        #barTitles = [f'Self-with-{v}' if v != 'Overall' else v for k,v in data['RSSMNames'].items()]
-        #rssm_bar_graphs(my_path, pdf, data['RSSM'], barTitles, rssmTitles)
+      
 
         ''' #TODO: fix issues with fig.savefig(path + "/images/radar.png", transparent=False)
         print('----------------------------------------')
@@ -140,22 +123,7 @@ def create_report():
         PDF_Generator.section_headers(pdf, 'Relational Schema Interpersonal Behavior Scale')
         Graph_Generator.create_radar(pdf, my_path, data['RadarRSSM'], data['RadarRSSMName']) # TODO: last 2 parameters need to be the vector values from pandas df
         '''
-        #Temperament
-        #print('----------------------------------------')
-        #print('Added Temperament Graph')
-        #stuff = [list(data['Temperament'].values()), list(data['Temperament'].keys())]
-        #temperament_graph(my_path, pdf, stuff, "Temperament")
-
-        #Self-Concept: Problematic Interpersonal Styles
-        #print('----------------------------------------')
-        #print('Added CSIP Graph')
-        #csipTitles = ["Domineering", "Self-Centered", "Distant/Cold", "Socially Inhibited", "Nonassertive", "Exploitable", "Self-Sacrificing", "Intrusive"]
-        #csip_bar_graphs(my_path, pdf, data['RadarRSSM'], barTitles, csipTitles)
-
-        #Self-Concept: Rejection Sensitivity
-        #print('----------------------------------------')
-        #print('Added Rejection Sensitivity')
-        #rs_page(pdf, data['RejectionSensitivity'])
+        
 
         print('----------------------------------------')
         print('Added sorting of results')
@@ -175,20 +143,23 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        #send_mail('chujiaming888@gmail.com')
+        send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
         #send_mail('mananganchristian863@gmail.com')
-        send_mail('aquamarinefox.365@gmail.com')
+        #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
 
 def title_page(my_path, pdf, info):
+    #print(f"Before title_page: Skip Page Number: {pdf.skip_page_number}, Current Page: {pdf.page_no()}")
     pdf.add_page()
+    pdf.skip_page_number = True  # 跳过标题页的页码
+    #print(f"During title_page (after add_page): Skip Page Number: {pdf.skip_page_number}, Current Page: {pdf.page_no()}")
     pdf.image(my_path + "/images/wsu_banner.png", 0, 0, WIDTH)
-    #pdf.image(my_path + "/images/Washington-State-University-logo.png", 0, HEIGHT/2 - 100, WIDTH)
     pdf.image(my_path + "/images/buffer.png", 0, HEIGHT/2 + 1, WIDTH)
     PDF_Generator.add_name(pdf, 'For: {}'.format(info['First']))
-    # pdf.image(my_path + "/images/cover_page.png", 0, 50, WIDTH)
+    pdf.skip_page_number = False  # 恢复页码显示功能
+    #print(f"After title_page: Skip Page Number: {pdf.skip_page_number}, Current Page: {pdf.page_no()}")
 
 def rs_page(pdf, rs):
     pdf.add_page()
@@ -428,42 +399,15 @@ def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
 
         # 创建图表
         Graph_Generator.create_bargraph(pdf, my_path, 8, value, labels, key, titles.pop(0), descriptions)
-        pdf.ln(2)  # Adjust this value as needed
+        pdf.ln(5)  # Adjust this value as needed
 
         # 生成反馈并在反馈框中显示
         feedback = generate_goal_feedback(value, labels, current_title, is_overall)
-        PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180)
+        PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180,offset_y=30)
 
         # 添加图表图像
         pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 100, 94, WIDTH / 2)
-        # Create and print graphs and explanatory feedback
-        # if counter != 0:
-        #     Graph_Generator.create_bargraph(pdf, my_path, counter*96, value, labels, key, titles.pop(0))
-            
-        #     # Add explanatory feedback
-        #     feedback = generate_goal_feedback(value, labels, current_title, is_overall)
         
-        #     PDF_Generator.print_feedback_box(pdf, feedback, x=10, w=75, font_size=10)   # Print feedback box, set font size separately
-
-        #     pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 100, counter*96+86, WIDTH/2)
-        #     counter += 1
-        # else:
-        #     Graph_Generator.create_bargraph(pdf, my_path, 8, value, labels, key, titles.pop(0))
-            
-        #     # Add explanatory feedback
-        #     feedback = generate_goal_feedback(value, labels, current_title, is_overall)
-        #     # Print feedback box and set font size separately
-        #     PDF_Generator.print_feedback_box(pdf, feedback, x=10, w=75, font_size=10)   
-        #     pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 100, 94, WIDTH/2)
-        #     counter += 1
-
-        # # When the counter is 2, add a new page
-        # if counter == 2:
-        #     pdf.add_page()
-        #     PDF_Generator.section_headers(pdf, 'Personal Goals and Standards')
-        #     PDF_Generator.print_textboxes(pdf, "Goal", descriptions, 4)
-        #     counter = 0
-
 
 
 
@@ -510,24 +454,24 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
     #Defining an explanatory feedback template
     feedback_templates = {
         "Relatedness Satisfaction": {
-            "high": "This suggests that you experience some features of a positive self-concept. More specifically, this suggests that in general you experience high levels of being connected to, close to, and accepted by the people you most interact with or think about. Some research suggests that feeling connected to others is a basic psychological need and contributes to higher self-esteem and psychological well-being.",
-            "average": "This suggests that although you do not necessarily experience disconnection or rejection from the people you most interact with or think about, you also do not experience an optimal level of connectedness, relatedness, or acceptance.\nSome research suggests that feeling connected to others is a basic psychological need. Your score indicates that this need is not being met. To increase your levels of relatedness satisfaction, you might reflect on whether you are relating to others in a way that allows for deeper connection and relatedness. Alternatively, you might also reflect on your choices of who you decide to spend time and interact with, and deliberately spending time with those people who accept you and with whom you feel close. Possibly, it may help to identify new people with whom you might develop closer, more connected, relationships.",
-            "low": "This suggests that you experience some features of a negative self-concept. Specifically, you experience a self that is disconnected from, not close to, and/or rejected by the people you most interact with and/or think about.\nSome research suggests that feeling connected to others is a basic psychological need. Your score indicates that this need is not being met. To increase your levels of relatedness satisfaction, you might reflect on whether you are relating to others in a way that allows for deeper connection and relatedness. Alternatively, you might also reflect on your choices of who you decide to spend time with, and being more deliberate about spending time with those people who accept you and with whom you feel close. Possibly, it may help to identify new people with whom you might develop closer, more connected, relationships."
+            "high": "     Your overall score suggests that in general you experience some features of a positive self-concept. More specifically, this suggests that in general you experience high levels of being connected to, close to, and accepted by the people you most interact with or think about. Some research suggests that feeling connected to others is a basic psychological need and contributes to higher self-esteem and psychological well-being.",
+            "average": "     Your overall score suggests that although you do not necessarily experience disconnection or rejection from the people you most interact with or think about, you also do not experience an optimal level of connectedness, relatedness, or acceptance.\n     Some research suggests that feeling connected to others is a basic psychological need. Your score indicates that this need is not being met. To increase your levels of relatedness satisfaction, you might reflect on whether you are relating to others in a way that allows for deeper connection and relatedness. Alternatively, you might also reflect on your choices of who you decide to spend time and interact with, and deliberately spending time with those people who accept you and with whom you feel close. Possibly, it may help to identify new people with whom you might develop closer, more connected, relationships.",
+            "low": "     Your overall score suggests that in general you experience some features of a negative self-concept. Specifically, you experience a self that is disconnected from, not close to, and/or rejected by the people you most interact with and/or think about.\n     Some research suggests that feeling connected to others is a basic psychological need. Your score indicates that this need is not being met. To increase your levels of relatedness satisfaction, you might reflect on whether you are relating to others in a way that allows for deeper connection and relatedness. Alternatively, you might also reflect on your choices of who you decide to spend time with, and being more deliberate about spending time with those people who accept you and with whom you feel close. Possibly, it may help to identify new people with whom you might develop closer, more connected, relationships."
         },
         "Control Satisfaction": {
-            "high": "This suggests that you experience some features of a positive self-concept. More specifically, this suggests that in general you experience a self that is in control, engaged, and capable and skilled. Some research suggests that feeling in control, engaged, and capable is a basic psychological need. Your score indicates that this need is being met. The self tends to experience \"flow,\" an optimal state of control, when it is engaged in challenging activities for which there are learned and developed skills and abilities. It appears you have developed skills and abilities that empower your sense of self.",
-            "average": "This suggests that although you do not necessarily experience low control, engagement, or capability with others, you also do not experience an optimal level of control and engagement.\nSome research suggests that feeling in control, engaged, and capable is a basic psychological need. Your score indicates that this need is not being fully met. The self tends to experience \"flow,\" an optimal state of control, when it is engaged in challenging activities for which you have developed some degree of skill and ability. To increase your level of control, you might consider exercising more influence in your relationships with others, being more assertive, and engaging in mutual activities that interest you and for which you feel competent.",
-            "low": "This suggests that you experience some features of a negative self-concept when interacting or thinking about this person. More specifically, this suggests that in general you do not experience a self that is in control, engaged, and capable and skilled.\nSome research suggests that feeling in control, engaged, and capable is a basic psychological need. Your score indicates that this need is not being fully met. The self tends to experience \"flow,\" an optimal state of control, when it is engaged in challenging activities for which you have developed some degree of skill and ability.\nTo increase your experience of control, you might consider exercising more influence in your relationships with others, being more assertive, and engaging in activities that interest you and enabling you to develop greater competence."
+            "high": "     Your overall score suggests that in general you experience some features of a positive self-concept. More specifically, this suggests that in general you experience a self that is in control, engaged, and capable and skilled.  Some research suggests that feeling in control, engaged, and capable is a basic psychological need. Your score indicates that this need is being met. The self tends to experience \"flow,\" an optimal state of control, when it is engaged in challenging activities for which there are learned and developed skills and abilities. It appears you have developed skills and abilities that empower your sense of self.",
+            "average": "     Your overall score suggests that although you do not necessarily experience low control, engagement, or capability with others, you also do not experience an optimal level of control and engagement.\n     Some research suggests that feeling in control, engaged, and capable is a basic psychological need. Your score indicates that this need is not being fully met. The self tends to experience \"flow,\" an optimal state of control, when it is engaged in challenging activities for which you have developed some degree of skill and ability. To increase your level of control, you might consider exercising more influence in your relationships with others, being more assertive, and engaging in mutual activities that interest you and for which you feel competent.",
+            "low": "     Your overall score suggests that in general you experience some features of a negative self-concept when interacting or thinking about this person. More specifically, this suggests that in general you do not experience a self that is in control, engaged, and capable and skilled.\n     Some research suggests that feeling in control, engaged, and capable is a basic psychological need. Your score indicates that this need is not being fully met. The self tends to experience \"flow,\" an optimal state of control, when it is engaged in challenging activities for which you have developed some degree of skill and ability.\n     To increase your experience of control, you might consider exercising more influence in your relationships with others, being more assertive, and engaging in activities that interest you and enabling you to develop greater competence."
         },
         "Self-Esteem Frustration": {
-            "high": "This suggests that you possess some features of a negative self-concept. More specifically, this suggests that in general you experience a self that is low in self-esteem. Our self-esteem reflects both our levels of feeling accepted by others and feeling competent. The two go hand-in-hand in contributing to our self-esteem. This is likely because the experience of acceptance leads us to validate our own personal competence, qualities, and abilities.\nSome research suggests that feeling a high sense of self-esteem is a basic psychological need. Your score indicates that this need is not being met.\nTo increase your level of self-esteem, you might consider whether you are misinterpreting being rejected by others, which might then lead you to question your competence, qualities, or abilities.\nFurther, if in fact you are being rejected by others, does this necessarily mean you do not possess certain abilities and good qualities as a person?",
-            "average": "This suggests that in general you experience average levels of self-esteem. Our self-esteem reflects both our levels of feeling accepted by others and feeling competent. The two go hand-in-hand in contributing to our self-esteem. This is likely because the experience of acceptance leads us to validate our own personal competence, qualities, and abilities.\nYour score suggests that although you do not necessarily experience low self-esteem, you also do not experience high self-esteem. Some research suggests that feeling a high sense of self-esteem is a basic psychological need. Your score indicates that this need is not being fully met.\nTo increase your level of self-esteem, you might consider whether you are misinterpreting being rejected by others, which might then lead you to question your competence, qualities, or abilities. Further, if in fact you are being rejected by others, does this necessarily mean that you do not possess certain abilities and good qualities as a person?",
-            "low": "This suggests that in general your needs for self-esteem are being adequately met and you do not experience self-esteem frustration.\nSome research suggests that feeling a high sense of self-esteem is a basic psychological need. Research has shown that our self-esteem reflects both our levels of feeling accepted and competent. This is likely because the experience of acceptance by others leads us to validate our own personal competence, abilities, or self-qualities. The two go hand-in-hand in contributing to our self-esteem.\nYour score suggests that you do experience acceptance by those you most interact with or think about, and that also feel competent in your own abilities-therefore your need for self-esteem is being adequately met."
+            "high": "     Your overall score suggests that you possess some features of a negative self-concept. More specifically, this suggests that in general you experience a self that is low in self-esteem. Our self-esteem reflects both our levels of feeling accepted by others and feeling competent. The two go hand-in-hand in contributing to our self-esteem. This is likely because the experience of acceptance leads us to validate our own personal competence, qualities, and abilities.\n     Some research suggests that feeling a high sense of self-esteem is a basic psychological need. Your score indicates that this need is not being met.\n     To increase your level of self-esteem, you might consider whether you are misinterpreting being rejected by others, which might then lead you to question your competence, qualities, or abilities.\n     Further, if in fact you are being rejected by others, does this necessarily mean you do not possess certain abilities and good qualities as a person?",
+            "average": "     Your overall score suggests that in general you experience average levels of self-esteem. Our self-esteem reflects both our levels of feeling accepted by others and feeling competent. The two go hand-in-hand in contributing to our self-esteem. This is likely because the experience of acceptance leads us to validate our own personal competence, qualities, and abilities.\n     Your score suggests that although you do not necessarily experience low self-esteem, you also do not experience high self-esteem. Some research suggests that feeling a high sense of self-esteem is a basic psychological need. Your score indicates that this need is not being fully met.\n     To increase your level of self-esteem, you might consider whether you are misinterpreting being rejected by others, which might then lead you to question your competence, qualities, or abilities. Further, if in fact you are being rejected by others, does this necessarily mean that you do not possess certain abilities and good qualities as a person?",
+            "low": "     Your overall score suggests that in general your needs for self-esteem are being adequately met and you do not experience self-esteem frustration.\n     Some research suggests that feeling a high sense of self-esteem is a basic psychological need. Research has shown that our self-esteem reflects both our levels of feeling accepted and competent. This is likely because the experience of acceptance by others leads us to validate our own personal competence, abilities, or self-qualities. The two go hand-in-hand in contributing to our self-esteem.\n     Your score suggests that you do experience acceptance and also feel competent in your own abilities with the people you most interact withor think about--therefore your need for self-esteem is being adequately met."
         },
         "Autonomy Frustration": {
-            "high": "This suggests that you possess some features of a negative self-concept.  More specifically, your score suggests that you often feel as if your actions are externally controlled, coerced or pressured by others, and that you are doing things out of a sense of obligation.\nSome research suggests that feeling a high sense of autonomy is a basic psychological need. Your score indicates that this need is not being fully met.\nTo decrease levels of autonomy frustration, you might benefit from focusing on what you consider most important, of most value, of most interest, and choose to pursue and engage in those actions, activities, and relationships.",
-            "average": "This suggests that although you do not experience a high level of autonomy frustration, you also do not experience an optimal level of autonomy.  More specifically, your score suggests that you sometimes feel as if your actions are externally controlled, coerced or pressured by others, and that you are doing things out of a sense of obligation.\nSome research suggests that feeling a high sense of autonomy-high levels of internal control, freedom, and choice-is a basic psychological need. Your score indicates that this need is not being fully met.\nTo decrease levels of autonomy frustration, you might benefit from focusing on what you consider most important, of most value, of most interest, and choose to pursue and engage in those actions, activities, and relationships.",
-            "low": "Your score suggests that in general you do not experience high autonomy frustration, or that your actions are being controlled, coerced or pressured by others, that you are doing things out of a sense of obligation.\nSome research suggests that feeling a high sense of autonomy-- an optimal level of internal control, freedom, and choice--is a basic psychological need. Your score indicates that this need is being met."
+            "high": "     Your overall score suggests that you possess some features of a negative self-concept.  More specifically, your score suggests that you often feel as if your actions are externally controlled, coerced or pressured by others, and that you are doing things out of a sense of obligation.\n     Some research suggests that feeling a high sense of autonomy is a basic psychological need. Your score indicates that this need is not being fully met.\n     To decrease levels of autonomy frustration, you might benefit from focusing on what you consider most important, of most value, of most interest, and choose to pursue and engage in those actions, activities, and relationships.",
+            "average": "     Your overall score suggests that although you do not experience a high level of autonomy frustration, you also do not experience an optimal level of autonomy.  More specifically, your score suggests that you sometimes feel as if your actions are externally controlled, coerced or pressured by others, and that you are doing things out of a sense of obligation.\n     Some research suggests that feeling a high sense of autonomy-high levels of internal control, freedom, and choice-is a basic psychological need. Your score indicates that this need is not being fully met.\n     To decrease levels of autonomy frustration, you might benefit from focusing on what you consider most important, of most value, of most interest, and choose to pursue and engage in those actions, activities, and relationships.",
+            "low": "     Your overall score suggests that in general you do not experience high autonomy frustration, or that your actions are being controlled, coerced or pressured by others, that you are doing things out of a sense of obligation.\n     Some research suggests that feeling a high sense of autonomy-- an optimal level of internal control, freedom, and choice--is a basic psychological need. Your score indicates that this need is being met."
         }
     }
 
@@ -557,24 +501,58 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
         else:
             feedback += f"Overall score is {score} (very low):\n{template['low']}\n"
 
-    # List Individual scores without explanation
-    for i, score in enumerate(scores[1:], start=1):  # Skip the first one (Overall)
-        label = labels[i]
-        feedback += f"{label} score is {float(score)}\n"
+    # 添加概述段落
+    lowercase_title = current_title.lower()
+    feedback += (
+        f"     Our experience of {lowercase_title} can vary depending upon the specific goal involved. "
+        f"Your scores below indicate how your {lowercase_title} varies for each of the four goals you identified on this measure.\n"
+    )
 
+    # 横向排列单独分数，并添加括号
+    feedback += " "
+    individual_scores = []
+    for i, score in enumerate(scores[1:], start=1):  # 跳过第一个总分
+        label = labels[i]
+        score = round(float(score), 2)
+        if score >= 4.5:
+            category = "very high"
+        elif score >= 4.0:
+            category = "high"
+        elif score >= 3.5:
+            category = "high average"
+        elif score >= 2.5:
+            category = "average"
+        elif score >= 1.5:
+            category = "low average"
+        elif score >= 1.0:
+            category = "low"
+        else:
+            category = "very low"
+        individual_scores.append(f"{label} score is {score} ({category})")
+
+    # feedback += "  ".join(individual_scores)  
+     # Arrange the scores in pairs
+    paired_scores = []
+    for i in range(0, len(individual_scores), 2):
+        if i + 1 < len(individual_scores):
+            paired_scores.append(f"{individual_scores[i]}  {individual_scores[i + 1]}")
+        else:
+            paired_scores.append(individual_scores[i])  # Handle last remaining single score
+
+    feedback += "\n".join(paired_scores) 
     return feedback
 
 # Create and add rssm bar graphs
 def rssm_bar_graphs(my_path, pdf, data, names, titles):
-    initial_y_position = 30  # Sets the initial Y position of the box
+    #initial_y_position = 30  # Sets the initial Y position of the box
     pdf.add_page()
     PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
-    pdf.ln(6)
-
+    pdf.ln(4)
+    
     # Introductory text for this section
     pdf.set_font("Arial", "", 10)
     intro_text = (
-        "The second personality structure we assessed was your self-concept, or self-schema-these are beliefs you "
+        "     The second personality structure we assessed was your self-concept, or self-schema--these are beliefs you "
         "possess about who you are, your qualities, needs, and experiences. Our self-schemas influence how we perceive "
         "ourselves, interpret the actions of others, and feel and behave, and are a major part of your personality."
     )
@@ -582,7 +560,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
     pdf.ln(1)
 
     rssm_text_contin = (
-        "Rather than a single self-schema, research has shown that we have multiple self-schemas. These different \"selves\" "
+        "     Rather than a single self-schema, research has shown that we have multiple self-schemas. These different \"selves\" "
         "emerge from, and are tied to, our interactions with significant others. That is, many people experience the self differently "
         "when with different others (e.g., self-with-mom, self-with-friend)."
     )
@@ -590,7 +568,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
     pdf.ln(1)
 
     rssm_text_contin2 = (
-        "To assess your self-schemas, you completed the Relational Self-Schema Questionnaire (RSSM; Scott et al., 2021), which "
+        "     To assess your self-schemas, you completed the Relational Self-Schema Questionnaire (RSSM; Scott et al., 2021), which "
         "had you rate how you experience the self and act when with the four people you interact with and/or think about the most. "
         "Some research suggests that our self-experience is organized around the satisfaction of basic psychological needs, such as "
         "the need to feel connected to others, to feel competent/in control, and to have a sense of self-esteem. The RSSM assesses "
@@ -599,7 +577,6 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
     pdf.multi_cell(0, 5, rssm_text_contin2, border=0, align="L")
     pdf.ln(5)
 
-    # Create a dictionary mapping keys to titles
     title_map = {
         "RssmRelateSatis": "Relatedness Satisfaction",
         "RssmControlSatis": "Control Satisfaction",
@@ -607,47 +584,70 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
         "RssmAutoFrus": "Autonomy Frustration"
     }
     
-    # Get the initial Y position after the introductory text
-    y_position = pdf.get_y() + 5
-    feedback_box_width = 75  # Width of the feedback box
-    graph_x_position = 100  # X position for the graph to be placed to the right of the feedback box
-    graph_y_offset = -12     # Additional Y offset for the graph image to improve label alignment
-    #counter = 0  # Counter to keep track of graphs on each page
+    initial_y_position = pdf.get_y()  # Get the initial Y coordinate
+    graph_x_position = 10  # X coordinate of the chart
+    total_height = 130  # Total height of each chart and text explanation (chart + text)
+    feedback_box_width = pdf.w - 20
 
-    # Iterate over each item in the data dictionary
-    for key, value in data.items():
-        current_title = title_map.get(key, "RSSM Scale")  # The default title is "RSSM Scale"
-        
-        labels = names
-        
-        #Add explanatory feedback
-        feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
-        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=feedback_box_width, font_size=10)
+    counter = 0  # Used to record chart counts
+    data_copy = data.copy()  # Preventing original data from being modified
+    is_first_page = True  # Used to mark whether the first page has been processed
 
-
-        # Set Y position for the graph to align with the feedback box
-        graph_y_position = y_position + graph_y_offset  # Adjust Y position for better label alignment
-
-        # Create and print the graph
-        Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, titles.pop(0))
-        pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 15, graph_y_position + 85, WIDTH / 2 - 20)
+    for key, value in data_copy.items():
+        #print(f"Processing key: {key}")  # 添加打印语句
+        current_title = title_map.get(key, "RSSM Scale")  # Get the current title from the title list
+        labels = names  
         
-        
-        # # Update y_position for the next feedback box and graph pair
-        # y_position = graph_y_position + 105
-        # counter += 1
-        # 每页只显示一个反馈框和图表，因此在每个循环中添加新页
-        if key != list(data.keys())[-1]:  # 确保不是最后一个元素才添加新页
+        ####################
+        if is_first_page:
+            # Special treatment for the first page: only one chart is displayed
+            graph_y_position = initial_y_position
+            feedback_y_position = graph_y_position + 80
+
+            # Create RSSM chart
+            Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
+            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 71, WIDTH / 2 - 30, 5)
+
+            # Display explanation text
+            feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
+            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=feedback_box_width, font_size=9)
+
+            # Mark the first page processing completed
+            is_first_page = False
+
+            # Add a new page and prepare to process subsequent content
             pdf.add_page()
             PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
-            y_position = initial_y_position  # 重置Y位置
-        # # If two graphs have been added to the page, start a new page
-        # if counter == 2:
-        #     counter = 0
-        #     if key != list(data.keys())[-1]:  # Check if it is the last element in data
-        #         pdf.add_page()
-        #         PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
-        #         y_position = initial_y_position  # Reset Y position for consistency on new pages
+            initial_y_position = pdf.get_y()  # Update initial Y coordinate
+            counter = 0  # Reset Counter
+
+            # Skip the subsequent logic and enter the next loop
+            continue
+
+        
+        # From the second page onwards: a maximum of two charts can be placed per page
+        graph_y_position = initial_y_position + (counter * total_height)
+        feedback_y_position = graph_y_position + 75
+
+        # RSSM 
+        Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
+        pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 71, WIDTH / 2 - 30,5)
+
+        
+        feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
+        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=feedback_box_width, font_size=9)
+
+        counter += 1
+
+        # Display at most 2 charts per page, add a new page when the number exceeds
+        if counter == 2:
+            pdf.add_page()
+            PDF_Generator.section_headers(pdf, 'Self-Concept: Psychological Needs When with Significant Others')
+            initial_y_position = pdf.get_y()  
+            counter = 0  
+        
+
+   
 
 def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
@@ -833,89 +833,45 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
             PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=(pdf.w - pdf.l_margin - pdf.r_margin), font_size=10)
             counter += 1
 
-    # pdf.add_page()
-    # PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-    # pdf.ln(4)
-    # add_problematic_styles_intro(pdf)
-
-    # counter = 0
-    # initial_y_position = 30  # Sets the initial Y position of the box, used to standardize the start position of each page
-    # y_position = initial_y_position  # Boxes on each page start at the same Y position
-    # # Delete irrelevant data
-    # dataCopy = data.copy()
-    # dataCopy.pop('RadarRSSMName', None)
-    # dataCopy.pop('RSSM_YVector', None)
-    # dataCopy.pop('RSSM_XVector', None)
     
-    # # Iterate over each item in the data dictionary
-    # for key, value in dataCopy.items():
-    #     current_title = titles.pop(0)  # Get the current title
-        
-    #     if len(value) == 4:
-    #         labels = ["Overall"] + [f"{names[i]}" for i in range(1, 4)]
-    #     else:
-    #         labels = ["Overall"] + [f"{names[i]}" for i in range(1, len(value))]
-        
-    #     # Generate and print feedback
-    #     feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-    #     PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=y_position, w=75, main_font_size=10, detail_font_size=8)
-    #     y_position = pdf.get_y() + 15  # Update the Y position to make space for the next box
-
-    #     # Create and print a chart
-    #     if counter != 0:
-    #         Graph_Generator.create_csip_bargraph(pdf, my_path, (counter * 96), value, names, key, current_title)
-    #         pdf.image(my_path + "/images/RSSM_Scaling.png", 118, counter * 96 + 86, WIDTH / 2 - 20)
-    #         counter += 1
-    #     else:
-    #         Graph_Generator.create_csip_bargraph(pdf, my_path, 8, value, names, key, current_title)
-    #         pdf.image(my_path + "/images/RSSM_Scaling.png", 118, 94, WIDTH / 2 - 20)
-    #         counter += 1
-
-    #     # If the count reaches 2, add a new page and reset the counter
-    #     if counter == 2:
-    #         counter = 0  
-    #         if key != list(dataCopy.keys())[-1]:  # Check if it is the last element
-    #             pdf.add_page()
-    #             PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-    #             y_position = initial_y_position  # Reset Y position to keep the new page consistent
 
 # Function to generate temperament feedback
 def generate_temperament_feedback(scores, labels):
     feedback_templates = {
         "BIS": {
-        "very_high": "Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
-        "high": "Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
-        "average": "Your score suggests that when exposed to situations that are novel, unfamiliar, or threatening, you are generally no more and no less sensitive to these types of situations as is the typical person. If you also scored approximately in the average range on behavioral activation system temperament, this would suggest that you possess an even-keeled, emotionally stable temperament.",
-        "low": "Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\nAll temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.",
-        "very_low": '''Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into "shy" children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\nAll temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.'''
+        "very_high": "     Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
+        "high": "     Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
+        "average": "     Your score suggests that when exposed to situations that are novel, unfamiliar, or threatening, you are generally no more and no less sensitive to these types of situations as is the typical person. If you also scored approximately in the average range on behavioral activation system temperament, this would suggest that you possess an even-keeled, emotionally stable temperament.",
+        "low": "     Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\n     All temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.",
+        "very_low": '''     Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into "shy" children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\n     All temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.'''
     },
         "BAS": {
-            "very_high": "Your score in the (very high, high) range. This suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\nAll temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \nAs with behavioral inhibition, the important thing is to appreciate your temperament and its strengths-it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
-            "high": "Your score in the (very high, high) range. This suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\nAll temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \nAs with behavioral inhibition, the important thing is to appreciate your temperament and its strengths-it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
-            "average": "Your score in the average range. This suggests that you are fairly typical in your sensitivity to situations where there are rewards, things that are attractive, things you want. In these situations, your reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala is no more, and no less, reactive than the average person. Similarly, you are likely to experience the amount of excitement and enthusiasm to approach and get these things that you want as the typical person. On the plus side, you are likely to be someone who is even-keeled, emotionally stable, and unlikely to be too impulsive.",
-            "low": "Your score in the (very low, low) range. This suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.\nYou might be described as more calm, more even-keeled, emotionally stable, not too excitable or too impulsive.  However, your low behavioral activation temperament can have a down side, in that you may experience less enthusiasm, less excitement and positive affect when you see things you want.\nThe important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-its part of who you are.  But to also learn to minimize your temperaments weaknesses by developing compensatory strategies and skills.  For example, if you have difficulty experiencing positive emotions, it may be especially important that you consciously plan for activities that give you pleasure, positive reinforcement, a sense of connection with others or a sense of mastery as you may be less likely to do this spontaneously.  In pursuing goals that are important to you, it might be particularly important for you to reward yourself for small accomplishments to sustain your motivation. ",
-            "very_low": "Your score in the (very low, low) range. This suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.\nYou might be described as more calm, more even-keeled, emotionally stable, not too excitable or too impulsive.  However, your low behavioral activation temperament can have a down side, in that you may experience less enthusiasm, less excitement and positive affect when you see things you want.\n The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-its part of who you are.  But to also learn to minimize your temperaments weaknesses by developing compensatory strategies and skills.  For example, if you have difficulty experiencing positive emotions, it may be especially important that you consciously plan for activities that give you pleasure, positive reinforcement, a sense of connection with others or a sense of mastery as you may be less likely to do this spontaneously.  In pursuing goals that are important to you, it might be particularly important for you to reward yourself for small accomplishments to sustain your motivation. "
+            "very_high": "     Your score suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\n     All temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \n     As with behavioral inhibition, the important thing is to appreciate your temperament and its strengths-it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
+            "high": "     Your score suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\n     All temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \n     As with behavioral inhibition, the important thing is to appreciate your temperament and its strengths-it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
+            "average": "     Your score suggests that you are fairly typical in your sensitivity to situations where there are rewards, things that are attractive, things you want. In these situations, your reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala is no more, and no less, reactive than the average person. Similarly, you are likely to experience the amount of excitement and enthusiasm to approach and get these things that you want as the typical person. On the plus side, you are likely to be someone who is even-keeled, emotionally stable, and unlikely to be too impulsive.",
+            "low": "     Your score suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.\n     You might be described as more calm, more even-keeled, emotionally stable, not too excitable or too impulsive.  However, your low behavioral activation temperament can have a down side, in that you may experience less enthusiasm, less excitement and positive affect when you see things you want.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-its part of who you are.  But to also learn to minimize your temperaments weaknesses by developing compensatory strategies and skills.  For example, if you have difficulty experiencing positive emotions, it may be especially important that you consciously plan for activities that give you pleasure, positive reinforcement, a sense of connection with others or a sense of mastery as you may be less likely to do this spontaneously.  In pursuing goals that are important to you, it might be particularly important for you to reward yourself for small accomplishments to sustain your motivation. ",
+            "very_low": "     Your score suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.\n     You might be described as more calm, more even-keeled, emotionally stable, not too excitable or too impulsive.  However, your low behavioral activation temperament can have a down side, in that you may experience less enthusiasm, less excitement and positive affect when you see things you want.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-its part of who you are.  But to also learn to minimize your temperaments weaknesses by developing compensatory strategies and skills.  For example, if you have difficulty experiencing positive emotions, it may be especially important that you consciously plan for activities that give you pleasure, positive reinforcement, a sense of connection with others or a sense of mastery as you may be less likely to do this spontaneously.  In pursuing goals that are important to you, it might be particularly important for you to reward yourself for small accomplishments to sustain your motivation. "
         },
-        "BAS-D": {
-            "very_high": "Your score in the (very high, high) range. This suggests that you tend to be very motivated to pursue the goals you have, and are quick to act on and move towards your goals, as well as being persistent in achieving them.",
-            "high": "Your score in the (very high, high) range. This suggests that you tend to be very motivated to pursue the goals you have, and are quick to act on and move towards your goals, as well as being persistent in achieving them.",
-            "average": "Your score in the average range. This suggests that you are fairly typical in your tendency to be motivated to pursue goals you have, neither quick or slow to act on and move towards your goals, or persistent or non-persistent in achieving them.",
-            "low": "Your score in the (very low, low) range. This suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them.",
-            "very_low": "Your score in the (very low, low) range. This suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them."
+        "BAS-Drive": {
+            "very_high": "     Your score suggests that you tend to be very motivated to pursue the goals you have, and are quick to act on and move towards your goals, as well as being persistent in achieving them.",
+            "high": "     Your score suggests that you tend to be very motivated to pursue the goals you have, and are quick to act on and move towards your goals, as well as being persistent in achieving them.",
+            "average": "     Your score suggests that you are fairly typical in your tendency to be motivated to pursue goals you have, neither quick or slow to act on and move towards your goals, or persistent or non-persistent in achieving them.",
+            "low": "     Your score suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them.",
+            "very_low": "     Your score suggests that you may not be very motivated to pursue goals you have, nor quick to act on and move towards your goals, or persistent in achieving them."
         },
-        "BAS-FS": {
-            "very_high": "Your score in the (very high, high) range. This suggests that you tend to crave excitement, and are very motivated and quick to pursue new rewards or things you think might be fun or exciting on the spur of the moment.",
-            "high": "Your score in the (very high, high) range. This suggests that you tend to crave excitement, and are very motivated and quick to pursue new rewards or things you think might be fun or exciting on the spur of the moment.",            
-            "average": "Your score in the average range. This suggests that you are fairly typical in your tendency to be motivated to pursue excitement, fun, new rewards on the spur of the moment.",
-            "low": "Your score in the (very low, low) range. This suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment.",
-            "very_low": "Your score in the (very low, low) range. This suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment."
+        "BAS-Fun Seeking": {
+            "very_high": "     Your score suggests that you tend to crave excitement, and are very motivated and quick to pursue new rewards or things you think might be fun or exciting on the spur of the moment.",
+            "high": "     Your score This suggests that you tend to crave excitement, and are very motivated and quick to pursue new rewards or things you think might be fun or exciting on the spur of the moment.",            
+            "average": "     Your score suggests that you are fairly typical in your tendency to be motivated to pursue excitement, fun, new rewards on the spur of the moment.",
+            "low": "     Your score suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment.",
+            "very_low": "     Your score suggests that you are not very motivated to pursue excitement, fun, new rewards on the spur of the moment."
         },
-        "BAS-R": {
-            "very_high": "Your score in the (very high, high) range. This suggests that you experience a high degree of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
-            "high": "Your score in the (very high, high) range. This suggests that you experience a high degree of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
-            "average": "Your score in the average range. This suggests that you experience a typical amount of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
-            "low": "Your score in the (very low, low) range. This suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
-            "very_low": "Your score in the (very low, low) range. This suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur."
+        "BAS-Reward": {
+            "very_high": "     Your score suggests that you experience a high degree of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
+            "high": "     Your score suggests that you experience a high degree of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
+            "average": "     Your score suggests that you experience a typical amount of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
+            "low": "     Your score suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur.",
+            "very_low": "     Your score suggests that you not experience a typical level of enthusiasm, excitement, and positive emotions when a positive outcome/reward has occurred or when you anticipate a positive outcome/reward to occur."
         }
     }
 
@@ -949,7 +905,7 @@ def print_bis_section(pdf):
     
     # Revert to regular text and continue in the same textbox
     pdf.set_font("Arial", "", 10)
-    bis_text = ("The first temperament type is the behavioral inhibition system. It involves a set of brain structures that lead people to hesitate or withdraw "
+    bis_text = ("     The first temperament type is the behavioral inhibition system. It involves a set of brain structures that lead people to hesitate or withdraw "
                 "when they encounter situations that seem unfamiliar, challenging, or threatening. In these situations, people who score high in behavioral inhibition more "
                 "easily experience anxiety and impulses to hesitate or withdraw. You can think of this as a psychic brake pedal, a stop system, that moves us away from things "
                 "that might be dangerous. We all have behavioral inhibition systems. But people inherit behavioral inhibition systems with different sensitivities. "
@@ -965,7 +921,7 @@ def print_bas_section(pdf):
     
     # Revert to regular text and continue in the same textbox
     pdf.set_font("Arial", "", 10)
-    bas_text = ("The second temperament type is the behavioral approach system. The behavioral approach system involves a set of brain structures that causes people to "
+    bas_text = ("     The second temperament type is the behavioral approach system. The behavioral approach system involves a set of brain structures that causes people to "
                 "experience excitement, enthusiasm, and be more motivated to approach situations where there are rewards/incentives-that is, things you want, such as food, sex, "
                 "or a desired goal. You can think of this as a psychic gas pedal, a go system that moves us to approach things we want. We all have behavioral approach systems. "
                 "But people inherit behavioral approach systems that differ in their sensitivity or reactivity.")
@@ -986,7 +942,7 @@ def temperament_graph(my_path, pdf, data, title):
     pdf.ln(5)
 
     # Add introductory text
-    introductory_text = ("The surveys you completed are part of a new approach to assessing personality "
+    introductory_text = ("     The surveys you completed are part of a new approach to assessing personality "
                          "based on recent research in personality science. We refer to it as the Person in "
                          "Context Assessment, or PICA, for short. In this personality assessment, you completed "
                          "questionnaires measuring different parts of what makes up your personality, including "
@@ -997,11 +953,11 @@ def temperament_graph(my_path, pdf, data, title):
     pdf.ln(3)
 
     # Set the font for the bold title
-    pdf.set_font("Arial", "B", 11)
-    pdf.multi_cell(0, 5, "Temperament: Behavioral Inhibition and Approach Systems", border=0, align="L")
+    pdf.set_font("Arial", "B", 16)
+    pdf.multi_cell(0, 10, "Temperament: Behavioral Inhibition and Approach Systems", border=0, align="C")
 
     # Define the introductory text with specific words in bold
-    intro_text = ("Temperament refers to inherited biological systems that influence how you react "
+    intro_text = ("     Temperament refers to inherited biological systems that influence how you react "
                 "emotionally and behaviorally to events. To assess temperament, you completed the "
                 "Behavioral Inhibition and Behavioral Activation System (BIS/BAS) scale, which is "
                 "the most frequently used measure to assess these two temperament systems.")
@@ -1029,7 +985,7 @@ def temperament_graph(my_path, pdf, data, title):
     PDF_Generator.temperament_scaling(pdf, y_position=new_y)
 
     # Generate and print feedback
-    labels = ["BIS", "BAS", "BAS-D", "BAS-FS", "BAS-R"]
+    labels = ["BIS", "BAS", "BAS-Drive", "BAS-Fun Seeking", "BAS-Reward"]
     scores = [float(score) for score in data[0]]
     feedback = generate_temperament_feedback(scores, labels)
 

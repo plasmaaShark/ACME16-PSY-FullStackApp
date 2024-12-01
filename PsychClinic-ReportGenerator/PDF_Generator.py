@@ -6,6 +6,32 @@ from PIL import Image
 WIDTH = 210
 HEIGHT = 297
 
+class CustomPDF(FPDF):
+    def __init__(self):
+        super().__init__()
+        self.skip_page_number = True  
+
+    def header(self):
+        
+        #print(f"[HEADER] Skip Page Number: {self.skip_page_number}, Current Page: {self.page_no()}")
+        # If it is the first page (title page), skip the page number
+        if self.skip_page_number:
+            # self.skip_page_number = False
+            return
+
+    def footer(self):
+            
+            #print(f"[FOOTER] Skip Page Number: {self.skip_page_number}, Current Page: {self.page_no()}")
+            if self.skip_page_number or self.page_no() == 1:
+                return
+            # If this is a title page, skip the footer
+            #if not self.skip_page_number:
+            self.set_y(-15)  
+            self.set_font('Arial', 'I', 8)
+            page_number = f'Page {self.page_no() - 1}'  
+            self.cell(0, 10, page_number, 0, 0, 'C')  
+
+
 # Rotate image and save to a temporary file
 def rotate_image_temp(image_path, angle):
     img = Image.open(image_path)
@@ -29,58 +55,6 @@ def print_textboxes(pdf, value, descriptions, size):
 
     pdf.set_font("Arial", "", 10) # reset font to not bold
 
-# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-#     # Print a feedback text box with a border in the PDF
-#     if y is not None:
-#         pdf.set_y(y)  # Set the y coordinate
-
-#     start_x = pdf.get_x()  # Get the starting x coordinate
-#     start_y = pdf.get_y()  # Get the starting y coordinate
-
-#     feedback_lines = feedback.split('\n')
-#     for line in feedback_lines:
-#         pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
-#     # Calculate the height of the text box
-#     end_y = pdf.get_y()
-#     box_height = end_y - start_y
-
-#     # Draw a border
-#     pdf.rect(x, start_y, w, box_height)
-
-# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-#     # 打印无边框的反馈文本框
-#     if y is not None:
-#         pdf.set_y(y)  # 设置y坐标
-
-#     start_x = pdf.get_x()  # 获取起始x坐标
-#     start_y = pdf.get_y()  # 获取起始y坐标
-
-#     feedback_lines = feedback.split('\n')
-#     for line in feedback_lines:
-#         if line.startswith("Your"):  # 检查是否为详细说明文本
-#             pdf.set_font("Arial", "", detail_font_size)
-#         else:
-#             pdf.set_font("Arial", "", main_font_size)
-        
-#         # 取消边框并左对齐
-#         pdf.multi_cell(w=w, h=5, txt=line, align="L") 
-# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-#     # 在PDF中打印无边框的反馈文本框
-#     if y is not None:
-#         pdf.set_y(y)  # 设置y坐标
-
-#     start_x = pdf.get_x()  # 获取起始x坐标
-#     start_y = pdf.get_y()  # 获取起始y坐标
-
-#     feedback_lines = feedback.split('\n')
-#     for line in feedback_lines:
-#         if line.startswith("Your"):  # 检查详细解释文本
-#             pdf.set_font("Arial", "", detail_font_size)
-#         else:
-#             pdf.set_font("Arial", "", main_font_size)
-#         pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")  # 设置border=0去除边框
-    
-#     # 移除边框（已经设置border=0，完成此步骤）
 
 def print_feedback_box(pdf, feedback, x=10, y=None, w=75, font_size=10):
     # 在PDF中打印无边框的反馈文本框
@@ -95,9 +69,9 @@ def print_feedback_box(pdf, feedback, x=10, y=None, w=75, font_size=10):
 
     feedback_lines = feedback.split('\n')
     for line in feedback_lines:
-        pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")  # 设置border=0去除边框
+        pdf.multi_cell(w=w, h=4, txt=line, border=0, align="L")  # 设置border=0去除边框
 
-def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=10):
+def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=10,offset_y=20):
     # Print horizontally aligned feedback text boxes in PDF
     if y is not None:
         pdf.set_y(y)  # Set the y coordinate
@@ -108,11 +82,11 @@ def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=
     feedback_lines = feedback.split('\n')
 
     # line below is to avoid the x axis labels covering up the text
-    pdf.ln(6)  # Adjust this value as needed
+    pdf.ln(5)  # Adjust this value as needed
 
     # Print feedback text using multi_cell for automatic line wrapping, no border
     for line in feedback_lines:
-        pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
+        pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")
 
 def add_name(pdf, name):
     pdf.set_font('Arial', 'B', 30)
@@ -142,8 +116,7 @@ def temperament_scaling(pdf, y_position=0):
     pdf.set_font('Arial', "", 10)
     base_y = y_position - 45  # Adjust as needed to position labels correctly
     pdf.text(x=5, y=base_y, txt="Very High")
-    pdf.text(x=5, y=base_y + 22, txt="High Average")
-    pdf.text(x=5, y=base_y + 44, txt="Low Average")
+    pdf.text(x=5, y=base_y + 33, txt="Average")  # 2.5 
     pdf.text(x=5, y=base_y + 66, txt="Very Low")
 
 # Comparison figure
