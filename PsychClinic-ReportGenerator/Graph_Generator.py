@@ -6,71 +6,176 @@ from math import pi
 WIDTH = 210
 HEIGHT = 297
 
-def create_bargraph(pdf, path, location, data, labels, key, title):
-    score = [float(numbers) for numbers in data]
-    # creating dataframe in pandas
-    plotdata = pd.DataFrame({"Score": score}, index=labels)
+def create_bargraph(pdf, path, location, data, labels, key, title, descriptions):
+    # Adjusting scores and labels for missing data
+    adjusted_scores = []
+    bar_labels = []
 
-    # plotting the bar char a bar chart
-    plot = plotdata.plot(kind="barh")
-    plot.set_title(title)
-    # plot.set_xlim(1, 7)
-    plot.set_xlim(0, 7)
+    # Skip "Overall" for alignment with descriptions
+    for score, desc, label in zip(data[1:], descriptions, labels[1:]):  # Skip first element
+        if str(desc) == 'nan':  # Check if the description is missing
+            adjusted_scores.append(None)  # No bar for missing data
+            bar_labels.append(label)  # Keep the original label
+        else:
+            adjusted_scores.append(float(score))
+            bar_labels.append(label)
+
+    # Add "Overall" back as the first element if needed
+    adjusted_scores.insert(0, data[0])
+    bar_labels.insert(0, labels[0])
+
+    # Creating the DataFrame for plotting
+    plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
+
+    # Creating the bar chart
+    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax.set_title(title)
+    ax.set_xlim(0, 7)  # Aligning with your specified x-axis limits
     plt.gcf().subplots_adjust(left=0.15)
 
-    # saving the plot as a picture in image folder
-    fig = plot.get_figure()
-    plt.legend('', frameon=False)
-    fig.savefig(path + "/images/barplot{}.png".format(key) , transparent=True)
+    # Adding red text for missing bars
+    for i, (score, label) in enumerate(zip(adjusted_scores, bar_labels)):
+        if score is None:
+            plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
 
-    # rendering the barplot
-    pdf.image(path + "/images/barplot{}.png".format(key), 90, location, 120)
+    # Saving the plot as a PNG file
+    fig = ax.get_figure()
+    fig.savefig(f"{path}/images/barplot{key}.png", transparent=True)
+
+    # Rendering the bar plot in the PDF
+    pdf.image(f"{path}/images/barplot{key}.png", 90, location, 120)
+    plt.close(fig)
+
+
 
 def create_rssm_bargraph(pdf, path, height, data, names, key, title):
-    score = [float(numbers) for numbers in data]
-    plt.clf()
+    #print(f"Processing key: {key}")
+    #print(f"Data received: {data}")
+
+    # Adjust scores for missing data
+    adjusted_scores = []
+    bar_labels = []
+
+    # Check for missing data and adjust scores and labels
+    for score, label in zip(data, names):
+        if str(score) == 'nan':  # Check if the score is missing
+            adjusted_scores.append(0)  # Use a placeholder value (e.g., 0) for missing data
+            bar_labels.append(label)  # Keep the original label
+        else:
+            adjusted_scores.append(float(score))
+            bar_labels.append(label)
 
     # Creating dataframe in pandas
-    plotdata = pd.DataFrame(score, index=names)
-    plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
+    plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
+    plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
     # Plotting the bar chart
-    plot = plotdata.plot(kind="barh")
-    plot.set_title(title)
-    # plot.set_xlim(1, 5)
-    plot.set_xlim(0, 5)
+    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax.set_title(title)
+    ax.set_xlim(0, 3)  # Adjust the x-axis range
     plt.gcf().subplots_adjust(left=0.25)
 
+    # Adding red text for missing bars
+    for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
+        if score == 0:  # Identify placeholder values as missing data
+            plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
+
     # Saving the plot as an image
-    fig = plot.get_figure()
-    plt.legend('', frameon=False)
-    fig.savefig(path + "/images/rssmbarplot{}.png".format(key), transparent=True)
+    fig = ax.get_figure()
+    fig.savefig(f"{path}/images/rssmbarplot{key}.png", transparent=True)
 
     # Rendering the bar plot in the PDF
-    pdf.image(path + "/images/rssmbarplot{}.png".format(key), 90, height, 120)
+    pdf.image(f"{path}/images/rssmbarplot{key}.png", 10, height, 100)
+    plt.close(fig)
+    ################
+    # score = [float(numbers) for numbers in data]
+    # plt.clf()
+
+    # # Creating dataframe in pandas
+    # plotdata = pd.DataFrame(score, index=names)
+    # plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
+
+    # # Plotting the bar chart
+    # plot = plotdata.plot(kind="barh")
+    # plot.set_title(title)
+    # # plot.set_xlim(1, 5)
+    # plot.set_xlim(0, 3)
+    # plt.gcf().subplots_adjust(left=0.25)
+
+    # # Saving the plot as an image
+    # fig = plot.get_figure()
+    # plt.legend('', frameon=False)
+    # fig.savefig(path + "/images/rssmbarplot{}.png".format(key), transparent=True)
+
+    # # Rendering the bar plot in the PDF
+    # pdf.image(path + "/images/rssmbarplot{}.png".format(key), 10, height, 100)
+
+    # plt.close(fig)
 
 def create_csip_bargraph(pdf, path, height, data, names, key, title):
-    score = [float(numbers) for numbers in data]
-    plt.clf()
+    #print(f"Processing key: {key}")
+    #print(f"Data received: {data}")
+
+    # Adjust scores for missing data
+    adjusted_scores = []
+    bar_labels = []
+
+    # Check for missing data and adjust scores and labels
+    for score, label in zip(data, names):
+        if str(score) == 'nan':  # Check if the score is missing
+            adjusted_scores.append(0)  # Use a placeholder value (e.g., 0) for missing data
+            bar_labels.append(label)  # Keep the original label
+        else:
+            adjusted_scores.append(float(score))
+            bar_labels.append(label)
 
     # Creating dataframe in pandas
-    plotdata = pd.DataFrame(score, index=names)
-    plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
+    plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
+    plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
     # Plotting the bar chart
-    plot = plotdata.plot(kind="barh")
-    plot.set_title(title)
-    # plot.set_xlim(1, 5)
-    plot.set_xlim(0, 3)
+    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax.set_title(title)
+    ax.set_xlim(0, 3)  # Adjust the x-axis range
     plt.gcf().subplots_adjust(left=0.25)
 
+    # Adding red text for missing bars
+    for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
+        if score == 0:  # Identify placeholder values as missing data
+            plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
+
     # Saving the plot as an image
-    fig = plot.get_figure()
-    plt.legend('', frameon=False)
-    fig.savefig(path + "/images/csipbarplot{}.png".format(key), transparent=True)
+    fig = ax.get_figure()
+    fig.savefig(f"{path}/images/csipbarplot{key}.png", transparent=True)
 
     # Rendering the bar plot in the PDF
-    pdf.image(path + "/images/csipbarplot{}.png".format(key), 90, height, 120)
+    pdf.image(f"{path}/images/csipbarplot{key}.png", 10, height, 100)
+    plt.close(fig)
+    
+    ################
+    # score = [float(numbers) for numbers in data]
+    # plt.clf()
+
+    # # Creating dataframe in pandas
+    # plotdata = pd.DataFrame(score, index=names)
+    # plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
+
+    # # Plotting the bar chart
+    # plot = plotdata.plot(kind="barh")
+    # plot.set_title(title)
+    # # plot.set_xlim(1, 5)
+    # plot.set_xlim(0, 3)
+    # plt.gcf().subplots_adjust(left=0.25)
+
+    # # Saving the plot as an image
+    # fig = plot.get_figure()
+    # plt.legend('', frameon=False)
+    # fig.savefig(path + "/images/csipbarplot{}.png".format(key), transparent=True)
+
+    # # Rendering the bar plot in the PDF
+    # pdf.image(path + "/images/csipbarplot{}.png".format(key), 10, height, 100)
+
+    # plt.close(fig)
 
 def temperament_bargraph(path, pdf, data, names, title, y_position):
     # Reorder data and names to place 'BAS' as the second item
@@ -225,3 +330,5 @@ def create_radar(pdf, path, data, names):
 
     # rendering the radar plot
     pdf.image(path + "/images/radar.png", 5, 30, WIDTH-10)
+
+    plt.close(fig)

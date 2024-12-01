@@ -1,8 +1,44 @@
 from fpdf import FPDF
 import datetime
+import tempfile
+from PIL import Image
+
 WIDTH = 210
 HEIGHT = 297
 
+class CustomPDF(FPDF):
+    def __init__(self):
+        super().__init__()
+        self.skip_page_number = True  
+
+    def header(self):
+        
+        #print(f"[HEADER] Skip Page Number: {self.skip_page_number}, Current Page: {self.page_no()}")
+        # If it is the first page (title page), skip the page number
+        if self.skip_page_number:
+            # self.skip_page_number = False
+            return
+
+    def footer(self):
+            
+            #print(f"[FOOTER] Skip Page Number: {self.skip_page_number}, Current Page: {self.page_no()}")
+            if self.skip_page_number or self.page_no() == 1:
+                return
+            # If this is a title page, skip the footer
+            #if not self.skip_page_number:
+            self.set_y(-15)  
+            self.set_font('Arial', 'I', 8)
+            page_number = f'Page {self.page_no() - 1}'  
+            self.cell(0, 10, page_number, 0, 0, 'C')  
+
+
+# Rotate image and save to a temporary file
+def rotate_image_temp(image_path, angle):
+    img = Image.open(image_path)
+    rotated_img = img.rotate(angle, expand=True)
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+    rotated_img.save(temp_file.name)
+    return temp_file.name
 
 def print_textboxes(pdf, value, descriptions, size):
     pdf.set_font("Arial", "B", 10)
@@ -19,58 +55,6 @@ def print_textboxes(pdf, value, descriptions, size):
 
     pdf.set_font("Arial", "", 10) # reset font to not bold
 
-# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-#     # Print a feedback text box with a border in the PDF
-#     if y is not None:
-#         pdf.set_y(y)  # Set the y coordinate
-
-#     start_x = pdf.get_x()  # Get the starting x coordinate
-#     start_y = pdf.get_y()  # Get the starting y coordinate
-
-#     feedback_lines = feedback.split('\n')
-#     for line in feedback_lines:
-#         pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
-#     # Calculate the height of the text box
-#     end_y = pdf.get_y()
-#     box_height = end_y - start_y
-
-#     # Draw a border
-#     pdf.rect(x, start_y, w, box_height)
-
-# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-#     # 打印无边框的反馈文本框
-#     if y is not None:
-#         pdf.set_y(y)  # 设置y坐标
-
-#     start_x = pdf.get_x()  # 获取起始x坐标
-#     start_y = pdf.get_y()  # 获取起始y坐标
-
-#     feedback_lines = feedback.split('\n')
-#     for line in feedback_lines:
-#         if line.startswith("Your"):  # 检查是否为详细说明文本
-#             pdf.set_font("Arial", "", detail_font_size)
-#         else:
-#             pdf.set_font("Arial", "", main_font_size)
-        
-#         # 取消边框并左对齐
-#         pdf.multi_cell(w=w, h=5, txt=line, align="L") 
-# def print_feedback_box(pdf, feedback, x=10, y=None, w=75, main_font_size=10, detail_font_size=8):
-#     # 在PDF中打印无边框的反馈文本框
-#     if y is not None:
-#         pdf.set_y(y)  # 设置y坐标
-
-#     start_x = pdf.get_x()  # 获取起始x坐标
-#     start_y = pdf.get_y()  # 获取起始y坐标
-
-#     feedback_lines = feedback.split('\n')
-#     for line in feedback_lines:
-#         if line.startswith("Your"):  # 检查详细解释文本
-#             pdf.set_font("Arial", "", detail_font_size)
-#         else:
-#             pdf.set_font("Arial", "", main_font_size)
-#         pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")  # 设置border=0去除边框
-    
-#     # 移除边框（已经设置border=0，完成此步骤）
 
 def print_feedback_box(pdf, feedback, x=10, y=None, w=75, font_size=10):
     # 在PDF中打印无边框的反馈文本框
@@ -85,12 +69,9 @@ def print_feedback_box(pdf, feedback, x=10, y=None, w=75, font_size=10):
 
     feedback_lines = feedback.split('\n')
     for line in feedback_lines:
-        pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")  # 设置border=0去除边框
+        pdf.multi_cell(w=w, h=4, txt=line, border=0, align="L")  # 设置border=0去除边框
 
-
-
-
-def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=10):
+def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=10,offset_y=20):
     # Print horizontally aligned feedback text boxes in PDF
     if y is not None:
         pdf.set_y(y)  # Set the y coordinate
@@ -99,11 +80,13 @@ def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=
     pdf.set_font("Arial", "", font_size)  # Set font once, with the specified size
 
     feedback_lines = feedback.split('\n')
-    
+
+    # line below is to avoid the x axis labels covering up the text
+    pdf.ln(5)  # Adjust this value as needed
+
     # Print feedback text using multi_cell for automatic line wrapping, no border
     for line in feedback_lines:
-        pdf.multi_cell(w=w, h=6, txt=line, border=0, align="L")
-
+        pdf.multi_cell(w=w, h=5, txt=line, border=0, align="L")
 
 def add_name(pdf, name):
     pdf.set_font('Arial', 'B', 30)
@@ -129,12 +112,11 @@ def section_headers(pdf, text):
     pdf.cell(0, 0, text, 0, 0, 'C')
     #pdf.text(x=WIDTH/2, y=14, txt=text)
 
-def temperament_scaling(pdf, y_position):
+def temperament_scaling(pdf, y_position=0):
     pdf.set_font('Arial', "", 10)
     base_y = y_position - 45  # Adjust as needed to position labels correctly
     pdf.text(x=5, y=base_y, txt="Very High")
-    pdf.text(x=5, y=base_y + 22, txt="High Average")
-    pdf.text(x=5, y=base_y + 44, txt="Low Average")
+    pdf.text(x=5, y=base_y + 33, txt="Average")  # 2.5 
     pdf.text(x=5, y=base_y + 66, txt="Very Low")
 
 # Comparison figure
@@ -151,28 +133,30 @@ def comparison_figure(pdf, path, ranks, goals):
     pdf.set_xy(10, 25) # changed to 25 from 35
     pdf.cell(0, 5, "Personal Values", ln=True, align="C")
 
-    ps_text = ("The last personality component we assessed was your values. Your values refer to your beliefs about what you believe is important to living a good life. To measure your values, you ranked them in order of their importance to you in living a good life.")
+    ps_text = ("     The last personality component we assessed was your values. Your values refer to your beliefs about what you believe is important to living a good life. To measure your values, you ranked them in order of their importance to you in living a good life.")
     pdf.set_font("Arial", "", 10)
     pdf.multi_cell(0,5, ps_text, border=0, align="L")
     pdf.ln(1)
 
-    ps_text2 = ("Research suggests that is important to have personal goals that match your values. Think about whether the goals you are striving for reflect what you believe is most important to living well. If you have a number of values that you list as important for which you do not list any goals, this may indicate poor goal-value fit. If it is the case that you do not have goals for your most important values, you might consider developing a new goal for those values. Research has shown that having goals that match our values increases psychological well-being and motivation.")
+    ps_text2 = ("     Research suggests that is important to have personal goals that match your values. Think about whether the goals you are striving for reflect what you believe is most important to living well. If you have a number of values that you list as important for which you do not list any goals, this may indicate poor goal-value fit. If it is the case that you do not have goals for your most important values, you might consider developing a new goal for those values. Research has shown that having goals that match our values increases psychological well-being and motivation.")
     pdf.multi_cell(0, 5, ps_text2, border=0, align="L")
     pdf.ln(1)
 
-    pdf.image(path + "/images/Comparison.png", x=0, y= + 40, w=WIDTH+5, h=180) #(HEIGHT/2)+30
-    pdf.image(path + "/images/Comparison.png", x=0, y=(HEIGHT/2) + 15, w=WIDTH+5, h=170) #(HEIGHT/2)+30
-    pdf.image(path + "/images/Arrow.png", x=(WIDTH/2)-40, y=(HEIGHT/2)+14, w=80, h=50)
-    pdf.image(path + "/images/Single_Arrow.png", x=0, y=(HEIGHT/2)+32, w=75, h=110)
+    pdf.image(path + "/images/Comparison.png", x= 0 - 23, y= + 35, w=WIDTH+50, h=180+30) #(HEIGHT/2)+30
+    # pdf.image(path + "/images/Comparison.png", x=0, y=(HEIGHT/2) + 15, w=WIDTH+5, h=170) #(HEIGHT/2)+30
+    rotated_arrow_path = rotate_image_temp(path + "/images/Arrow.png", angle=90)
+    pdf.image(rotated_arrow_path, x=(WIDTH / 2) - 37, y=(HEIGHT / 2) - 32, w=35, h=40)
+    
+    pdf.image(path + "/images/Single_Arrow.png", x= 0 - 14, y=(HEIGHT/2)+32-127, w=75, h=140)
 
-    pdf.text(x=75, y=75, txt="Your 4 Most Important Goals:")
-    pdf.text(x=76, y=(HEIGHT/2)+54, txt="Your Ranking of Values:")
+    pdf.set_font("Arial", "B", 14)
+    pdf.text(x=107, y=83, txt="Your 4 Most Important Goals:")
+    pdf.text(x=37, y=83, txt="Your Ranking of Values:")
     pdf.set_font('Arial', '', 14)
-    pdf.text(x=36, y=(HEIGHT/2)+43+13, txt="Most")
-    pdf.text(x=31, y=(HEIGHT/2)+47+13, txt="Important")
-    pdf.text(x=36, y=(HEIGHT/2)+121+13, txt="Least")
-    pdf.text(x=31, y=(HEIGHT/2)+125+13, txt="Important")
-
+    pdf.text(x=21, y=(HEIGHT/2)+43+13-120, txt="Most")
+    pdf.text(x=16, y=(HEIGHT/2)+47+13-120, txt="Important")
+    pdf.text(x=21, y=(HEIGHT/2)+121+13-95, txt="Least")
+    pdf.text(x=16, y=(HEIGHT/2)+125+13-95, txt="Important")
 
     # Format Rankings
     output = ""
@@ -180,11 +164,16 @@ def comparison_figure(pdf, path, ranks, goals):
         output += f"{item}\n"
 
     # Adding text to the boxes
-    pdf.set_font('Arial', '', 10)
-    pdf.set_xy(x=30, y=87)
-    pdf.multi_cell(w=150, h=5, txt="Goal 1: {}\nGoal 2: {}\nGoal 3: {}\nGoal 4: {}".format(goals[0], goals[1], goals[2], goals[3]), border=0)
     pdf.set_font('Arial', '', 11)
-    pdf.set_xy(x=70, y=203)
+    pdf.set_xy(x=95, y=97)
+
+    # Join the goals list with new lines
+    goals_text = "\n\n".join([f"Goal {i + 1}: {goal}" for i, goal in enumerate(goals)])
+
+    # Add goals to the PDF
+    pdf.multi_cell(w=100, h=5, txt=goals_text, border=0)
+
+    pdf.set_xy(x=48, y=97)
     pdf.multi_cell(w=100, h=8, txt="{}".format(output[0:-1]), border=0)
 
 def add_sort(pdf, order):

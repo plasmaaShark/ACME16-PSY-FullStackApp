@@ -118,7 +118,8 @@ def get_sort(data):
                 final += "- " + tFactors[i] + " (Very High)" + "\n"
     all.append(final)
 
-    cleanedList = [x for x in data['GoalDescription'] if str(x) != 'nan']
+    cleanedList = [x if str(x) != 'nan' else 'Missing' for x in data['GoalDescription']]
+    #cleanedList = [x for x in data['GoalDescription'] if str(x) != 'nan']
     for sr in selfRegulation:
         o = sum(sr) / float(len(sr))
         sr.insert(0, o)
@@ -191,6 +192,7 @@ def get_sort(data):
             srTexts.append(currSR)
         else:
             all.append(final)
+
 
     for i in range (1, 5):
         idx = srOrder.index(max(srOrder))
