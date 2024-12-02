@@ -28,7 +28,7 @@ def create_bargraph(pdf, path, location, data, labels, key, title, descriptions)
     plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
 
     # Creating the bar chart
-    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
     ax.set_title(title)
     ax.set_xlim(0, 7)  # Aligning with your specified x-axis limits
     plt.gcf().subplots_adjust(left=0.15)
@@ -70,9 +70,9 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
     # Plotting the bar chart
-    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
     ax.set_title(title)
-    ax.set_xlim(0, 3)  # Adjust the x-axis range
+    ax.set_xlim(0, 5)  # Adjust the x-axis range
     plt.gcf().subplots_adjust(left=0.25)
 
     # Adding red text for missing bars
@@ -136,9 +136,9 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
     # Plotting the bar chart
-    ax = plotdata.plot(kind="barh", color="blue", edgecolor="black", legend=False)
+    ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
     ax.set_title(title)
-    ax.set_xlim(0, 3)  # Adjust the x-axis range
+    ax.set_xlim(0, 5)  # Adjust the x-axis range
     plt.gcf().subplots_adjust(left=0.25)
 
     # Adding red text for missing bars
