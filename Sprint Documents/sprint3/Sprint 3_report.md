@@ -36,8 +36,7 @@ and showcase your features.
 
 ## Known Problems
 
-TODO: Describe any known issues, bugs, odd behaviors or code smells. 
-Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
+NONE
 
 
 ## Contributing
