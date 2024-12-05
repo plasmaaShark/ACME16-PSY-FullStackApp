@@ -19,12 +19,25 @@ NONE
 ## Completed Issues/User Stories
 Below are the issues completed during this sprint:
 
-Shaylin Smith:https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/44  Story Points:5
-
+Shaylin Smith:https:
+//github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/44  Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/45 Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/46 Story Points:3 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/49 Story Points:3 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/51 Story Points:5 
 Jiaming Chu:
+//github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/44  Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/45 Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/47 Story Points:3 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/50 Story Points:5 
 
 Christian Manangan: 
- Story Points
+//github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/44  Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/45 Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/48 Story Points:3 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/51 Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/53 Story Points:5 
+
  ## Incomplete Issues/User Stories
 NONE
 
