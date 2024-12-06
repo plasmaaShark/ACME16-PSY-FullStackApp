@@ -43,24 +43,21 @@ NONE
 
 ## Code Files for Review
 Please review the following code files, which were actively developed during this sprint, for quality:
- * [Name of code file 1](https://github.com/your_repo/file_extension)
- * [Name of code file 2](https://github.com/your_repo/file_extension)
- * [Name of code file 3](https://github.com/your_repo/file_extension)
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Results_Sorted.py
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Report_Generator_Sorting.py
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/PDF_Generator.py
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Graph_Generator.py
  
 ## Retrospective Summary
 Here's what went well:
-  * Item 1
-  * Item 2
-  * Item x
+  * All PDF modifications requested by the client has been implemented
+  * Client Demo went well
+  * System now generates and sends the new PDF report with all the modifications automatically whenever a survey is submitted
  
 Here's what we'd like to improve:
-   * Item 1
-   * Item 2
-   * Item x
+   * Getting familar with the phone app's infastructure. Learning how to do minor changes such as changing UI text and navigating through the MongoDB database.
   
 Here are changes we plan to implement in the next sprint:
-   * Item 1
-   * Item 2
-   * Item x
+   * All focus will be on the phone app. Some key changes include improving the clustering algorithm and having a way to input survey results from the qualtrics survey into the phone app
 
 
