@@ -55,7 +55,7 @@ Here's what went well:
   * System now generates and sends the new PDF report with all the modifications automatically whenever a survey is submitted
  
 Here's what we'd like to improve:
-   * Getting familar with the phone app's infrastructure. Learning how to do minor changes such as changing UI text and navigating through the MongoDB database.
+   * Getting familiar with the phone app's infrastructure. Learning how to do minor changes such as changing UI text and navigating through the MongoDB database.
   
 Here are changes we plan to implement in the next sprint:
    * All focus will be on the phone app. Some key changes include improving the clustering algorithm and having a way to input survey results from the qualtrics survey into the phone app
