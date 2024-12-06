@@ -1,17 +1,16 @@
-
-
 # Sprint 3 Report (11/05/24 - 12/05/24)
 
 ## YouTube link of Sprint * Video (Make this video unlisted)
 https://youtu.be/wskZBLFgjfU
 
 ## What's New (User Facing)
- * Feature 1 or Bug Fix 1
- * Feature 2 or Bug Fix 2
- * Feature n or Bug Fix n
+ * Fix existing radar graph code and push fixes
+ * Move graphs to span whole page with text underneath them.
+ * Move ranked goals and personal goals side by side
+ * Fix missing values causing error with sorting
 
 ## Work Summary (Developer Facing)
-Provide a one paragraph synposis of what your team accomplished this sprint. Don't repeat the "What's New" list of features. Instead, help the instructor understand how you went about the work described there, any barriers you overcame, and any significant learnings for your team.
+ We have finished implementing the changes to the PDF report for the Person in Context Assesment (PICA). These changes include adding more descriptive text to the graphs, moving the graphs and their text to span the whole page instead of being side by side, and adding 'missing' text to the graph when they have missing values. One challenge we faced this sprint was our main report generator facing an error when the user's goals were missing. We were able to fix the sorting algorithm to handle the null array when sorting the goals and allow the report to run even with missing values.
 
 ## Unfinished Work
 NONE
