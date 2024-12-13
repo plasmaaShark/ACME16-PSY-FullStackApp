@@ -143,10 +143,10 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        #send_mail('chujiaming888@gmail.com')
+        send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
         #send_mail('mananganchristian863@gmail.com')
-        send_mail('aquamarinefox.365@gmail.com')
+        #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
 
@@ -180,7 +180,7 @@ def rs_page(pdf, rs):
     else:
         total += " (Very High)"
 
-    pdf.set_font("Arial", "B", 11)
+    pdf.set_font("Arial", "B", 16)
     pdf.multi_cell(0, 5, "Self-Concept: Rejection Sensitivity", border=0, align="C")
 
     intro_text =("     Rejection Sensitivity refers to a tendency to have intense emotional reactions to perceived rejection, whether it is actual or not.")
@@ -504,8 +504,8 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
     # 添加概述段落
     lowercase_title = current_title.lower()
     feedback += (
-        f"     Our experience of {lowercase_title} can vary depending upon the specific goal involved. "
-        f"Your scores below indicate how your {lowercase_title} varies for each of the four goals you identified on this measure.\n"
+        f"     Our experience of {lowercase_title} can vary depending on the specific person involved. "
+        f"Your scores below indicate how your {lowercase_title} varies for each of the four significant others you identified on this measure.\n"
     )
 
     # 横向排列单独分数，并添加括号
