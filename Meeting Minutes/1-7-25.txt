@@ -1,0 +1,39 @@
+Project Name: ACME16-PSY-FullStackApp
+Client Name: WSU Psychology Clinic
+Date: 1/7/2025
+Time: 4:00 PM - 4:30 PM
+Location: Zoom
+Attendees:
+	Dr. Walter Scott, Belinda Lin
+	Christian Manangan
+	Jiaming Chu
+	Shaylin Smith
+1. Agenda
+	- Talk about goals for this semester
+	- More explanation about the phone app
+	
+2. Meeting Summary
+    - Minor edits to Qualtrics Survey
+	- Make changes to Phone App contents
+		- Help familiarize with app
+		- Page where clinicians can input personality components
+		- Add new page for clients that is a "situation analysis page" / help the patient think of new ways to look at a situation
+			- If client has situations that are similar to past ones, it will flag those similar situations to the client and direct them to more helpful ways of thinking
+	- Sorting function for Phone App
+		- Currently a simple math equation. Look into making a more complex system. (might leave as is)
+		- Asks client to write out the situation and what they were thinking and doing. Look into using an LLM to recognize similar situations for those written situations.
+	- Went through Phone App
+	
+3. Project Milestones Discussed
+	- Make edits to Qualtrics survey
+	- Work on sorting function
+	- Look into using an LLM for phone app
+	
+4. Next Steps
+	- Start looking into basic changes to phone app
+	- Look at LLM APIs
+
+5. Next Meeting
+	Date: 1/14/25
+	Time: 4:00 PM
+	Location: Zoom
