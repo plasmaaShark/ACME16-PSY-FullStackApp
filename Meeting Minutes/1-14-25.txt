@@ -1,0 +1,28 @@
+Project Name: ACME16-PSY-FullStackApp
+Client Name: WSU Psychology Clinic
+Date: 1/14/2025
+Time: 4:00 PM - 4:30 PM
+Location: Zoom
+Attendees:
+	Dr. Walter Scott, Belinda Lin
+	Christian Manangan
+	Jiaming Chu
+	Shaylin Smith
+1. Agenda
+	- Talk about version control for the phone app
+	
+2. Meeting Summary
+    - Phone app is hosted on python anywhere
+	- must run it in python anywhere
+	- Have one version of report have intervention and one that does not.
+		- One that is live does not have interventions.
+	
+3. Project Milestones Discussed
+	
+4. Next Steps
+	- Start working on basic changes to phone app
+
+5. Next Meeting
+	Date: 1/21/25
+	Time: 4:00 PM
+	Location: Zoom
