@@ -42,8 +42,12 @@ def get_behaviorname(theBehavior):
     return theBehavior.name
 
 
+# class SituationForm(FlaskForm):
+#     choice = RadioField('Think about the different situations/events you experienced today and select one in which you experienced positive or negative feelings. For the situation you selected, did you experience mostly positive or negative feelings?', choices=[('True','Mostly positive feelings'),('False','Mostly negative feelings')])
+#     submit = SubmitField('Submit')
 class SituationForm(FlaskForm):
-    choice = RadioField('Think about the different situations/events/happenings you experienced today and identify a situation in which you experienced positive or negative feelings. For this situation, did you experience mostly positive or negative feelings?', choices=[('True','Mostly positive feelings'),('False','Mostly negative feelings')])
+    choice = RadioField('', 
+        choices=[('True','Mostly positive feelings'),('False','Mostly negative feelings')])
     submit = SubmitField('Submit')
 
 

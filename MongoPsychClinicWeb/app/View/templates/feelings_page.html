@@ -7,30 +7,25 @@
         width: 85%;
         padding-inline-start: 20px;
     }
+    .promptText {
+        font-weight: bold;
+    }
 </style>   
 
     <h1 style="padding-inline-start: 15px;"></h1>
 
     {% if form %}
-
         <form action="" method="post">
             {{ form.hidden_tag() }}
-            <div class = textBox>
-                <!--Displays the form item for the post's `title`.--> 
-               
-               
-                <label class = textBox>{{form.choice.label}}</label>
+            <div class="textBox">
+                <p class="promptText">Think about the different situations/events you experienced today and select one in which you experienced positive or negative feelings.</p>
+                
+                <p class="promptText">For the situation you selected, did you experience mostly positive or negative feelings?</p>
+                
                 {{form.choice}}
-            
-             
-           
-            
-        
-
-            {{ form.submit(class="button") }}
-        </div>
+                {{ form.submit(class="button") }}
+            </div>
         </form>
     {% endif %}
 
-
-  {% endblock %}
+{% endblock %}
