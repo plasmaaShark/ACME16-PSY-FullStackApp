@@ -67,37 +67,39 @@ def initDB(*args, **kwargs):
             Feelingspositive(name=t).save()
 
     if Feelingsnegative.objects.count() == 0:
-        feelingsneg = ['Bored, indifferent, apathetic',
-        'Guilty, remorseful',
+        feelingsneg = ['Indifferent, apathetic, bored',
+        'Remoreseful, guilty',
         'Shame, humiliated',
         'Embarrassed',
-       'Sad, depressed, unhappy',
+        'Unhappy, sad, depressed',
         'Disgust, sickened',
         'Annoyed, resentful, irritated',
         'Frustrated, exasperated',
-        'Angry, pissed off, mad',
-        'Regretful, dissatisfied, disappointed in myself',
+        'Mad, angry, pissed off',
+        'Dissatisfied, disappointed in myself, regretful',
         'Disappointed by others, let down',
-        'Defeated, resigned',
+        'Resigned, defeated',
         'Nervous, anxious, tense',
         'Afraid, fear, scared',
         'Concerned, worried',
-        'Confused, bewildered, disoriented'
+        'Disoriented, confused, bewildered'
         ]
         for t in feelingsneg:
             Feelingsnegative(name=t).save()
 
     if Behaviormc.objects.count() == 0:
         behavior = [
+            'To be in the moment, be appreciative',
             'To connect, feel closer to someone, accepted/liked',
             'To do something well, be effective, accomplish something',
+            'To further explore, make sense of, try to understand something better',
             'To create something new, make something, be creative',
             'To get something I wanted',
             'To help, offer assistance, be supportive',
             'To understand, learn, figure something out',
             'To be authentic, real, honest',
             'To make my own decision, have a feeling of choice, do what I want',
-            'To be in the moment, be appreciative',
+            'To find something more interesting, more engaging, more fun',
             'To correct something that someone else did that was unfair, not right',
             'To have fun, gratify desires, have pleasure',
             'To be safe, to get away from something challenging, threatening, or dangerous',

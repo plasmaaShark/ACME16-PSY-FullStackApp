@@ -9,15 +9,15 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                     {% if pos_neg == "False" %}
+                    <!--{% if pos_neg == "False" %}
 
                         {{form.descriptionNegative.label}}<br>
                         {{form.descriptionNegative(class="formbody", style="width:250px; height:100px", spellcheck="true")}}<br><br>
 
-                     {% else %}
+                    {% else %}
                         {{form.descriptionPositive.label}}<br>
                         {{form.descriptionPositive(class="formbody", style="width:250px; height:100px", spellcheck="true")}}<br><br>
-                    {% endif %}
+                    {% endif %}-->
 
                     {% if pos_neg == "False" %}
                         {{ form.outcome.label }}<br>
