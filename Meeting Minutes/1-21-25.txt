@@ -1,0 +1,27 @@
+Project Name: ACME16-PSY-FullStackApp
+Client Name: WSU Psychology Clinic
+Date: 1/21/2025
+Time: 4:00 PM - 4:30 PM
+Location: Zoom
+Attendees:
+	Dr. Walter Scott, Belinda Lin
+	Christian Manangan
+	Jiaming Chu
+	Shaylin Smith
+1. Agenda
+	- Talk about next steps for editing the phone app and future timeline
+	
+2. Meeting Summary
+    - Add positive pages when Dr. Scott sends them.
+	- Therapy page - revised desired outcome: page that goes before sorting page that has the patient reword their desired outcome.
+	- Work on looking into integrating entering PICA results into the Mindful app.
+	
+3. Project Milestones Discussed
+	
+4. Next Steps
+	- Start working on positive page changes to phone app and looking into integrating PICA.
+
+5. Next Meeting
+	Date: 1/28/25
+	Time: 4:00 PM
+	Location: Zoom
