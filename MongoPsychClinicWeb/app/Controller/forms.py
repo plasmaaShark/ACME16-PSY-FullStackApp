@@ -164,5 +164,8 @@ class SortingForm2(FlaskForm):
     newCategory = TextAreaField('New Situation Category (use a short phrase to label the new situation category, if you chose an option from above please enter "N/A")', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-
-
+class TherapyForm(FlaskForm):
+    revisedOutcome = TextAreaField('If your initial desired outcome was not phrased such that it is in your control, describe a revised desired outcome for this situation that is under your control, that involves just you, and that is realistic, attainable, and dependent on only your actions.')
+    alternativeThoughts = TextAreaField('Alternative Thoughts: Is there another way of interpreting, or thinking about, this situation that would have increased your chances of getting your desired or revised desired outcome? If so, describe:')
+    alternativeBehaviors = TextAreaField('Alternative Behaviors: Is there another way of acting/behaving in this situation that would have increased your chances of getting your desired or revised desired outcome? If so, describe:')
+    submit = SubmitField('Submit')

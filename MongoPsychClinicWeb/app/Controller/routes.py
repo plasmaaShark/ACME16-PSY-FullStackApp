@@ -566,6 +566,11 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
     return render_template('sorting.html', similarSurvey = similarSurvey, form=sortingForm, pos_neg=pos_neg, back='0', survey_id=survey_id, id =anotherthing.ifThen, situationlist = total,
                            allSimilar = result, form2 =sortform2, allUserSignatures = sign)
 
+# add therapy page function here
+@bp_routes.route('/therapy_page', methods=('GET','POST'))
+@login_required
+def therapy():
+    return render_template('therapy.html')
 
 def intersection(survey, currentSurvey):
     result = []
