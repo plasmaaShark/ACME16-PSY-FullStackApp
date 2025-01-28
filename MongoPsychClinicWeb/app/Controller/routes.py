@@ -9,7 +9,7 @@ from flask_login import  current_user, login_required
 from app import db
 from app.Model.models import User, Survey, SituationList, Signature, Thoughtspositive, Thoughtsnegative, \
     Feelingspositive, Feelingsnegative, Behaviormc
-from app.Controller.forms import SituationForm, WhatHappened, Thoughts, Feelings, Behavior, SortingForm2, AdminQsortForm, SortingForm
+from app.Controller.forms import SituationForm, WhatHappened, Thoughts, Feelings, Behavior, SortingForm2, AdminQsortForm, TherapyForm, SortingForm
 from datetime import datetime
 from sqlalchemy.sql import func
 
@@ -398,9 +398,43 @@ def behavior(survey_id, pos_neg,back=0):
 
            # posted the new survey in the databse before assigning a signature
 
-        return redirect(url_for('routes.sorting', survey_id = unique_survey.id, pos_neg=pos_neg, back='0', similarSurvey = similarSurvey, allSimilarList = convertSTR))
+        #return redirect(url_for('routes.sorting', survey_id = unique_survey.id, pos_neg=pos_neg, back='0', similarSurvey = similarSurvey, allSimilarList = convertSTR))
+        return redirect(url_for('routes.therapy', survey_id=unique_survey.id, pos_neg=pos_neg, back='0'))
 
     return render_template('behavior.html', form=behaviorForm, pos_neg=pos_neg, back='0', survey_id=survey_id)
+
+
+@bp_routes.route('/therapy/<survey_id>/<pos_neg>/<back>', methods=['GET', 'POST'])
+@login_required
+def therapy(survey_id, pos_neg, back):
+    # Creating a form instance
+    form = TherapyForm()
+    # Get the current questionnaire
+    unique_survey = Survey.objects(id=survey_id).first()
+    
+    # When the back button is clicked from the sorting page, a POST request is sent to this route.
+    if request.method == 'POST':
+    
+        return render_template('therapyPage.html', 
+                         form=form,
+                         survey_id=survey_id, 
+                         pos_neg=pos_neg,
+                         situation_description=unique_survey.what_happened,
+                         thought_description=unique_survey.thoughts_meaning_of_event,
+                         feelings=unique_survey.get_feelings_display() if hasattr(unique_survey, 'get_feelings_display') else '',
+                         behavior_description=unique_survey.behaviors_description,
+                         desired_outcome=unique_survey.behaviors_outcome)
+    
+    
+    return render_template('therapyPage.html', 
+                         form=form,
+                         survey_id=survey_id, 
+                         pos_neg=pos_neg,
+                         situation_description=unique_survey.what_happened,
+                         thought_description=unique_survey.thoughts_meaning_of_event,
+                         feelings=unique_survey.get_feelings_display() if hasattr(unique_survey, 'get_feelings_display') else '',
+                         behavior_description=unique_survey.behaviors_description,
+                         desired_outcome=unique_survey.behaviors_outcome)
 
 @bp_routes.route('/sorting/<survey_id>/<pos_neg>/<back>/<similarSurvey>/<allSimilarList>', methods=['GET', 'POST'])
 @login_required

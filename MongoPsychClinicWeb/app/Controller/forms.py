@@ -165,4 +165,8 @@ class SortingForm2(FlaskForm):
     submit = SubmitField('Submit')
 
 
-
+class TherapyForm(FlaskForm):
+    revised_outcome = TextAreaField('Revised Desired Outcome')
+    alternative_thoughts = TextAreaField('Alternative Thoughts')
+    alternative_behaviors = TextAreaField('Alternative Behaviors')
+    submit = SubmitField('Submit')
