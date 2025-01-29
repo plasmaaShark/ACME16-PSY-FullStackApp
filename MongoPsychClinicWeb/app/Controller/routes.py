@@ -262,7 +262,6 @@ def feelings(survey_id, pos_neg, back=0):
 
     return render_template('feelings.html', form=feelingsForm, pos_neg=pos_neg, back='0', survey_id=survey_id)
 
-
 @bp_routes.route('/behavior/<survey_id>/<pos_neg>/<back>', methods=['GET', 'POST'])
 @login_required
 def behavior(survey_id, pos_neg,back=0):
@@ -403,7 +402,6 @@ def behavior(survey_id, pos_neg,back=0):
 
     return render_template('behavior.html', form=behaviorForm, pos_neg=pos_neg, back='0', survey_id=survey_id)
 
-
 @bp_routes.route('/therapy/<survey_id>/<pos_neg>/<back>', methods=['GET', 'POST'])
 @login_required
 def therapy(survey_id, pos_neg, back):
@@ -426,14 +424,21 @@ def therapy(survey_id, pos_neg, back):
                          desired_outcome=unique_survey.behaviors_outcome)
     
     
+    selected_negative_thoughts = Thoughtsnegative.objects(id__in = unique_survey.thoughts_neg)
+    selected_checked_feelings = Feelingsnegative.objects(id__in = unique_survey.feelings_neg)
+    selected_checked_behaviors = Behaviormc.objects(id__in = unique_survey.behaviors_mc)
+
     return render_template('therapyPage.html', 
                          form=form,
                          survey_id=survey_id, 
                          pos_neg=pos_neg,
                          situation_description=unique_survey.what_happened,
                          thought_description=unique_survey.thoughts_meaning_of_event,
+                         selected_negative_thoughts=[t.name for t in selected_negative_thoughts],
                          feelings=unique_survey.get_feelings_display() if hasattr(unique_survey, 'get_feelings_display') else '',
+                         selected_checked_feelings = [f.name for f in selected_checked_feelings],
                          behavior_description=unique_survey.behaviors_description,
+                         selected_checked_behaviors = [b.name for b in selected_checked_behaviors],
                          desired_outcome=unique_survey.behaviors_outcome)
 
 @bp_routes.route('/sorting/<survey_id>/<pos_neg>/<back>/<similarSurvey>/<allSimilarList>', methods=['GET', 'POST'])
@@ -599,7 +604,6 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
             return redirect(url_for('routes.index'))
     return render_template('sorting.html', similarSurvey = similarSurvey, form=sortingForm, pos_neg=pos_neg, back='0', survey_id=survey_id, id =anotherthing.ifThen, situationlist = total,
                            allSimilar = result, form2 =sortform2, allUserSignatures = sign)
-
 
 def intersection(survey, currentSurvey):
     result = []

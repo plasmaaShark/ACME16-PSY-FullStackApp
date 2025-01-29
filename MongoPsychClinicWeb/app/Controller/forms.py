@@ -10,7 +10,6 @@ from app.Model.models import Thoughtspositive, Thoughtsnegative, Feelingspositiv
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField, SelectMultipleField, widgets
 
-
 def get_thoughtspos():
     return Thoughtspositive.objects.all()
 
@@ -41,7 +40,6 @@ def get_behavior():
 def get_behaviorname(theBehavior):
     return theBehavior.name
 
-
 # class SituationForm(FlaskForm):
 #     choice = RadioField('Think about the different situations/events you experienced today and select one in which you experienced positive or negative feelings. For the situation you selected, did you experience mostly positive or negative feelings?', choices=[('True','Mostly positive feelings'),('False','Mostly negative feelings')])
 #     submit = SubmitField('Submit')
@@ -49,7 +47,6 @@ class SituationForm(FlaskForm):
     choice = RadioField('', 
         choices=[('True','Mostly positive feelings'),('False','Mostly negative feelings')])
     submit = SubmitField('Submit')
-
 
 class WhatHappened(FlaskForm):
     answer = TextAreaField('What happened? In one or two sentences, briefly describe the event, what happened in the situation? Don’t include your interpretations, feelings, etc. Just describe objectively what happened (e.g., Someone I\'m interested in asked if I wanted to go with them to a party).')
@@ -73,7 +70,6 @@ class Thoughts(FlaskForm):
     )
 
     submit = SubmitField('Submit')
-
 
 class Feelings(FlaskForm):
     feelings_pos = SelectMultipleField(
@@ -164,9 +160,17 @@ class SortingForm2(FlaskForm):
     newCategory = TextAreaField('New Situation Category (use a short phrase to label the new situation category, if you chose an option from above please enter "N/A")', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-
 class TherapyForm(FlaskForm):
-    revised_outcome = TextAreaField('Revised Desired Outcome')
-    alternative_thoughts = TextAreaField('Alternative Thoughts')
-    alternative_behaviors = TextAreaField('Alternative Behaviors')
-    submit = SubmitField('Submit')
+    revised_outcome = TextAreaField(
+        "Revised Desired Outcome", 
+        validators=[DataRequired(message="This field is required.")]
+    )
+    alternative_thoughts = TextAreaField(
+        "Alternative Thoughts",
+        validators=[DataRequired(message="This field is required.")]
+    )
+    alternative_behaviors = TextAreaField(
+        "Alternative Behaviors",
+        validators=[DataRequired(message="This field is required.")]
+    )
+    submit = SubmitField("Submit")

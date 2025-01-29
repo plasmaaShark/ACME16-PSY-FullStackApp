@@ -86,6 +86,11 @@ class Survey(Document):
     behaviors_description = StringField(max_length=500)
     behaviors_outcome = StringField(max_length=500)
 
+    # New fields to hold therapy responses
+    therapy_initial_desire = StringField(max_length=500)
+    therapy_alternative_thoughts = StringField(max_length=500)
+    therapy_alternative_behaviors = StringField(max_length=500)
+
     def save_thoughts(self, thoughts_pos, thoughts_neg, thoughts_meaning_of_event):
         self.thoughts_pos = thoughts_pos
         self.thoughts_neg = thoughts_neg
