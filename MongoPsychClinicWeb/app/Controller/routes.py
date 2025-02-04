@@ -411,7 +411,7 @@ def therapy(survey_id, pos_neg, back):
     unique_survey = Survey.objects(id=survey_id).first()
     
     # When the back button is clicked from the sorting page, a POST request is sent to this route.
-    if request.method == 'POST':
+    if back == '1':
     
         return render_template('therapyPage.html', 
                          form=form,
@@ -427,6 +427,13 @@ def therapy(survey_id, pos_neg, back):
     selected_negative_thoughts = Thoughtsnegative.objects(id__in = unique_survey.thoughts_neg)
     selected_checked_feelings = Feelingsnegative.objects(id__in = unique_survey.feelings_neg)
     selected_checked_behaviors = Behaviormc.objects(id__in = unique_survey.behaviors_mc)
+
+    # save the results of the alt outcome, thoughts, and behaviors
+    if form.validate_on_submit():
+        if unique_survey:
+            unique_survey.save_therapy_page(initial_desire=form.revised_outcome.data, alt_thoughts=form.alternative_thoughts.data, alt_behaviors=form.alternative_behaviors.data)
+        return redirect(url_for('routes.sorting', survey_id=unique_survey.id, pos_neg=pos_neg, back='0', similarSurvey='-1', allSimilarList='-1'))
+        
 
     return render_template('therapyPage.html', 
                          form=form,

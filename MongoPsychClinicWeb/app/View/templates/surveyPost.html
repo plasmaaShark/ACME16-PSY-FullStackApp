@@ -13,12 +13,12 @@
       <br>
       {% for t in post.get_thoughtspos().all() %}
       <span class="tagitem"> -{{t.name}}<br> </span>  
-    {%endfor%}
+      {%endfor%}
 
 
     {% for t in post.get_thoughtsneg().all() %}
     <span class="tagitem"> -{{t.name}}<br> </span>  
-  {%endfor%}
+    {%endfor%}
         <br>
 
       <strong>Feelings - </strong>
@@ -26,12 +26,12 @@
 
       {% for t in post.get_feelingspos().all() %}
       <span class="tagitem"> -{{t.name}} <br></span>  
-    {%endfor%}
+      {%endfor%}
 
 
     {% for t in post.get_feelingsneg().all() %}
     <span class="tagitem"> -{{t.name}}<br> </span>  
-  {%endfor%}
+    {%endfor%}
         <br>
 
   
@@ -43,6 +43,10 @@
         <span class="tagitem"> -{{t.name}} <br></span>  
         {%endfor%}
         <br>
+
+      <strong>Revised Outcome - </strong>{{post.therapy_initial_desire}}<br><br>
+      <strong>Alternative Thoughts - </strong>{{post.therapy_alternative_thoughts}}<br><br>
+      <strong>Alternative Behaviors - </strong>{{post.therapy_alternative_behaviors}}<br><br>
 
         <strong> If Then Signature -</strong> {{signature}}<br><br>
 

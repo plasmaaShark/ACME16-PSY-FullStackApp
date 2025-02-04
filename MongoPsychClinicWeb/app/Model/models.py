@@ -115,6 +115,12 @@ class Survey(Document):
         self.behaviors_description = behaviors_description
         self.save()
 
+    def save_therapy_page(self, initial_desire, alt_thoughts, alt_behaviors):
+        self.therapy_initial_desire = initial_desire
+        self.therapy_alternative_thoughts = alt_thoughts
+        self.therapy_alternative_behaviors = alt_behaviors
+        self.save()
+    
     def get_thoughtspos(self):
         return Thoughtspositive.objects(id__in=self.thoughts_pos)
     def get_thoughtsneg(self):
