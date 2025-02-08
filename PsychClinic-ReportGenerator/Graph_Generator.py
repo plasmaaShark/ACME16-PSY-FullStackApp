@@ -59,7 +59,7 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     # Check for missing data and adjust scores and labels
     for score, label in zip(data, names):
         if str(score) == 'nan':  # Check if the score is missing
-            adjusted_scores.append(0)  # Use a placeholder value (e.g., 0) for missing data
+            adjusted_scores.append(1)  # Use a placeholder value (e.g., 0) for missing data
             bar_labels.append(label)  # Keep the original label
         else:
             adjusted_scores.append(float(score))
@@ -70,15 +70,19 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
     # Plotting the bar chart
+
     ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
     ax.set_title(title)
-    ax.set_xlim(0, 5)  # Adjust the x-axis range
+    ax.set_xlim(1, 5)  # Adjust the x-axis range
+    ax.set_xticks([1, 2, 3, 4, 5])  # Set the scale position
+    ax.set_xticklabels(['1\nvery low', '2', '3\naverage', '4', '5\nvery high'])  # 设置刻度标签
+
     plt.gcf().subplots_adjust(left=0.25)
 
     # Adding red text for missing bars
     for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
-        if score == 0:  # Identify placeholder values as missing data
-            plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
+        if score == 1:  # Identify placeholder values as missing data
+            plt.text(1.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
 
     # Saving the plot as an image
     fig = ax.get_figure()
@@ -86,31 +90,6 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
 
     # Rendering the bar plot in the PDF
     pdf.image(f"{path}/images/rssmbarplot{key}.png", 10, height, 100)
-
-    ################
-    # score = [float(numbers) for numbers in data]
-    # plt.clf()
-
-    # # Creating dataframe in pandas
-    # plotdata = pd.DataFrame(score, index=names)
-    # plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
-
-    # # Plotting the bar chart
-    # plot = plotdata.plot(kind="barh")
-    # plot.set_title(title)
-    # # plot.set_xlim(1, 5)
-    # plot.set_xlim(0, 3)
-    # plt.gcf().subplots_adjust(left=0.25)
-
-    # # Saving the plot as an image
-    # fig = plot.get_figure()
-    # plt.legend('', frameon=False)
-    # fig.savefig(path + "/images/rssmbarplot{}.png".format(key), transparent=True)
-
-    # # Rendering the bar plot in the PDF
-    # pdf.image(path + "/images/rssmbarplot{}.png".format(key), 10, height, 100)
-
-    # plt.close(fig)
 
     plt.close(fig)
 
