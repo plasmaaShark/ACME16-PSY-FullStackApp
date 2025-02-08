@@ -292,8 +292,8 @@ def add_morals(data, values):
 
 def add_comparison(data):
 
-    labels = ['Money', 'JobCareer', 'EducLearning', 'LeisureRecrea', 'SelfGrowth', 'IntimateRel', 'FriendsFamily',
-              'SpiritReligion', 'PhysicalHealth']
+    labels = ['Money', 'Job/Career', 'Education/Learning', 'Leisure/Recreation', 'Self-Growth', 'Intimate Relationships', 'Friends & Family',
+              'Spirit/Religion', 'Physical Health']
     values = {}
     column_index = ['81_1', '81_2', '81_3', '81_4', '81_5', '81_6', '81_7', '81_8', '81_10']
 

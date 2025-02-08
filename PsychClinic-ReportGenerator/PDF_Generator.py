@@ -145,18 +145,18 @@ def comparison_figure(pdf, path, ranks, goals):
     pdf.image(path + "/images/Comparison.png", x= 0 - 23, y= + 35, w=WIDTH+50, h=180+30) #(HEIGHT/2)+30
     # pdf.image(path + "/images/Comparison.png", x=0, y=(HEIGHT/2) + 15, w=WIDTH+5, h=170) #(HEIGHT/2)+30
     rotated_arrow_path = rotate_image_temp(path + "/images/Arrow.png", angle=90)
-    pdf.image(rotated_arrow_path, x=(WIDTH / 2) - 37, y=(HEIGHT / 2) - 32, w=35, h=40)
+    pdf.image(rotated_arrow_path, x=(WIDTH / 2) - 31, y=(HEIGHT / 2) - 32, w=35, h=40)
     
-    pdf.image(path + "/images/Single_Arrow.png", x= 0 - 14, y=(HEIGHT/2)+32-127, w=75, h=140)
+    pdf.image(path + "/images/Single_Arrow.png", x= 0 - 19, y=(HEIGHT/2)+32-130, w=75, h=145)
 
     pdf.set_font("Arial", "B", 14)
-    pdf.text(x=107, y=83, txt="Your 4 Most Important Goals:")
+    pdf.text(x=112, y=83, txt="Your 4 Most Important Goals:")
     pdf.text(x=37, y=83, txt="Your Ranking of Values:")
     pdf.set_font('Arial', '', 14)
-    pdf.text(x=21, y=(HEIGHT/2)+43+13-120, txt="Most")
-    pdf.text(x=16, y=(HEIGHT/2)+47+13-120, txt="Important")
-    pdf.text(x=21, y=(HEIGHT/2)+121+13-95, txt="Least")
-    pdf.text(x=16, y=(HEIGHT/2)+125+13-95, txt="Important")
+    pdf.text(x=16, y=(HEIGHT/2)+43+13-120, txt="Most")
+    pdf.text(x=11, y=(HEIGHT/2)+47+13-120, txt="Important")
+    pdf.text(x=16, y=(HEIGHT/2)+121+13-95, txt="Least")
+    pdf.text(x=11, y=(HEIGHT/2)+125+13-95, txt="Important")
 
     # Format Rankings
     output = ""
@@ -165,15 +165,16 @@ def comparison_figure(pdf, path, ranks, goals):
 
     # Adding text to the boxes
     pdf.set_font('Arial', '', 11)
-    pdf.set_xy(x=95, y=97)
+    pdf.set_xy(x=101, y=97.8)
 
     # Join the goals list with new lines
-    goals_text = "\n\n".join([f"Goal {i + 1}: {goal}" for i, goal in enumerate(goals)])
+    goals_text = "\n\n\n".join([f"Goal {i + 1}: {goal}" for i, goal in enumerate(goals)])
 
     # Add goals to the PDF
-    pdf.multi_cell(w=100, h=5, txt=goals_text, border=0)
+    # w is how much text before a line break, higher = longer text , lower = sooner line break
+    pdf.multi_cell(w=90, h=5, txt=goals_text, border=0)
 
-    pdf.set_xy(x=48, y=97)
+    pdf.set_xy(x=42, y=97)
     pdf.multi_cell(w=100, h=8, txt="{}".format(output[0:-1]), border=0)
 
 def add_sort(pdf, order):

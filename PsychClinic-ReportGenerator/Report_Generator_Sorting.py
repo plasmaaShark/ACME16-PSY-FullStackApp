@@ -48,7 +48,7 @@ def create_report():
     print('----------------------------------------')
 
     #number+1 to get total      currently at:tc
-    for i in range (1, 2): # 1, 2 makes sure that the idxS ends up being -1 to get the last row
+    for i in range (52, 53): # 1, 2 makes sure that the idxS ends up being -1 to get the last row (latest survey)
         automated_responses.get_survey(save_survey = "", survey_id = 'SV_3wvBtxhaQcsl06G')
         # pdf = FPDF()
         pdf = CustomPDF()
@@ -129,7 +129,8 @@ def create_report():
         print('Added sorting of results')
         order = ""
         order = Results_Sorted.get_sort(data)
-        PDF_Generator.add_sort(pdf, order)
+        # commented out line below to get rid of treatment recommendations
+        # PDF_Generator.add_sort(pdf, order)
 
         print('----------------------------------------')
         print('PDF Saved')
@@ -143,9 +144,9 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        send_mail('chujiaming888@gmail.com')
+        #send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
-        #send_mail('mananganchristian863@gmail.com')
+        send_mail('mananganchristian863@gmail.com')
         #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
@@ -645,7 +646,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
     feedback_templates = {
         "Domineering": {
-            "description": "This refers to a interpersonal style in which one is too controlling, manipulating, bossy, argumentative, and/or is acting too superior/condescending when relating to others.\nYour score indicates that this is {}. Our interpersonal styles sometimes varies depending on who we are with. Your scores below indicaate how domineering you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a interpersonal style in which one is too controlling, manipulating, bossy, argumentative, and/or is acting too superior/condescending when relating to others.\n     Your score indicates that this is {}. Our interpersonal styles sometimes varies depending on who we are with. Your scores below indicaate how domineering you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -654,7 +655,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Self-Centered": {
-            "description": "This refers to a interpersonal style in which one is too insensitive to others needs, thoughts, feelings, has difficulty providing emotional support, liking others and getting along.\nYour score indicates that this is {}. Your scores below indicaate how self-centered you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a interpersonal style in which one is too insensitive to others needs, thoughts, feelings, has difficulty providing emotional support, liking others and getting along.\n     Your score indicates that this is {}. Your scores below indicaate how self-centered you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -663,7 +664,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Distant/Cold": {
-            "description": "This refers to a problematic interpersonal style in which one is uncomfortable with being close or intimate, has difficulty fully connecting and enjoying others company.\nYour score indicates that this is {}. Your scores below indicaate how distant/cold you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a problematic interpersonal style in which one is uncomfortable with being close or intimate, has difficulty fully connecting and enjoying others company.\n     Your score indicates that this is {}. Your scores below indicaate how distant/cold you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -672,7 +673,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Socially Inhibited": {
-            "description": "This refers to a problematic interpersonal style in which one is anxious and shy around others, unable to be themselves and has difficulty fitting in.\nYour score indicates that this is {}. Your scores below indicaate how socially inhibited you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a problematic interpersonal style in which one is anxious and shy around others, unable to be themselves and has difficulty fitting in.\n     Your score indicates that this is {}. Your scores below indicaate how socially inhibited you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -681,7 +682,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Nonassertive": {
-            "description": "This refers to a problematic interpersonal style in which one tends to be too compromising, and is too easily taken advantage of, acting overly submissive, letting others boss them around too much.\nYour score indicates that this is {}. Your scores below indicaate how nonassertive you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a problematic interpersonal style in which one tends to be too compromising, and is too easily taken advantage of, acting overly submissive, letting others boss them around too much.\n     Your score indicates that this is {}. Your scores below indicaate how nonassertive you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -690,7 +691,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Exploitable": {
-            "description": "This refers to a problematic interpersonal style in which one has trouble being assertive and taking the lead, tends to feel weak and insecure and easily embarrassed around others.\nYour score indicates that this is {}. Your scores below indicaate how exploitable you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a problematic interpersonal style in which one has trouble being assertive and taking the lead, tends to feel weak and insecure and easily embarrassed around others.\n     Your score indicates that this is {}. Your scores below indicaate how exploitable you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -699,7 +700,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Self-Sacrificing": {
-            "description": "This refers to a problematic interpersonal style in which one is too giving, tending tends to put others needs before their own needs, being easily affected by others pain and suffering and being too trusting.\nYour score indicates that this is {}. Your scores below indicaate how self-sacrificing you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a problematic interpersonal style in which one is too giving, tending tends to put others needs before their own needs, being easily affected by others pain and suffering and being too trusting.\n     Your score indicates that this is {}. Your scores below indicaate how self-sacrificing you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -708,7 +709,7 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             ]
         },
         "Intrusive": {
-            "description": "This refers to a problematic interpersonal style in which one has trouble respecting others privacy, talking too much, being overly affectionate and/or needing to be the center of attention.\nYour score indicates that this is {}. Your scores below indicaate how intrusive you are with each of the four persons you identified on this measure.\n",
+            "description": "This refers to a problematic interpersonal style in which one has trouble respecting others privacy, talking too much, being overly affectionate and/or needing to be the center of attention.\n     Your score indicates that this is {}. Your scores below indicaate how intrusive you are with each of the four persons you identified on this measure.\n",
             "problem_levels": [
                 (0.49, "not a problem for you"),
                 (1.49, "a minor problem for you"),
@@ -921,7 +922,7 @@ def print_bas_section(pdf):
     # Continue printing the rest of the text
     pdf.multi_cell(0, 5, bas_text, border=0, align="L")
     pdf.ln(1)
-    bas_text_contin = ("In addition to an overall BAS score, there are three different subscales that measure different types of behavioral activation.  If you do not see much differences in your three BAS subscales, your overall BAS score is probably the best score to interpret.  However, if you score high on subscales but average or low on others, then it is better to just interpret your specific BAS subscale scores.")
+    bas_text_contin = ("     In addition to an overall BAS score, there are three different subscales that measure different types of behavioral activation.  If you do not see much differences in your three BAS subscales, your overall BAS score is probably the best score to interpret.  However, if you score high on subscales but average or low on others, then it is better to just interpret your specific BAS subscale scores.")
     pdf.multi_cell(0, 5, bas_text_contin, border=0, align="L")
 
 # Create and add temperament bar graph
