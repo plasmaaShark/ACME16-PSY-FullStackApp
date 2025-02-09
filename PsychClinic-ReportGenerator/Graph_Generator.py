@@ -59,7 +59,7 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     # Check for missing data and adjust scores and labels
     for score, label in zip(data, names):
         if str(score) == 'nan':  # Check if the score is missing
-            adjusted_scores.append(1)  # Use a placeholder value (e.g., 0) for missing data
+            adjusted_scores.append(-1)  # Use a placeholder value (e.g., 0) for missing data
             bar_labels.append(label)  # Keep the original label
         else:
             adjusted_scores.append(float(score))
@@ -81,7 +81,7 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
 
     # Adding red text for missing bars
     for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
-        if score == 1:  # Identify placeholder values as missing data
+        if score == -1:  # Identify placeholder values as missing data
             plt.text(1.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
 
     # Saving the plot as an image
@@ -104,7 +104,7 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     # Check for missing data and adjust scores and labels
     for score, label in zip(data, names):
         if str(score) == 'nan':  # Check if the score is missing
-            adjusted_scores.append(0)  # Use a placeholder value (e.g., 0) for missing data
+            adjusted_scores.append(-1)  # Use a placeholder value (e.g., 0) for missing data
             bar_labels.append(label)  # Keep the original label
         else:
             adjusted_scores.append(float(score))
@@ -122,7 +122,7 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
 
     # Adding red text for missing bars
     for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
-        if score == 0:  # Identify placeholder values as missing data
+        if score == -1:  # Identify placeholder values as missing data
             plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
 
     # Saving the plot as an image
