@@ -2,25 +2,17 @@
 Page
 1
 of 2
-# Sprint 4 Report (01/10/25 - 02/20/25)
+# Sprint 4 Report (01/10/25 - 02/10/25)
 ## YouTube link of Sprint * Video (Make this video unlisted)
 ## What's New (User Facing)
-* Feature 1 or Bug Fix 1
-* Feature 2 or Bug Fix 2
-* Feature n or Bug Fix n
+* Added positive and negative edits to phone app
+* Add therapy page to phone app
+* Fix minor edits and missing data from PICA report generator
 ## Work Summary (Developer Facing)
-Provide a one paragraph synposis of what your team accomplished this sprint. Don't
-repeat the "What's New" list of features. Instead, help the instructor understand
-how you went about the work described there, any barriers you overcame, and any
-significant learnings for your team.
+During this sprint, we first focused on familiarizing ourselves with the phone app files and implemented the positive and negative edits to the situations workflow. We then also added a new therapy page to the phone app that the client requested that appears right before the sorting page when creating a new situation. This page would allow the user to reflect on their answers from previous pages and revise some of their answers if they want to. We had to add a new form to our Flask application, create a new HTML page, and then also insert in data from pevious forms completed. We also added the new information from the therapy page into the past situations page so the user could see their previous responses to the new therapy page. Finally, during the last week of the sprint we have worked on fixing minor edits to the report generator from our previous semester. This includes fixing some of the typos and fixing graphs that showed that data was missing when it was not.
 ## Unfinished Work
-If applicable, explain the work you did not finish in this sprint. For issues/user
-stories in the current sprint that have not been closed, (a) any progress toward
-completion of the issues has been clearly tracked (by checking the checkboxes of
-acceptance criteria), (b) a comment has been added to the issue to explain why the
-issue could not be completed (e.g., "we ran out of time" or "we did not anticipate
-it would be so much work"), and (c) the issue is added to a subsequent sprint, so
-that it can be addressed later.
+The work we did not finish the sprint was creating a clinical copy of the report generator for our client, Belinda Lin. We need to finalize the report generator before we can create the clinical copy and so we have worked on fixing those errors the client asks of us before we create the new copy. The issue was not completed this sprint because we need another round of feedback from the client to make sure that the report looks how the client wants it.
+
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
 * URL of issue 1
@@ -68,6 +60,6 @@ Here's what we'd like to improve:
 * Updating the PythonAnywhere files once we have a working local version with our changes
   
 Here are changes we plan to implement in the next sprint:
-* Item 1
-* Item 2
-* Item x
+* Finalizing the report generator
+* Changing the workflow of the Qualtrics survey to make certain parts of the PICA optional
+* Looking into improving the clustering algorithm with an LLM
