@@ -36,15 +36,15 @@ GitHub
 * Story points contribution of each team member should be indicated in a comment
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
-* URL of issue 1 <<One sentence explanation of why issue was not completed>>
-* URL of issue 2 <<One sentence explanation of why issue was not completed>>
-* URL of issue n <<One sentence explanation of why issue was not completed>>
+Christian Manangan
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/55  Story Points:5 
 Examples of explanations (Remove this section when you save the file):
 * "We ran into a complication we did not anticipate (explain briefly)."
 * "We decided that the feature did not add sufficient value for us to work on it
 in this sprint (explain briefly)."
 * "We could not reproduce the bug" (explain briefly).
 * "We did not get to this issue because..." (explain briefly)
+  
 ## Code Files for Review
 Please review the following code files, which were actively developed during this
 sprint, for quality:
@@ -64,13 +64,13 @@ sprint, for quality:
   
 ## Retrospective Summary
 Here's what went well:
-* Item 1
-* Item 2
-* Item x
+* Fixed double emailing issue of the PDF
+* All web app changes requested by the client has been implemented
+* All minor pdf modifications requested by the client has been implemented
+  
 Here's what we'd like to improve:
-* Item 1
-* Item 2
-* Item x
+* Updating the PythonAnywhere files once we have a working local version with our changes
+  
 Here are changes we plan to implement in the next sprint:
 * Item 1
 * Item 2
