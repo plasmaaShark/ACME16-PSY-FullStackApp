@@ -144,9 +144,9 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        #send_mail('chujiaming888@gmail.com')
+        send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
-        send_mail('mananganchristian863@gmail.com')
+        #send_mail('mananganchristian863@gmail.com')
         #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
@@ -154,7 +154,7 @@ def create_report():
 def title_page(my_path, pdf, info):
     #print(f"Before title_page: Skip Page Number: {pdf.skip_page_number}, Current Page: {pdf.page_no()}")
     pdf.add_page()
-    pdf.skip_page_number = True  # 跳过标题页的页码
+    pdf.skip_page_number = True  
     #print(f"During title_page (after add_page): Skip Page Number: {pdf.skip_page_number}, Current Page: {pdf.page_no()}")
     pdf.image(my_path + "/images/wsu_banner.png", 0, 0, WIDTH)
     pdf.image(my_path + "/images/buffer.png", 0, HEIGHT/2 + 1, WIDTH)
@@ -506,8 +506,8 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
     )
 
     # Arrange individual fractions horizontally 
-    feedback += " "
-    individual_scores = []
+    feedback += ""
+    #individual_scores = []
     for i, score in enumerate(scores[1:], start=1):  
         label = labels[i]
         score = round(float(score), 2)
@@ -521,18 +521,19 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
             category = "low"
         else:                      # 1.0-1.4999
             category = "very low"
-        individual_scores.append(f"{label} score is {score} ({category})")
+        #individual_scores.append(f"{label} score is {score} ({category})")
+        feedback += f"{label} score is {score} ({category})\n"
+        
 
-    # feedback += "  ".join(individual_scores)  
-     # Arrange the scores in pairs
-    paired_scores = []
-    for i in range(0, len(individual_scores), 2):
-        if i + 1 < len(individual_scores):
-            paired_scores.append(f"{individual_scores[i]}  {individual_scores[i + 1]}")
-        else:
-            paired_scores.append(individual_scores[i])  # Handle last remaining single score
+   
+    # paired_scores = []
+    # for i in range(0, len(individual_scores), 2):
+    #     if i + 1 < len(individual_scores):
+    #         paired_scores.append(f"{individual_scores[i]}  {individual_scores[i + 1]}")
+    #     else:
+    #         paired_scores.append(individual_scores[i])  # Handle last remaining single score
 
-    feedback += "\n".join(paired_scores) 
+    # feedback += "\n".join(paired_scores) 
     return feedback
 
 # Create and add rssm bar graphs
