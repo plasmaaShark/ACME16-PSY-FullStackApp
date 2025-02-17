@@ -1,6 +1,6 @@
 Project Name: ACME16-PSY-FullStackApp
 Client Name: WSU Psychology Clinic
-Date: 2/4/2025
+Date: 2/11/2025
 Time: 4:00 PM - 4:30 PM
 Location: Zoom
 Attendees:
@@ -9,19 +9,17 @@ Attendees:
 	Jiaming Chu
 	Shaylin Smith
 1. Agenda
-	- Present the changes made and talk about next stpes
+	- Present changes made on PICA and talk about next goals for next sprint
 	
 2. Meeting Summary
-    - Show new additions.
-	- Focus more on PICA changes this next week
-		- Get them done ASAP
+    - Setting up the optional sections for the Qualtrics survey and formating the report for the opted in parts. (Most urgent)
 	
 3. Project Milestones Discussed
 	
 4. Next Steps
-	- Work on PICA changes and Qualtrics changes
+	- Finalize Qualtrics and PICA
 
 5. Next Meeting
-	Date: 2/11/25
+	Date: 2/18/25
 	Time: 4:00 PM
 	Location: Zoom
