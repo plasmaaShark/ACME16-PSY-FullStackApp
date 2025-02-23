@@ -7,19 +7,21 @@ app = create_app()
 def initDB(*args, **kwargs):
     if Thoughtspositive.objects.count() == 0:
         thoughtspos = [
-                    'With some effort, I can make things better in this situation. If I try hard enough, I can get what I want in this situation. I can handle this difficult task.',
-                    'I no longer have to worry about this. A burden has been lifted from my mind. A threat or harm has been removed from this situation.',
+                    'With some effort, I can make things better in this situation. If I try hard enough, I can get what I want in this situation.',
+                    'I no longer have to worry about this. A threat or harm has been removed from this situation.',
                     'Things are going to be fine. Somehow things might work out. In the end, there’s a chance that everything will be OK.',
-                    'I am being treated well. Someone else deserves some credit. Someone else is being helpful to me.',
+                    'I am being treated well. Someone else is being helpful to me.',
                     'There is nothing I need to be doing right now. Everything is fine for now.',
                     'I had a role in things turning out well. I deserve some credit for what I’ve done. I’m pleased with what I’ve accomplished.',
-                    'I’ve gotten what I wanted. This is great.',
-                    'This is good. I am accepted. They appreciate me for who I am. They like me.',
+                    'I’ve gotten what I wanted. This is good. This is great.',
+                    'I am accepted. They appreciate me for who I am. They like me.',
                     'This is interesting, engaging. This is something I enjoy giving my full attention to.',
                     'This was enjoyable. I am having a good time. This is fun.',
+                    'I am looking forward to this.',
                     'This is attractive. This is beautiful.',
                     'My support is needed. I am needed. I can be helpful here.',
-                    'This was impressive.'
+                    'This was impressive.',
+                    'That was funny. That was hilarious.'
                     ]
         for t in thoughtspos:
             Thoughtspositive(name=t).save()
