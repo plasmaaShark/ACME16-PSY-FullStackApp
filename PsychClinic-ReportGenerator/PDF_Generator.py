@@ -165,17 +165,18 @@ def comparison_figure(pdf, path, ranks, goals):
 
     # Adding text to the boxes
     pdf.set_font('Arial', '', 11)
-    pdf.set_xy(x=101, y=97.8)
 
+    # Add ranking of values to the PDF
+    pdf.set_xy(x=42, y=97)
+    pdf.multi_cell(w=100, h=8, txt="{}".format(output[0:-1]), border=0)
+
+    pdf.set_xy(x=111, y=97.8)
     # Join the goals list with new lines
     goals_text = "\n\n\n".join([f"Goal {i + 1}: {goal}" for i, goal in enumerate(goals)])
 
     # Add goals to the PDF
     # w is how much text before a line break, higher = longer text , lower = sooner line break
-    pdf.multi_cell(w=90, h=5, txt=goals_text, border=0)
-
-    pdf.set_xy(x=42, y=97)
-    pdf.multi_cell(w=100, h=8, txt="{}".format(output[0:-1]), border=0)
+    pdf.multi_cell(w=85, h=5, txt=goals_text, border=0)
 
 def add_sort(pdf, order):
     pdf.add_page()
