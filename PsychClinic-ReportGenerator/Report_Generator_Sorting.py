@@ -144,9 +144,9 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        send_mail('chujiaming888@gmail.com')
+        #send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
-        #send_mail('mananganchristian863@gmail.com')
+        send_mail('mananganchristian863@gmail.com')
         #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
@@ -323,8 +323,8 @@ def add_personal_goals_intro(pdf):
         "     Personal goals and standards strongly influence our personality functioning, including the situations you seek out, how you "
         "interpret what happens to you, how motivated you are, and how you feel and act. We compare our current behavior to our goals and "
         "standards, feeling bad if we come up short and feeling good if we have performed successfully. To assess your personal goals and "
-        "standards, you completed a modified version of the Personal Concerns Inventory (M-PCI; Klinger & Cox, 2011). Although the PCI is "
-        "considered a \"goal\" measure, when people complete the PCI, they tend to list both goals (e.g., graduate college) and standards "
+        "standards, you completed a modified version of the Personal Concerns Inventory (M-PCI; Cox & Klinger, 2011). Although the PCI is "
+        "considered a \"goal\" measure when people complete the PCI, they tend to list both goals (e.g., graduate college) and standards "
         "(e.g., maintain my good GPA)."
     )
     pdf.multi_cell(0, 5, intro_text2, border=0, align="L")
@@ -407,7 +407,7 @@ def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
         PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180,offset_y=30)
 
         # 添加图表图像
-        pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 100, 94, WIDTH / 2)
+        pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 95, 94, (WIDTH / 2) + 10)
         
 
 

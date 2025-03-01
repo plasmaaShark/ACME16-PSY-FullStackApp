@@ -30,7 +30,7 @@ def create_bargraph(pdf, path, location, data, labels, key, title, descriptions)
     # Creating the bar chart
     ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
     ax.set_title(title)
-    ax.set_xlim(0, 7)  # Aligning with your specified x-axis limits
+    ax.set_xlim(1, 7)  # Aligning with your specified x-axis limits
     plt.gcf().subplots_adjust(left=0.15)
 
     # Adding red text for missing bars
