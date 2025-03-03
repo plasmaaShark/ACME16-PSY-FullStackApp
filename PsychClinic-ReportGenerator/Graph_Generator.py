@@ -47,11 +47,8 @@ def create_bargraph(pdf, path, location, data, labels, key, title, descriptions)
     plt.close(fig)
 
 
-
+#已修改
 def create_rssm_bargraph(pdf, path, height, data, names, key, title):
-    #print(f"Processing key: {key}")
-    #print(f"Data received: {data}")
-
     # Adjust scores for missing data
     adjusted_scores = []
     bar_labels = []
@@ -59,7 +56,7 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     # Check for missing data and adjust scores and labels
     for score, label in zip(data, names):
         if str(score) == 'nan':  # Check if the score is missing
-            adjusted_scores.append(-1)  # Use a placeholder value (e.g., 0) for missing data
+            adjusted_scores.append(-1)  # Use a placeholder value
             bar_labels.append(label)  # Keep the original label
         else:
             adjusted_scores.append(float(score))
@@ -69,34 +66,35 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
     plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
-    # Plotting the bar chart
-
-    ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
+    # Create a chart with fixed dimensions, ensuring sufficient left margin
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Draw a bar chart
+    plotdata.plot(kind="barh", color="tab:blue", legend=False, ax=ax)
+    
+    # Set title and scope
     ax.set_title(title)
-    ax.set_xlim(1, 5)  # Adjust the x-axis range
-    ax.set_xticks([1, 2, 3, 4, 5])  # Set the scale position
-    ax.set_xticklabels(['1\nvery low', '2', '3\naverage', '4', '5\nvery high'])  # 设置刻度标签
-
-    plt.gcf().subplots_adjust(left=0.25)
-
-    # Adding red text for missing bars
-    for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
-        if score == -1:  # Identify placeholder values as missing data
+    ax.set_xlim(0.5, 5)
+    ax.set_xticks([1, 2, 3, 4, 5])
+    ax.set_xticklabels(['1\nvery low', '2', '3\naverage', '4', '5\nvery high'])
+    
+    # Key improvement: Increase left margin
+    plt.tight_layout()  # Automatically adjust layout
+    plt.subplots_adjust(left=0.35)  # Explicitly increase the left margin
+    
+    # Add red text to mark missing data
+    for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):
+        if score == -1:  
             plt.text(1.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
-
-    # Saving the plot as an image
-    fig = ax.get_figure()
-    fig.savefig(f"{path}/images/rssmbarplot{key}.png", transparent=True)
-
-    # Rendering the bar plot in the PDF
-    pdf.image(f"{path}/images/rssmbarplot{key}.png", 10, height, 100)
-
+       
+    fig.savefig(f"{path}/images/rssmbarplot{key}.png", transparent=True, bbox_inches='tight', pad_inches=0.5)
+    
+    pdf.image(f"{path}/images/rssmbarplot{key}.png", 10, height+3, 100)
+    
     plt.close(fig)
 
+#已修改
 def create_csip_bargraph(pdf, path, height, data, names, key, title):
-    #print(f"Processing key: {key}")
-    #print(f"Data received: {data}")
-
     # Adjust scores for missing data
     adjusted_scores = []
     bar_labels = []
@@ -104,7 +102,7 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     # Check for missing data and adjust scores and labels
     for score, label in zip(data, names):
         if str(score) == 'nan':  # Check if the score is missing
-            adjusted_scores.append(-1)  # Use a placeholder value (e.g., 0) for missing data
+            adjusted_scores.append(-1)  # Use a placeholder value
             bar_labels.append(label)  # Keep the original label
         else:
             adjusted_scores.append(float(score))
@@ -114,49 +112,36 @@ def create_csip_bargraph(pdf, path, height, data, names, key, title):
     plotdata = pd.DataFrame({"Score": adjusted_scores}, index=bar_labels)
     plotdata = plotdata.iloc[::-1]  # Reverse to match the description box order
 
-    # Plotting the bar chart
-    ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    plotdata.plot(kind="barh", color="tab:blue", legend=False, ax=ax)
+    
     ax.set_title(title)
-    ax.set_xlim(0, 5)  # Adjust the x-axis range
-    plt.gcf().subplots_adjust(left=0.25)
-
-    # Adding red text for missing bars
-    for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):  # Reverse to align with plot
-        if score == -1:  # Identify placeholder values as missing data
+    ax.set_xlim(0, 5)
+    
+    ax.set_xticks([0, 1, 2, 3, 4, 5])
+    ax.set_xticklabels(['0', '1', '2', '3', '4', '5'])
+    
+    fig.canvas.draw() 
+    
+    # Add category labels as text
+    ax.text(0, -0.08, 'very low', ha='center', va='top', transform=ax.get_xaxis_transform())
+    ax.text(2.5, -0.08, 'average', ha='center', va='top', transform=ax.get_xaxis_transform())
+    ax.text(5, -0.08, 'very high', ha='center', va='top', transform=ax.get_xaxis_transform())
+    
+    plt.tight_layout()  
+    plt.subplots_adjust(left=0.35, bottom=0.2)  
+    
+    for i, (score, label) in enumerate(zip(adjusted_scores[::-1], bar_labels[::-1])):
+        if score == -1: 
             plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
-
-    # Saving the plot as an image
-    fig = ax.get_figure()
-    fig.savefig(f"{path}/images/csipbarplot{key}.png", transparent=True)
-
-    # Rendering the bar plot in the PDF
-    pdf.image(f"{path}/images/csipbarplot{key}.png", 10, height, 100)
+    
+    fig.savefig(f"{path}/images/csipbarplot{key}.png", transparent=True, bbox_inches='tight', pad_inches=0.5)
+    
+    pdf.image(f"{path}/images/csipbarplot{key}.png", 10, height+3, 100)
+    
     plt.close(fig)
     
-    ################
-    # score = [float(numbers) for numbers in data]
-    # plt.clf()
-
-    # # Creating dataframe in pandas
-    # plotdata = pd.DataFrame(score, index=names)
-    # plotdata = plotdata.iloc[::-1] # reverse it so it matches the description box
-
-    # # Plotting the bar chart
-    # plot = plotdata.plot(kind="barh")
-    # plot.set_title(title)
-    # # plot.set_xlim(1, 5)
-    # plot.set_xlim(0, 3)
-    # plt.gcf().subplots_adjust(left=0.25)
-
-    # # Saving the plot as an image
-    # fig = plot.get_figure()
-    # plt.legend('', frameon=False)
-    # fig.savefig(path + "/images/csipbarplot{}.png".format(key), transparent=True)
-
-    # # Rendering the bar plot in the PDF
-    # pdf.image(path + "/images/csipbarplot{}.png".format(key), 10, height, 100)
-
-    # plt.close(fig)
 
 def temperament_bargraph(path, pdf, data, names, title, y_position):
     # Reorder data and names to place 'BAS' as the second item

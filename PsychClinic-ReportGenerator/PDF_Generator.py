@@ -55,21 +55,19 @@ def print_textboxes(pdf, value, descriptions, size):
 
     pdf.set_font("Arial", "", 10) # reset font to not bold
 
-
+# 已修改
 def print_feedback_box(pdf, feedback, x=10, y=None, w=75, font_size=10):
-    # 在PDF中打印无边框的反馈文本框
+    # Print borderless feedback text box in PDF
     if y is not None:
-        pdf.set_y(y)  # 设置y坐标
+        pdf.set_y(y)  
 
-    start_x = pdf.get_x()  # 获取起始x坐标
-    start_y = pdf.get_y()  # 获取起始y坐标
-
-    # 设置统一的字体和大小
-    pdf.set_font("Arial", "", font_size)
+    start_x = pdf.get_x()  
+    start_y = pdf.get_y()  
 
     feedback_lines = feedback.split('\n')
     for line in feedback_lines:
-        pdf.multi_cell(w=w, h=4, txt=line, border=0, align="L")  # 设置border=0去除边框
+        pdf.set_font("Arial", "", font_size)
+        pdf.multi_cell(w=w, h=4, txt=line, border=0, align="L")  
 
 def print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180, font_size=10,offset_y=20):
     # Print horizontally aligned feedback text boxes in PDF
