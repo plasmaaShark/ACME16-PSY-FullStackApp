@@ -144,9 +144,9 @@ def create_report():
         print('----------------------------------------')
 
         #send_mail('walter.scott@wsu.edu')
-        #send_mail('chujiaming888@gmail.com')
+        send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
-        send_mail('mananganchristian863@gmail.com')
+        #send_mail('mananganchristian863@gmail.com')
         #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
@@ -391,22 +391,22 @@ def goals_bar_graphs(my_path, pdf, data, descriptions, titles):
         # Get the current title according to key
         current_title = title_map.get(key, "Goal")  # If no match is found, the default title is used.
        ############
-        # 每个图表和反馈框都在新的一页
+        # Each chart and feedback box is on a new page
         pdf.add_page()
         PDF_Generator.section_headers(pdf, 'Personal Goals and Standards')
 
-        # 显示描述框
+        # Show Description Box
         PDF_Generator.print_textboxes(pdf, "Goal", descriptions, 4)
 
-        # 创建图表
+        # Create a chart
         Graph_Generator.create_bargraph(pdf, my_path, 8, value, labels, key, titles.pop(0), descriptions)
         pdf.ln(5)  # Adjust this value as needed
 
-        # 生成反馈并在反馈框中显示
+        # Generate feedback and display it in the feedback box
         feedback = generate_goal_feedback(value, labels, current_title, is_overall)
         PDF_Generator.print_feedback_box_horizontal(pdf, feedback, x=10, y=None, w=180,offset_y=30)
 
-        # 添加图表图像
+        # Adding a Chart Image
         pdf.image(my_path + "/images/{}_Scaling.png".format(holder), 95, 94, (WIDTH / 2) + 10)
         
 
@@ -523,19 +523,9 @@ def generate_rssm_feedback(scores, labels, current_title, is_overall=False):
             category = "very low"
         #individual_scores.append(f"{label} score is {score} ({category})")
         feedback += f"{label} score is {score} ({category})\n"
-        
 
-   
-    # paired_scores = []
-    # for i in range(0, len(individual_scores), 2):
-    #     if i + 1 < len(individual_scores):
-    #         paired_scores.append(f"{individual_scores[i]}  {individual_scores[i + 1]}")
-    #     else:
-    #         paired_scores.append(individual_scores[i])  # Handle last remaining single score
-
-    # feedback += "\n".join(paired_scores) 
     return feedback
-
+#已修改
 # Create and add rssm bar graphs
 def rssm_bar_graphs(my_path, pdf, data, names, titles):
     #initial_y_position = 30  # Sets the initial Y position of the box
@@ -563,7 +553,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
 
     rssm_text_contin2 = (
         "     To assess your self-schemas, you completed the Relational Self-Schema Questionnaire (RSSM; Scott et al., 2021), which "
-        "had you rate how you experience the self and act when with the four people you interact with and/or think about the most. "
+        "had you rate how you experience the self when with the four people you interact with and/or think about the most. "
         "Some research suggests that our self-experience is organized around the satisfaction of basic psychological needs, such as "
         "the need to feel connected to others, to feel competent/in control, and to have a sense of self-esteem. The RSSM assesses "
         "the experience of these needs when the self is with different significant others."
@@ -580,7 +570,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
     
     initial_y_position = pdf.get_y()  # Get the initial Y coordinate
     graph_x_position = 10  # X coordinate of the chart
-    total_height = 130  # Total height of each chart and text explanation (chart + text)
+    total_height = 120  # Total height of each chart and text explanation (chart + text)
     feedback_box_width = pdf.w - 20
 
     counter = 0  # Used to record chart counts
@@ -588,7 +578,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
     is_first_page = True  # Used to mark whether the first page has been processed
 
     for key, value in data_copy.items():
-        #print(f"Processing key: {key}")  # 添加打印语句
+        
         current_title = title_map.get(key, "RSSM Scale")  # Get the current title from the title list
         labels = names  
         
@@ -600,7 +590,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
 
             # Create RSSM chart
             Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 71, WIDTH / 2 - 30, 5)
+            #pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 71, WIDTH / 2 - 30, 5)
 
             # Display explanation text
             feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
@@ -621,11 +611,11 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
         
         # From the second page onwards: a maximum of two charts can be placed per page
         graph_y_position = initial_y_position + (counter * total_height)
-        feedback_y_position = graph_y_position + 75
+        feedback_y_position = graph_y_position + 68
 
         # RSSM 
         Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-        pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 71, WIDTH / 2 - 30,5)
+        #pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 71, WIDTH / 2 - 30,5)
 
         
         feedback = generate_rssm_feedback(value, labels, current_title, is_overall=True)
@@ -642,7 +632,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
         
 
    
-
+#已修改
 def generate_csip_feedback(scores, labels, current_title, is_overall=False):
     # Define explanatory feedback templates with different titles
     feedback_templates = {
@@ -738,7 +728,8 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
         feedback += f"Overall score is {score} ({problem_level_text}):\n     {template['description'].format(problem_level_text)}"
 
     # add an indent before the individual scores
-    feedback += "     "
+    #feedback += "     "
+    feedback += ""
 
     # List Individual scores without explanation
     for i, score in enumerate(scores[1:], start=1):
@@ -749,8 +740,11 @@ def generate_csip_feedback(scores, labels, current_title, is_overall=False):
             if score <= threshold:
                 problem_level_text = text
                 break
-        feedback += f"{label} score is {score} ({problem_level_text})     "
-
+        feedback += f"{label} score is {score} ({problem_level_text})\n"
+    
+    # Remove the last extra newline character
+    if feedback.endswith('\n'):
+        feedback = feedback[:-1]
     return feedback
 
 def add_problematic_styles_intro(pdf):
@@ -765,83 +759,78 @@ def add_problematic_styles_intro(pdf):
     )
     pdf.multi_cell(0, 5, intro_text, border=0, align="L")
 
+#已修改
 # Create and add rssm bar graphs
 def csip_bar_graphs(my_path, pdf, data, names, titles):
     pdf.add_page()
     PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
     pdf.ln(4)
-    add_problematic_styles_intro(pdf)  # Add the introductory text here
-
-    initial_y_position = pdf.get_y() #+ 10  # Sets the initial Y position after the intro text
-    feedback_box_width = 75  # Width of the feedback box
-    graph_x_position = 10  # X position for the graph to be placed next to the feedback box
-    graph_y_offset = -10     # Additional Y offset for the graph image to improve label alignment
-    image_height = 35 # estimation of the graph heights
-
-    counter = 0  # Counter to keep track of graphs on each page
-
+    add_problematic_styles_intro(pdf)  # Add introductory text
+    
+    initial_y_position = pdf.get_y()  # Get the initial Y position after the intro text
+    feedback_box_width = 75  # Feedback box width
+    graph_x_position = 10  # Chart X Position
+    
+    # Set offset values ​​for the first and subsequent pages
+    first_page_offset = 20  
+    other_pages_offset = 55  
+    
     # Delete irrelevant data
     dataCopy = data.copy()
     dataCopy.pop('RadarRSSMName', None)
     dataCopy.pop('RSSM_YVector', None)
     dataCopy.pop('RSSM_XVector', None)
-
-    # Iterate over each item in the data dictionary
-    for key, value in dataCopy.items():
-        current_title = titles.pop(0)  # Get the current title
-        
-        labels = names
-        
-        # Generate and print feedback for the first two graphs with adjusted positioning
-        if counter < 2:
-            # Position the graph next to the feedback box
-            graph_y_position = initial_y_position + (counter * 115)
-            Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 73, WIDTH / 2 - 30)
-            
-            # position the feedback under the graph
-            feedback_y_position = graph_y_position + initial_y_position + image_height  # Adjust y-position for each graph
-            feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=(pdf.w - pdf.l_margin - pdf.r_margin), font_size=10)
-
-            counter += 1
-
-        # After the first two graphs, return to the original layout for subsequent pages
-        else:
-            image_height = 70 # set image height for new pages
-            # Reset the counter when adding a new page
-            if counter == 2:
-                counter = 0
-                pdf.add_page()
-                PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
-                initial_y_position = pdf.get_y()  # Reset initial Y position for the new page
-
-            # Position the graph next to the feedback box
-            graph_y_position = initial_y_position + (counter * 115)
-            Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
-            pdf.image(my_path + "/images/RSSM_Scaling.png", graph_x_position + 20, graph_y_position + 73, WIDTH / 2 - 30)
-            
-            # position the feedback under the graph
-            feedback_y_position = graph_y_position + initial_y_position + image_height  # Adjust y-position for each graph
-            feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
-            PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=(pdf.w - pdf.l_margin - pdf.r_margin), font_size=10)
-            counter += 1
-
     
-
+    # Get the total number of data items to determine whether it is the last set of data
+    total_items = len(dataCopy)
+    item_count = 0
+    
+    is_first_page = True  
+    counter = 0  
+    
+    # Iterate through each data item
+    for key, value in dataCopy.items():
+        item_count += 1  
+        current_title = titles.pop(0)  
+        labels = names
+        current_offset = first_page_offset if is_first_page else other_pages_offset
+        graph_y_position = initial_y_position + (counter * 115)
+        Graph_Generator.create_csip_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
+        
+        # Calculate the feedback text position according to the current page type
+        feedback_y_position = graph_y_position + initial_y_position + current_offset
+        
+        # Generate and display feedback
+        feedback = generate_csip_feedback(value, labels, current_title, is_overall=True)
+        PDF_Generator.print_feedback_box(pdf, feedback, x=10, y=feedback_y_position, w=(pdf.w - pdf.l_margin - pdf.r_margin), font_size=10)
+        
+        counter += 1
+        
+        # Handle page switching, adding new pages only when there is more data to process
+        if counter == 2 and item_count < total_items:  
+            counter = 0
+            if is_first_page:
+                is_first_page = False 
+            
+            
+            pdf.add_page()
+            PDF_Generator.section_headers(pdf, 'Self Concept: Problematic Interpersonal Styles')
+            initial_y_position = pdf.get_y()  
+    
+#已修改
 # Function to generate temperament feedback
 def generate_temperament_feedback(scores, labels):
     feedback_templates = {
         "BIS": {
-        "very_high": "     Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n     All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
-        "high": "     Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n     All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
+        "very_high": "     Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n     All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths--it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
+        "high": "     Your score suggests that you may be someone who is more sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have more reactivity in emotional parts of the brain, particularly the amygdala, and may experience greater physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Not all infants with high behavioral inhibition stay 'shy' as your experiences and environment can influence how temperament develops. Importantly, people with high behavioral inhibition temperaments do not experience anxiety unless they experience unfamiliar, challenging or threatening situations. In situations that are familiar, non-challenging, or non-threatening, people with high behavioral inhibition are no more anxious than other people.\n     All temperaments have strengths and weaknesses. As a result of being quicker to notice threat and to more readily feel anxious, people with high behaviorally inhibited temperaments can be very motivated to anticipate and prepare for such threats. As a result, they can be very conscientious.  Other research has shown that people with behaviorally inhibited temperaments are more careful, use more thoughtful strategic approaches to problem-solving.  People with this temperament can be also very empathic, more attuned to the emotional experiences of others. On the downside, research has shown that people with high behaviorally inhibited temperaments can be more vulnerable to problems with anxiety and depression.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths--it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory strategies and skills. For example, it's important to learn how to tolerate initial feelings of anxiety so you don't avoid situations that may seem scary at first but actually provide opportunities for connecting with others and developing skills and competencies. Research shows that as you continue to expose yourself to these initially anxiety-provoking situations, your feelings of anxiety will gradually reduce, and you are likely to feel more confident, and not see these situations as threatening.  As a result of seeing these situations as less threatening or novel, you will be less likely in the future to activate your behavioral inhibition system in these situations, which are now more familiar to you.",
         "average": "     Your score suggests that when exposed to situations that are novel, unfamiliar, or threatening, you are generally no more and no less sensitive to these types of situations as is the typical person. If you also scored approximately in the average range on behavioral activation system temperament, this would suggest that you possess an even-keeled, emotionally stable temperament.",
-        "low": "     Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\n     All temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.",
-        "very_low": '''     Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into "shy" children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\n     All temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.'''
+        "low": "     Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into 'shy' children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\n     All temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths--it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.",
+        "very_low": '''     Your score suggests that you may be less sensitive to situations that are unfamiliar, threatening, or challenging. In these situations, you may have less reactivity in emotional parts of the brain, particularly the amygdala, and may experience less anxiety and less physiological reactivity. Research has found that infants with high behavioral inhibition temperaments are more likely to develop into "shy" children. Your score suggests that it is unlikely that you were shy as a child, although factors other than temperament can influence shyness.\n     All temperaments have strengths and weaknesses.  For instance, your score suggests that you may be someone who does not readily feel anxious when you face new, challenging, or threatening situations.  You can be calm and even bold.  However, your lower level of sensitivity to threat, unfamiliarity, and challenge can also have a downside.  You may be prone to being impulsive, to approaching situations too quickly without pausing to consider what might go wrong, which can get you into trouble. This is especially true if you also scored higher on the Behavioral Activation System.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths--it's part of who you are.  But to also learn to minimize your temperament's weaknesses by developing compensatory skills.  For example, if impulsivity is a problem, you can learn to hesitate, pause, consider possible negative consequences before approaching a situation that is potentially dangerous.'''
     },
         "BAS": {
-            "very_high": "     Your score suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\n     All temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \n     As with behavioral inhibition, the important thing is to appreciate your temperament and its strengths-it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
-            "high": "     Your score suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\n     All temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \n     As with behavioral inhibition, the important thing is to appreciate your temperament and its strengths-it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
+            "very_high": "     Your score suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\n     All temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \n     As with behavioral inhibition, the important thing is to appreciate your temperament and its strengths--it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
+            "high": "     Your score suggests that you may be more sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have more reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, leading you to experience more excitement, more enthusiasm, to approach and get these things that you want. Research has found that people with high behavioral approach temperaments experience positive affect more easily and also learn faster in learning conditioning studies where there are rewards.\n     All temperaments have strengths and weaknesses.  On the plus side, you are capable of experiencing high levels of enthusiasm, positive affect, and motivation to pursue what it is that you are attracted to, what you want.  On the down side, especially if you also scored low in behavioral inhibition, you may have problems with being too impulsive.  People with high behavioral approach temperaments are quick to hit the gas pedal but, especially if they also have low behavioral inhibition temperaments, can be slow to hit the brake pedal.  In short, you can be prone to acting without thinking about potential risks.  You can engage in attractive but risky activities. \n     As with behavioral inhibition, the important thing is to appreciate your temperament and its strengths--it's part of who you are.  But to learn to minimize your temperament's weaknesses by developing coping strategies and skills.  For example, if impulsivity is a problem and sometimes gets you into trouble, you can learn to hesitate, pause, and consider possible negative consequences, prepare for them, before approaching.",
             "average": "     Your score suggests that you are fairly typical in your sensitivity to situations where there are rewards, things that are attractive, things you want. In these situations, your reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala is no more, and no less, reactive than the average person. Similarly, you are likely to experience the amount of excitement and enthusiasm to approach and get these things that you want as the typical person. On the plus side, you are likely to be someone who is even-keeled, emotionally stable, and unlikely to be too impulsive.",
             "low": "     Your score suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.\n     You might be described as more calm, more even-keeled, emotionally stable, not too excitable or too impulsive.  However, your low behavioral activation temperament can have a down side, in that you may experience less enthusiasm, less excitement and positive affect when you see things you want.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-its part of who you are.  But to also learn to minimize your temperaments weaknesses by developing compensatory strategies and skills.  For example, if you have difficulty experiencing positive emotions, it may be especially important that you consciously plan for activities that give you pleasure, positive reinforcement, a sense of connection with others or a sense of mastery as you may be less likely to do this spontaneously.  In pursuing goals that are important to you, it might be particularly important for you to reward yourself for small accomplishments to sustain your motivation. ",
             "very_low": "     Your score suggests that you may be less sensitive to situations where there are rewards, things that are attractive, things you want. In these situations, you may have less reactivity in reward systems of the brain that involve the orbitofrontal cortex, the nucleus accumbens, and amygdala, and you may experience less excitement, less enthusiasm, to approach and get these things that you want.\n     You might be described as more calm, more even-keeled, emotionally stable, not too excitable or too impulsive.  However, your low behavioral activation temperament can have a down side, in that you may experience less enthusiasm, less excitement and positive affect when you see things you want.\n     The important thing, and this is true for all temperaments, is to appreciate your temperament and its strengths-its part of who you are.  But to also learn to minimize your temperaments weaknesses by developing compensatory strategies and skills.  For example, if you have difficulty experiencing positive emotions, it may be especially important that you consciously plan for activities that give you pleasure, positive reinforcement, a sense of connection with others or a sense of mastery as you may be less likely to do this spontaneously.  In pursuing goals that are important to you, it might be particularly important for you to reward yourself for small accomplishments to sustain your motivation. "
