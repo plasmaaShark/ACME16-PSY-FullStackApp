@@ -611,7 +611,7 @@ def rssm_bar_graphs(my_path, pdf, data, names, titles):
         
         # From the second page onwards: a maximum of two charts can be placed per page
         graph_y_position = initial_y_position + (counter * total_height)
-        feedback_y_position = graph_y_position + 68
+        feedback_y_position = graph_y_position + 70
 
         # RSSM 
         Graph_Generator.create_rssm_bargraph(pdf, my_path, graph_y_position, value, names, key, current_title)
@@ -772,8 +772,8 @@ def csip_bar_graphs(my_path, pdf, data, names, titles):
     graph_x_position = 10  # Chart X Position
     
     # Set offset values ​​for the first and subsequent pages
-    first_page_offset = 20  
-    other_pages_offset = 55  
+    first_page_offset = 22
+    other_pages_offset = 57  
     
     # Delete irrelevant data
     dataCopy = data.copy()

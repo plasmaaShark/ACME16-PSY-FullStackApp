@@ -1,0 +1,28 @@
+Project Name: ACME16-PSY-FullStackApp
+Client Name: WSU Psychology Clinic
+Date: 3/4/2025
+Time: 4:00 PM - 4:30 PM
+Location: Zoom
+Attendees:
+	Dr. Walter Scott, Belinda Lin
+	Christian Manangan
+	Jiaming Chu
+	Shaylin Smith
+1. Agenda
+	- Talk about current work done.
+	- Ask about publishing new Qualtrics survey
+	
+2. Meeting Summary
+    - Can publish the new survey
+		- Get optional report generator done by the end of spring break.
+	- Finish up report edits soon.
+	
+3. Project Milestones Discussed
+	
+4. Next Steps
+	
+
+5. Next Meeting
+	Date: 3/18/25
+	Time: 4:00 PM
+	Location: Zoom
