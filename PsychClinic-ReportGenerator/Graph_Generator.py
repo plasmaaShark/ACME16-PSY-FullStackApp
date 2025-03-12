@@ -30,13 +30,14 @@ def create_bargraph(pdf, path, location, data, labels, key, title, descriptions)
     # Creating the bar chart
     ax = plotdata.plot(kind="barh", color="tab:blue", legend=False)
     ax.set_title(title)
-    ax.set_xlim(1, 7)  # Aligning with your specified x-axis limits
+    ax.set_xlim(0, 7)  # Aligning with your specified x-axis limits
+    ax.set_xticklabels(['', '1', '2', '3', '4', '5', '6', '7'])
     plt.gcf().subplots_adjust(left=0.15)
 
     # Adding red text for missing bars
     for i, (score, label) in enumerate(zip(adjusted_scores, bar_labels)):
         if score is None:
-            plt.text(0.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
+            plt.text(1.2, i, "(Missing)", color="red", va='center', ha='left', fontsize=10)
 
     # Saving the plot as a PNG file
     fig = ax.get_figure()
@@ -75,8 +76,8 @@ def create_rssm_bargraph(pdf, path, height, data, names, key, title):
     # Set title and scope
     ax.set_title(title)
     ax.set_xlim(0.5, 5)
-    ax.set_xticks([1, 2, 3, 4, 5])
-    ax.set_xticklabels(['1\nvery low', '2', '3\naverage', '4', '5\nvery high'])
+    ax.set_xticks([0, 1, 2, 3, 4, 5])
+    ax.set_xticklabels(['', '1\nvery low', '2', '3\naverage', '4', '5\nvery high'])
     
     # Key improvement: Increase left margin
     plt.tight_layout()  # Automatically adjust layout
