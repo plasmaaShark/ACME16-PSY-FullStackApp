@@ -20,6 +20,7 @@ def get_data(current, i):
     add_personal_data(recent)
     add_radar(recent)
     add_sensitivity(recent)
+    add_components(recent)
 
     return graphs
 
@@ -577,3 +578,13 @@ def add_radar(data):
     graphs['RSSM_YVector'] = [1]
     graphs['RSSM_XVector'] = [0.5]
 
+def add_components(data):
+    options = {}
+    name = ['temperament', 'self-concept', 'goals']
+    column_index = ['496_1', '496_2', '496_3']
+    for index in column_index:
+        column_name = f'Q{index}'
+        names = name.pop(0)
+        options[names] = data.iloc[0][column_name]
+
+    graphs['components'] = options

@@ -66,52 +66,54 @@ def create_report():
         print('Data Retrieved')
         data = Data_Pruner.get_data('Capstone Working Survey.csv', idxS)
        
-
         # Add title page
         print('----------------------------------------')
         print('Added Title Page')
         title_page(my_path, pdf, data['Personal'])
 
         #Temperament
-        print('----------------------------------------')
-        print('Added Temperament Graph')
-        stuff = [list(data['Temperament'].values()), list(data['Temperament'].keys())]
-        temperament_graph(my_path, pdf, stuff, "Temperament")
+        if data['components']['temperament'] == 1:
+            print('----------------------------------------')
+            print('Added Temperament Graph')
+            stuff = [list(data['Temperament'].values()), list(data['Temperament'].keys())]
+            temperament_graph(my_path, pdf, stuff, "Temperament")
 
         #Self-Concept: Psychological Needs
-        print('----------------------------------------')
-        print('Added RSSM Graphs')
-        rssmTitles = ["Relatedness Satisfaction", "Control Satisfaction", "Self-Esteem Frustration", "Autonomy Frustration"]
-        barTitles = [f'Self-with-{v}' if v != 'Overall' else v for k,v in data['RSSMNames'].items()]
-        rssm_bar_graphs(my_path, pdf, data['RSSM'], barTitles, rssmTitles)
+        if data['components']['self-concept'] == 1:
+            print('----------------------------------------')
+            print('Added RSSM Graphs')
+            rssmTitles = ["Relatedness Satisfaction", "Control Satisfaction", "Self-Esteem Frustration", "Autonomy Frustration"]
+            barTitles = [f'Self-with-{v}' if v != 'Overall' else v for k,v in data['RSSMNames'].items()]
+            rssm_bar_graphs(my_path, pdf, data['RSSM'], barTitles, rssmTitles)
 
-        #Self-Concept: Rejection Sensitivity
-        print('----------------------------------------')
-        print('Added Rejection Sensitivity')
-        rs_page(pdf, data['RejectionSensitivity'])
+            #Self-Concept: Rejection Sensitivity
+            print('----------------------------------------')
+            print('Added Rejection Sensitivity')
+            rs_page(pdf, data['RejectionSensitivity'])
 
-        #Self-Concept: Problematic Interpersonal Styles
-        print('----------------------------------------')
-        print('Added CSIP Graph')
-        csipTitles = ["Domineering", "Self-Centered", "Distant/Cold", "Socially Inhibited", "Nonassertive", "Exploitable", "Self-Sacrificing", "Intrusive"]
-        csip_bar_graphs(my_path, pdf, data['RadarRSSM'], barTitles, csipTitles)
+            #Self-Concept: Problematic Interpersonal Styles
+            print('----------------------------------------')
+            print('Added CSIP Graph')
+            csipTitles = ["Domineering", "Self-Centered", "Distant/Cold", "Socially Inhibited", "Nonassertive", "Exploitable", "Self-Sacrificing", "Intrusive"]
+            csip_bar_graphs(my_path, pdf, data['RadarRSSM'], barTitles, csipTitles)
 
 
         #Personal Goals and Standards
-        goalTitles = ["Goal Thinking", "Goal Satisfaction", "Goal Self-Efficacy", "Goal Intrinsic Motivation", "Goal Approach Orientation", "Goal Growth Mindset", "Goal Level of Conflict"]
+        if data['components']['goals'] == 1:
+            goalTitles = ["Goal Thinking", "Goal Satisfaction", "Goal Self-Efficacy", "Goal Intrinsic Motivation", "Goal Approach Orientation", "Goal Growth Mindset", "Goal Level of Conflict"]
 
-        standardTitles = ["Moral Standard Thinking", "Moral Standard Satisfaction", "Moral Standard Self-Efficacy", "Moral Standard Intrinsic Motivation", "Moral Standard Approach Orientation",
-                        "Moral Standard Growth Mindset", "Moral Standard Level of Conflict"]
-        #Personal Goals and Standards
-        print('----------------------------------------')
-        print('Added Goal Graphs')
-        # begin adding goals section of the pdf
-        goals_bar_graphs(my_path, pdf, data['Goals'], data['GoalDescription'], goalTitles)
+            standardTitles = ["Moral Standard Thinking", "Moral Standard Satisfaction", "Moral Standard Self-Efficacy", "Moral Standard Intrinsic Motivation", "Moral Standard Approach Orientation",
+                            "Moral Standard Growth Mindset", "Moral Standard Level of Conflict"]
+            #Personal Goals and Standards
+            print('----------------------------------------')
+            print('Added Goal Graphs')
+            # begin adding goals section of the pdf
+            goals_bar_graphs(my_path, pdf, data['Goals'], data['GoalDescription'], goalTitles)
 
-        # Comparison figure----Personal Values
-        print('----------------------------------------')
-        print('Added Comparison Figure')
-        PDF_Generator.comparison_figure(pdf, my_path, data['Comparison'], data['GoalDescription'])
+            # Comparison figure----Personal Values
+            print('----------------------------------------')
+            print('Added Comparison Figure')
+            PDF_Generator.comparison_figure(pdf, my_path, data['Comparison'], data['GoalDescription'])
 
       
 
