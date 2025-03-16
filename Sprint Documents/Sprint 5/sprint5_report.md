@@ -1,14 +1,15 @@
-# Sprint x Report (Dates from Sprint * to Sprint *)
+# Sprint 5 Report (2/10/25-3/10/25)
 
 ## YouTube link of Sprint * Video (Make this video unlisted)
 
 ## What's New (User Facing)
- * Feature 1 or Bug Fix 1
- * Feature 2 or Bug Fix 2
- * Feature n or Bug Fix n
+ * Fix graphs' x-axis labeling
+ * Allow users to opt in for what parts of the survey they want to take
+ * Have the PICA report only print the parts of the survey the user took
+ * Add final text fixes to PICA report
 
 ## Work Summary (Developer Facing)
-Provide a one paragraph synposis of what your team accomplished this sprint. Don't repeat the "What's New" list of features. Instead, help the instructor understand how you went about the work described there, any barriers you overcame, and any significant learnings for your team.
+During this sprint, our client had us focusing on finalizing the report generator as well as the Qualtrics survey. This entailed adding any final edits to the text on the generated report, fixing the graphs so they were on the proper scale, making sure that the figure were generating correctly on the report generator, and adding in the new option to allow users to opt in for the parts of the survey they wanted to take. To allow users to opt in, we had to add a new question to the Qualtrics survey, and then edit our report generator so it would pull in that new question's data from the Qualtrics API and thus only add the parts of the survey the user opted in for to their report.
 
 ## Unfinished Work
 If applicable, explain the work you did not finish in this sprint. For issues/user stories in the current sprint that have not been closed, (a) any progress toward completion of the issues has been clearly tracked (by checking the checkboxes of  acceptance criteria), (b) a comment has been added to the issue to explain why the issue could not be completed (e.g., "we ran out of time" or "we did not anticipate it would be so much work"), and (c) the issue is added to a subsequent sprint, so that it can be addressed later.
