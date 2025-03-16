@@ -57,7 +57,7 @@ def create_report():
 
         # saving the most recent survey result from csv data into pandas df
         df = Graph_Generator.pd.read_csv('Capstone Working Survey.csv')
-        idxS = 0-i
+        idxS = -1 #0-i
         currentSurvey = df.iloc[idxS]
         data = Data_Pruner.get_data('Capstone Working Survey.csv', idxS)
 
@@ -72,14 +72,14 @@ def create_report():
         title_page(my_path, pdf, data['Personal'])
 
         #Temperament
-        if data['components']['temperament'] == 1:
+        if data['components']['temperament'] == '1':
             print('----------------------------------------')
             print('Added Temperament Graph')
             stuff = [list(data['Temperament'].values()), list(data['Temperament'].keys())]
             temperament_graph(my_path, pdf, stuff, "Temperament")
 
         #Self-Concept: Psychological Needs
-        if data['components']['self-concept'] == 1:
+        if data['components']['self-concept'] == '1':
             print('----------------------------------------')
             print('Added RSSM Graphs')
             rssmTitles = ["Relatedness Satisfaction", "Control Satisfaction", "Self-Esteem Frustration", "Autonomy Frustration"]
@@ -99,7 +99,7 @@ def create_report():
 
 
         #Personal Goals and Standards
-        if data['components']['goals'] == 1:
+        if data['components']['goals'] == '1':
             goalTitles = ["Goal Thinking", "Goal Satisfaction", "Goal Self-Efficacy", "Goal Intrinsic Motivation", "Goal Approach Orientation", "Goal Growth Mindset", "Goal Level of Conflict"]
 
             standardTitles = ["Moral Standard Thinking", "Moral Standard Satisfaction", "Moral Standard Self-Efficacy", "Moral Standard Intrinsic Motivation", "Moral Standard Approach Orientation",
