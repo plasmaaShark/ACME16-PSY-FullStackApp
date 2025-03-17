@@ -12,7 +12,7 @@
 During this sprint, our client had us focusing on finalizing the report generator as well as the Qualtrics survey. This entailed adding any final edits to the text on the generated report, fixing the graphs so they were on the proper scale, making sure that the figure were generating correctly on the report generator, and adding in the new option to allow users to opt in for the parts of the survey they wanted to take. To allow users to opt in, we had to add a new question to the Qualtrics survey, and then edit our report generator so it would pull in that new question's data from the Qualtrics API and thus only add the parts of the survey the user opted in for to their report.
 
 ## Unfinished Work
-If applicable, explain the work you did not finish in this sprint. For issues/user stories in the current sprint that have not been closed, (a) any progress toward completion of the issues has been clearly tracked (by checking the checkboxes of  acceptance criteria), (b) a comment has been added to the issue to explain why the issue could not be completed (e.g., "we ran out of time" or "we did not anticipate it would be so much work"), and (c) the issue is added to a subsequent sprint, so that it can be addressed later.
+The work we did not finish the sprint was creating a clinical copy of the report generator for our client, Belinda Lin. We need to finalize the report generator before we can create the clinical copy and so we have worked on fixing those errors the client asks of us before we create the new copy. The issue was not completed this sprint because we need another round of feedback from the client to make sure that the report looks how the client wants it.
 
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
@@ -31,35 +31,24 @@ Here are links to the issues that we completed in this sprint:
  
  ## Incomplete Issues/User Stories
  Here are links to issues we worked on but did not complete in this sprint:
- 
- * URL of issue 1 <<One sentence explanation of why issue was not completed>>
- * URL of issue 2 <<One sentence explanation of why issue was not completed>>
- * URL of issue n <<One sentence explanation of why issue was not completed>>
- 
- Examples of explanations (Remove this section when you save the file):
-  * "We ran into a complication we did not anticipate (explain briefly)." 
-  * "We decided that the feature did not add sufficient value for us to work on it in this sprint (explain briefly)."
-  * "We could not reproduce the bug" (explain briefly).
-  * "We did not get to this issue because..." (explain briefly)
-
+ Christian Manangan: 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/55  Story Points:5 
+* Belinda wants a copy (clinical version) of the final version of the system. Once we get Dr. Scotts' approval, making a clone would be easy
+  
 ## Code Files for Review
 Please review the following code files, which were actively developed during this sprint, for quality:
- * [Name of code file 1](https://github.com/your_repo/file_extension)
- * [Name of code file 2](https://github.com/your_repo/file_extension)
- * [Name of code file 3](https://github.com/your_repo/file_extension)
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Report_Generator_Sorting.py
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/PDF_Generator.py
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/PDF_Generator.py
+ * https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/blob/main/PsychClinic-ReportGenerator/Data_Pruner.py
  
 ## Retrospective Summary
 Here's what went well:
-  * Item 1
-  * Item 2
-  * Item x
+  * Once changes have been implemented on our local version, we updated the PythonAnywhere files right away. Didn't wait till last minute.
  
 Here's what we'd like to improve:
-   * Item 1
-   * Item 2
-   * Item x
+   * Distinguishing between system files and local files
   
 Here are changes we plan to implement in the next sprint:
-   * Item 1
-   * Item 2
-   * Item x
+   * Creating a clinical version of the system
+   * Testing
