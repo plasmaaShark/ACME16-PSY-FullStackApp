@@ -580,8 +580,8 @@ def add_radar(data):
 
 def add_components(data):
     options = {}
-    name = ['temperament', 'self-concept', 'goals']
-    column_index = ['496_1', '496_2', '496_3']
+    name = ['temperament', 'self-concept', 'goals', 'total_survey']
+    column_index = ['496_1', '496_2', '496_3', '496_4']
     for index in column_index:
         column_name = f'Q{index}'
         names = name.pop(0)
