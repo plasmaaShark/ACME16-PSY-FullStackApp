@@ -1,6 +1,7 @@
 # Sprint 5 Report (2/10/25-3/10/25)
 
 ## YouTube link of Sprint * Video (Make this video unlisted)
+https://youtu.be/7JfYkXJAc7g
 
 ## What's New (User Facing)
  * Fix graphs' x-axis labeling
@@ -17,17 +18,9 @@ The work we did not finish the sprint was creating a clinical copy of the report
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
 
- * URL of issue 1
- * URL of issue 2
- * URL of issue n
-
- Reminders (Remove this section when you save the file):
-  * Each issue should be assigned to a milestone
-  * Each completed issue should be assigned to a pull request
-  * Each completed pull request should include a link to a "Before and After" video
-  * All team members who contributed to the issue should be assigned to it on GitHub
-  * Each issue should be assigned story points using a label
-  * Story points contribution of each team member should be indicated in a comment
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/63
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/61
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/62
  
  ## Incomplete Issues/User Stories
  Here are links to issues we worked on but did not complete in this sprint:
