@@ -18,9 +18,9 @@ The work we did not finish the sprint was creating a clinical copy of the report
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
 
-https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/63
-https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/61
-https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/62
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/63    Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/61    Story Points:5 
+https://github.com/plasmaaShark/ACME16-PSY-FullStackApp/issues/62    Story Points:5 
  
  ## Incomplete Issues/User Stories
  Here are links to issues we worked on but did not complete in this sprint:
