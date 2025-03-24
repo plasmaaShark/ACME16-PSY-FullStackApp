@@ -70,7 +70,7 @@ def initDB(*args, **kwargs):
 
     if Feelingsnegative.objects.count() == 0:
         feelingsneg = ['Indifferent, apathetic, bored',
-        'Remoreseful, guilty',
+        'Remorseful, guilty',
         'Shame, humiliated',
         'Embarrassed',
         'Unhappy, sad, depressed',

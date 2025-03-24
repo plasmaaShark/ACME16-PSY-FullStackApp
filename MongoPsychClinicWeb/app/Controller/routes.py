@@ -396,9 +396,11 @@ def behavior(survey_id, pos_neg,back=0):
             print("similar survey", similarSurvey)
 
            # posted the new survey in the databse before assigning a signature
-
-        #return redirect(url_for('routes.sorting', survey_id = unique_survey.id, pos_neg=pos_neg, back='0', similarSurvey = similarSurvey, allSimilarList = convertSTR))
-        return redirect(url_for('routes.therapy', survey_id=unique_survey.id, pos_neg=pos_neg, back='0'))
+        # only go to therapy page if it is a negative one
+        if pos_neg == "True":
+            return redirect(url_for('routes.sorting', survey_id = unique_survey.id, pos_neg=pos_neg, back='0', similarSurvey = similarSurvey, allSimilarList = convertSTR))
+        else:
+            return redirect(url_for('routes.therapy', survey_id=unique_survey.id, pos_neg=pos_neg, back='0'))
 
     return render_template('behavior.html', form=behaviorForm, pos_neg=pos_neg, back='0', survey_id=survey_id)
 
