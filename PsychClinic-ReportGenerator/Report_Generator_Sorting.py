@@ -266,7 +266,7 @@ def generate_goal_feedback(scores, labels, current_title, is_overall=False):
 
     lowercase_title = current_title.lower()
     overview_paragraph = (
-        f"Our {lowercase_title} can vary depending upon the specific goal involved. "
+        f"     Our {lowercase_title} can vary depending upon the specific goal involved. "
         f"Your scores below indicate how your {lowercase_title} varies for each of the four goals you identified on this measure."
     )
     
