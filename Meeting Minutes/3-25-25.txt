@@ -1,0 +1,29 @@
+Project Name: ACME16-PSY-FullStackApp
+Client Name: WSU Psychology Clinic
+Date: 3/25/2025
+Time: 4:00 PM - 4:30 PM
+Location: Zoom
+Attendees:
+	Dr. Walter Scott, Belinda Lin
+	Christian Manangan
+	Jiaming Chu
+	Shaylin Smith
+1. Agenda
+	- Discuss plans for added functionality to "Past Situations" page of phone app
+	
+2. Meeting Summary
+    - Merging on category into another
+		- Possibly drag and drop?
+	- Delete or rename categories
+		- Whatever is most functional or viable
+	- Move surveys from one category into another
+		- Possibly a button?
+	
+3. Project Milestones Discussed
+	
+4. Next Steps
+	
+5. Next Meeting
+	Date: 4/1/25
+	Time: 4:00 PM
+	Location: Zoom
