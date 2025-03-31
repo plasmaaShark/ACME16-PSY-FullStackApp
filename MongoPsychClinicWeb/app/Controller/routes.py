@@ -61,10 +61,26 @@ def pastSituations():
     if current_user.admin != 0:
         return redirect(url_for('auth.login'))
 
-    surveys = Survey.objects(user=current_user)
-    ifs = Signature.objects(user=current_user)
+    # Get all of the current user's signatures
+    all_signatures = Signature.objects(user=current_user)
 
-    return render_template('pastSituations.html', title="PsychClinic Web", posts=surveys, signature=ifs)
+    # Classify them based on the attached survey's 'situation' field
+    positive_signatures = []
+    negative_signatures = []
+
+    for sig in all_signatures:
+        if sig.survey and sig.survey.situation:
+            if sig.survey.situation == "Mostly positive feelings":
+                positive_signatures.append(sig)
+            elif sig.survey.situation == "Mostly negative feelings":
+                negative_signatures.append(sig)
+
+    return render_template(
+        'pastSituations.html',
+        title="PsychClinic Web",
+        positive_signatures=positive_signatures,
+        negative_signatures=negative_signatures
+    )
 
 @bp_routes.route('/search', methods=['GET'])
 @login_required
@@ -126,6 +142,8 @@ def qsort():
                     sitList = SituationList(signature = newIfThen, situation = t)
                     sitList.save()
             newSurvey.signature = newIfThen
+            newIfThen.survey = newSurvey
+            newIfThen.save()
             newSurvey.save()
 
             return redirect(url_for('routes.admin_index'))
@@ -576,6 +594,7 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
                 else:
                     input = sortingForm.newCategory.data
                     newIfthen = Signature(ifThen = input, user = current_user.id)
+                    newIfthen.survey = unique_survey
                     newIfthen.save()
                     unique_survey.signature = newIfthen
                     unique_survey.save()
@@ -601,6 +620,7 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
                 # creates new signature non exist for pos neg
                 input = sortform2.newCategory.data
                 newIfthen = Signature(ifThen = input, user = current_user)
+                newIfthen.survey = unique_survey
                 newIfthen.save()
 
                 # set signature field in survey
