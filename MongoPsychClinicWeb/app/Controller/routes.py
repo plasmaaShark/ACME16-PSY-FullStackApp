@@ -12,11 +12,9 @@ from app.Model.models import User, Survey, SituationList, Signature, Thoughtspos
 from app.Controller.forms import SituationForm, WhatHappened, Thoughts, Feelings, Behavior, SortingForm2, AdminQsortForm, TherapyForm, SortingForm
 from datetime import datetime
 from sqlalchemy.sql import func
-
 from sqlalchemy import desc
-
 from flask import session
-
+from flask import abort
 
 bp_routes = Blueprint('routes', __name__)
 bp_routes.template_folder = Config.TEMPLATE_FOLDER #'..\\View\\templates'
@@ -654,3 +652,34 @@ def convertList(list):
 
 def convertString(list):
     return list.split(',')
+
+@bp_routes.route('/rename_signature/<signature_id>', methods=['POST'])
+@login_required
+def rename_signature(signature_id):
+    signature = Signature.objects(id=signature_id, user=current_user.id).first()
+    if not signature:
+        abort(404)
+    new_name = request.form.get('new_name', '').strip()
+    if new_name:
+        signature.ifThen = new_name
+        signature.save()
+    return redirect(url_for('routes.pastSituations'))
+
+@bp_routes.route('/delete_signature/<signature_id>', methods=['POST'])
+@login_required
+def delete_signature(signature_id):
+    signature = Signature.objects(id=signature_id, user=current_user.id).first()
+    if not signature:
+        abort(404)
+
+    # Delete all related situations
+    SituationList.objects(signature=signature).delete()
+
+    # Remove signature reference from any related surveys
+    related_surveys = Survey.objects(signature=signature)
+    for survey in related_surveys:
+        survey.signature = None
+        survey.save()
+
+    signature.delete()
+    return redirect(url_for('routes.pastSituations'))
