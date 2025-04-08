@@ -166,8 +166,9 @@ def ifThenSurveys(user_id, signature_id):
     unique_user = User.objects.get(id=ObjectId(user_id))
     surveys = Survey.objects(user=unique_user, signature=ObjectId(signature_id)).order_by('-timestamp')
     ifs = Signature.objects(user=unique_user, id=ObjectId(signature_id)).first()
+    all_user_signatures = Signature.objects(user=unique_user)
 
-    return render_template('userSurveys.html', user=unique_user, surveys=surveys, title=ifs.ifThen)
+    return render_template('userSurveys.html', user=unique_user, surveys=surveys, title=ifs.ifThen, user_signatures=all_user_signatures)
 
 @bp_routes.route('/situation_category', methods=['GET', 'POST'])
 @login_required
@@ -707,3 +708,31 @@ def merge_signature():
     # Delete source
     source.delete()
     return '', 204
+
+@bp_routes.route('/move_survey_signature', methods=['POST'])
+@login_required
+def move_survey_signature():
+    survey_id = request.form.get('survey_id')
+    new_signature_id = request.form.get('new_signature_id')
+
+    survey = Survey.objects(id=survey_id, user=current_user.id).first()
+    new_signature = Signature.objects(id=new_signature_id, user=current_user.id).first()
+
+    if not survey or not new_signature:
+        abort(400)
+
+    old_signature = survey.signature
+    if old_signature and survey.what_happened:
+        # Remove old SituationList record
+        SituationList.objects(signature=old_signature, situation=survey.what_happened).delete()
+
+    # Move the survey
+    survey.signature = new_signature
+    survey.save()
+
+    # Add to new SituationList
+    if survey.what_happened:
+        new_entry = SituationList(signature=new_signature, situation=survey.what_happened)
+        new_entry.save()
+
+    return redirect(request.referrer or url_for('routes.index'))
