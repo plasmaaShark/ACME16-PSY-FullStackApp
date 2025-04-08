@@ -1,0 +1,25 @@
+Project Name: ACME16-PSY-FullStackApp
+Client Name: WSU Psychology Clinic
+Date: 4/8/2025
+Time: 4:00 PM - 4:30 PM
+Location: Zoom
+Attendees:
+	Dr. Walter Scott, Belinda Lin
+	Christian Manangan
+	Jiaming Chu
+	Shaylin Smith
+1. Agenda
+	- Present large edits to phone app that were made
+	
+2. Meeting Summary
+    - Allow for mostly positive surveys to be moved to negative feeling situation types and vice versa.
+	- Try to look into why taking two surveys close to eachother only prints one survey.
+	
+3. Project Milestones Discussed
+	
+4. Next Steps
+	
+5. Next Meeting
+	Date: 4/15/25
+	Time: 4:00 PM
+	Location: Zoom
