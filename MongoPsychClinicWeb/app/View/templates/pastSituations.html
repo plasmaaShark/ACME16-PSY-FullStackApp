@@ -243,21 +243,53 @@
     <label class="heading">Mostly Positive Feeling Situation Types</label>
     <div class="postlist">
         {% for s in positive_signatures %}
-        <div class="post-box">
             {% include '_signature.html' %}
-        </div>
         {% endfor %}
     </div>
     
     <label class="heading">Mostly Negative Feeling Situation Types</label>
     <div class="postlist">
         {% for s in negative_signatures %}
-        <div class="post-box">
             {% include '_signature.html' %}
-        </div>
         {% endfor %}
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const boxes = document.querySelectorAll(".post-box");
+          boxes.forEach(box => {
+            box.setAttribute("draggable", true);
+            box.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("sourceId", box.dataset.signatureId);
+            });
+        
+            box.addEventListener("dragover", (e) => e.preventDefault());
+        
+            box.addEventListener("drop", async (e) => {
+              const sourceId = e.dataTransfer.getData("sourceId");
+              const targetId = box.dataset.signatureId;
+              if (sourceId === targetId) return;
+        
+              const sourceTitle = document.querySelector(`[data-signature-id='${sourceId}'] .posttitle`).textContent.trim();
+              const targetTitle = document.querySelector(`[data-signature-id='${targetId}'] .posttitle`).textContent.trim();
+              const confirmed = confirm(`Merge "${sourceTitle}" into "${targetTitle}"?\n\nThis cannot be undone.`);
+              if (!confirmed) return;
+        
+              const formData = new FormData();
+              formData.append("source_id", sourceId);
+              formData.append("target_id", targetId);
+        
+              await fetch("/merge_signature", {
+                method: "POST",
+                body: formData
+              });
+        
+              location.reload();
+            });
+          });
+        });
+    </script>
+        
     </body>
     </html>
 

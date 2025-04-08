@@ -683,3 +683,27 @@ def delete_signature(signature_id):
 
     signature.delete()
     return redirect(url_for('routes.pastSituations'))
+
+@bp_routes.route('/merge_signature', methods=['POST'])
+@login_required
+def merge_signature():
+    source_id = request.form.get('source_id')
+    target_id = request.form.get('target_id')
+
+    source = Signature.objects(id=source_id, user=current_user.id).first()
+    target = Signature.objects(id=target_id, user=current_user.id).first()
+
+    if not source or not target or source == target:
+        abort(400)
+
+    # Move all surveys to target
+    Survey.objects(signature=source).update(set__signature=target)
+
+    # Move situation list items
+    for item in SituationList.objects(signature=source):
+        item.signature = target
+        item.save()
+
+    # Delete source
+    source.delete()
+    return '', 204
