@@ -3,7 +3,7 @@
 ## YouTube link of Sprint * Video (Make this video unlisted)
 
 ## What's New (User Facing)
- * 
+ * New features on past situations page: renaming/deleting situation categories, merging situation categories, moving specific surveys from one situation category to another
 
 ## Work Summary (Developer Facing)
 
