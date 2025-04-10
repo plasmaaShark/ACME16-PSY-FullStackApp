@@ -6,6 +6,7 @@
  * New features on past situations page: renaming/deleting situation categories, merging situation categories, moving specific surveys from one situation category to another
 
 ## Work Summary (Developer Facing)
+During this sprint, we created the ability to edit the situation categories as well as merging the categories and moving surveys from one category to another. We then added these features into our server on PythonAnywhere and demoed them to the client. We also are finishing up some minor edits and made the clinical version of our report generator that the client asked us to make.
 
 ## Unfinished Work
 N/A
