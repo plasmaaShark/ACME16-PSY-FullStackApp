@@ -59,6 +59,19 @@ def pastSituations():
     if current_user.admin != 0:
         return redirect(url_for('auth.login'))
 
+    # Step 1: Fix broken Signature.survey links for this user
+    orphaned_signatures = Signature.objects(user=current_user, survey=None)
+    for sig in orphaned_signatures:
+        matched_survey = Survey.objects(user=current_user, signature=sig).first()
+        if matched_survey:
+            sig.survey = matched_survey
+            sig.save()
+
+    # Step 2: Continue with existing classification
+    all_signatures = Signature.objects(user=current_user)
+    positive_signatures = []
+    negative_signatures = []
+    
     # Get all of the current user's signatures
     all_signatures = Signature.objects(user=current_user)
 
