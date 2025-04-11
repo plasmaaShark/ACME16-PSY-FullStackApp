@@ -749,3 +749,18 @@ def move_survey_signature():
         new_entry.save()
 
     return redirect(request.referrer or url_for('routes.index'))
+
+@bp_routes.route('/delete_survey/<survey_id>', methods=['POST'])
+@login_required
+def delete_survey(survey_id):
+    survey = Survey.objects(id=survey_id, user=current_user.id).first()
+    if not survey:
+        abort(404)
+
+    # If the survey is associated with a signature, remove it from the SituationList
+    if survey.signature and survey.what_happened:
+        SituationList.objects(signature=survey.signature, situation=survey.what_happened).delete()
+
+    survey.delete()
+    flash("Survey deleted successfully.")
+    return redirect(request.referrer or url_for('routes.index'))
