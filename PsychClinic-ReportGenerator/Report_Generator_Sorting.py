@@ -72,14 +72,14 @@ def create_report():
         title_page(my_path, pdf, data['Personal'])
 
         #Temperament
-        if data['components']['temperament'] == '1' or data['components']['total_survey'] == '1':
+        if str(data['components'].get('temperament')) == '1' or str(data['components'].get('total_survey')) == '1':
             print('----------------------------------------')
             print('Added Temperament Graph')
             stuff = [list(data['Temperament'].values()), list(data['Temperament'].keys())]
             temperament_graph(my_path, pdf, stuff, "Temperament")
 
         #Self-Concept: Psychological Needs
-        if data['components']['self-concept'] == '1' or data['components']['total_survey'] == '1':
+        if str(data['components'].get('self-concept')) == '1' or str(data['components'].get('total_survey')) == '1':
             print('----------------------------------------')
             print('Added RSSM Graphs')
             rssmTitles = ["Relatedness Satisfaction", "Control Satisfaction", "Self-Esteem Frustration", "Autonomy Frustration"]
@@ -99,7 +99,7 @@ def create_report():
 
 
         #Personal Goals and Standards
-        if data['components']['goals'] == '1' or data['components']['total_survey'] == '1':
+        if str(data['components'].get('goals')) == '1' or str(data['components'].get('total_survey')) == '1':
             goalTitles = ["Goal Thinking", "Goal Satisfaction", "Goal Self-Efficacy", "Goal Intrinsic Motivation", "Goal Approach Orientation", "Goal Growth Mindset", "Goal Level of Conflict"]
 
             standardTitles = ["Moral Standard Thinking", "Moral Standard Satisfaction", "Moral Standard Self-Efficacy", "Moral Standard Intrinsic Motivation", "Moral Standard Approach Orientation",
@@ -148,8 +148,8 @@ def create_report():
         #send_mail('walter.scott@wsu.edu')
         #send_mail('chujiaming888@gmail.com')
         #send_mail('belinda.lin@wsu.edu')
-        #send_mail('mananganchristian863@gmail.com')
-        send_mail('aquamarinefox.365@gmail.com')
+        send_mail('mananganchristian863@gmail.com')
+        #send_mail('aquamarinefox.365@gmail.com')
         
         plt.close('all')
 
