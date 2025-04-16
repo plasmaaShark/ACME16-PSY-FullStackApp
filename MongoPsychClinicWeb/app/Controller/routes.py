@@ -15,6 +15,7 @@ from sqlalchemy.sql import func
 from sqlalchemy import desc
 from flask import session
 from flask import abort
+from mongoengine.errors import DoesNotExist
 
 bp_routes = Blueprint('routes', __name__)
 bp_routes.template_folder = Config.TEMPLATE_FOLDER #'..\\View\\templates'
@@ -163,7 +164,15 @@ def qsort():
 @login_required
 def surveyPost(survey_id):
     unique_survey = Survey.objects(id=survey_id).first()
-    signature = Signature.objects(id=unique_survey.signature.id).first()
+    try:
+        signature = Signature.objects(id=unique_survey.signature.id).first()
+    except DoesNotExist:
+        signature = None
+
+    if not signature:
+        flash("This survey has a broken signature reference.")
+        return redirect(url_for('routes.index'))
+
     return render_template('surveyPost.html', title="PsychClinic Web", post=unique_survey, time =unique_survey.timestamp.strftime('%B %d %Y '), signature = signature.ifThen)
 
 @bp_routes.route('/userSurveys/<user_id>', methods=['GET'])
@@ -358,9 +367,12 @@ def behavior(survey_id, pos_neg,back=0):
             print("new change")
             for survey in allSurveys:
                 #print("survey signature id", survey.signature)
-
-                if survey.signature is not None:
-                    if str(survey.id) != survey_id:
+                    try:
+                        if not survey.signature or str(survey.id) == survey_id:
+                            continue
+                    except DoesNotExist:
+                        continue
+                    if str(survey.id) == survey_id:
                         # collects data on survey in all of the surveys if positive situation collect data here
                         if unique_survey.situation == 'Mostly positive feelings' :
                             if survey.situation == 'Mostly positive feelings':
@@ -516,12 +528,19 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
         test = Survey.objects(id = similarSurvey).first()
         print("test", test)
 
-        # another thing is a signature
-        # it is getting the signature of test - which is the similar survey
-        # anotherthing = Signature.query.filter_by(id = test.signature_id).first()
-        signature_id = test.signature.id
-        anotherthing = Signature.objects(id = signature_id).first()
-        print("anotherthing", anotherthing)
+        anotherthing = None
+
+        try:
+            if test.signature:
+                # another thing is a signature
+                # it is getting the signature of test - which is the similar survey
+                # anotherthing = Signature.query.filter_by(id = test.signature_id).first()
+                signature_id = test.signature.id
+                anotherthing = Signature.objects(id = signature_id).first()
+                print("anotherthing", anotherthing)
+        except Exception as e:
+            print(f"[ERROR] Broken signature reference: {e}")
+            anotherthing = None
 
         if(anotherthing):
             totalSit = SituationList.objects(signature = anotherthing.id).all()
@@ -539,7 +558,12 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
         # add all the similar survey's signature id's into allSimilarSurvey list
         for id in allID:
             temp = Survey.objects(id = id).first()
-            signature_id = temp.signature.id
+            try:
+                signature_id = temp.signature.id
+                if signature_id not in allSimilarSurvey:
+                    allSimilarSurvey.append(signature_id)
+            except (AttributeError, DoesNotExist):
+                continue
             if signature_id not in allSimilarSurvey:
                 allSimilarSurvey.append(signature_id)
         print("all similar survey ", allSimilarSurvey)
@@ -643,7 +667,7 @@ def sorting(survey_id, pos_neg, back, similarSurvey, allSimilarList):
                 new_situation.save()
 
             return redirect(url_for('routes.index'))
-    return render_template('sorting.html', similarSurvey = similarSurvey, form=sortingForm, pos_neg=pos_neg, back='0', survey_id=survey_id, id =anotherthing.ifThen, situationlist = total,
+    return render_template('sorting.html', similarSurvey = similarSurvey, form=sortingForm, pos_neg=pos_neg, back='0', survey_id=survey_id, id =anotherthing.ifThen if anotherthing else '', situationlist = total,
                            allSimilar = result, form2 =sortform2, allUserSignatures = sign)
 
 def intersection(survey, currentSurvey):
