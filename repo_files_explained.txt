@@ -1,0 +1,24 @@
+Overview of Files:
+- Meeting Minutes: Meeting minutes taken from each meeting
+- MongoPsychClinicWeb: Mobile app files
+	- psychclinic.py: main file to run when locally running the mobile app. Also repopulates the database when the database is empty.
+	- app
+		- View: Hosts the templates for the html of the frontend forms
+		- Model: Has the file that holds the classes for getting the database information from MongoDB
+		- Controller: Hosts the forms and routes that set up the backend for the Flask app
+- Project Documents: Documentation that we have worked on from all year. The final project report is under Project_Report_Draft3 and the poster is PICA poster.
+- PsychClinic-ReportGenerator: files for the report generator for the PICA
+	- images: images generated and used for the report generator
+	- automated_responses.py: API call to qualtrics that saves the survey as Capstone Working Survey.csv
+	- Data_Pruner.py: takes the csv file and extracts the needed data and puts it into a dictionary
+	- data_report.py: unused old file that used to generate the graphs. Is not called in the main report generator
+	- Graph_Generator.py: Current file that generates the bargraphs and saves them as images for the report.
+	- PDF_Generator.py: Creates the class for the PDF and generates the textboex and feedback boxes for the report. Is called to add the captions for the graphs and the feedback and scores.
+	- Report_Generator_Copy.py: Deprecated file of the main report generator.
+	- Report_Generator_Sorting.py: The main file that is ran to create the report. Makes all the calls to generate the graphs, feedback, and add pages to the pdf. Has the sorting.
+	- Report_Generator.py: another deprecated version of the report generator.
+	- Results_Sorted.py: sorts the results of the data.
+- PsychClinicWeb: deprecated version of the mobile version code
+- Skills Training Progress: documents of the trainings we took when working on the project.
+- Sprint Documents: Sprint reports of each of our sprints from the year.
+		
